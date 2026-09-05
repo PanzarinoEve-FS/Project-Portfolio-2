@@ -1,7 +1,7 @@
 # Project-Portfolio-2
 
-1.2 Overview: Main Portfolio Project
-Due Mon, Sep 7, 2026 @ 11:59 PM EDT•0% weight
+# 1.2 Overview: Main Portfolio Project
+``` Due Mon, Sep 7, 2026 @ 11:59 PM EDT•0% weight ```
 
 ASSIGNMENT
 
