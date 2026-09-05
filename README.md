@@ -15,6 +15,7 @@
 ```FEEDBACK```
 
 ```This month you will be creating a portfolio project/app that will show off the skills that you have learned up to this point.```
+
 ```This project will take a considerable amount of time, so make sure you start early and work on it often. There will be multiple milestones and deadlines that you must achieve along the way.```
 
 ####  Project Overview / Scope
@@ -34,6 +35,24 @@ Your project will use the MERN Tech Stack and must include the following:
 Milestone #1 (Due: Monday of Week 2)
 
 Decide on your topic and theme for your project.
+LGBTQIA+ Safety App where you can search businesses from a business api database connecting those businesses to street addresses in that api and then an api to get the user's location from their ip address to target results to local businesses.
+I was thinking of adding a review scraper that can determine demographic acceptance of LGBTQIA+ individuals.
+Adding business profiles that have stats such as:
+- Bathroom Access 
+- Likelihood of Karens
+- Likelihood of Conservatives
+- Acceptance Rating
+- Overall Rating
+
+**Apis:**
+```GeoJS```
+Geolocation by IP address
+[!GeoJS API] https://get.geojs.io/v1/ip/geo.json
+
+
+
+
+
 Check out the Free API sites for some ideas of an API that you can utilize
 Apipheny
 Mixed Analytics
@@ -75,10 +94,6 @@ Fri Sep 4 @ 05:36 PM EDT
 Was thinking of making a website for the queer community, where you can search businesses and it creates company profiles identifying the company's acceptance of LGBTQIA+ people.
 Using these APIs at the very least.
 
-Geo
-GeoJS
-Geolocation by IP address
-https://get.geojs.io/v1/ip/geo.json
 Geo
 Nominatum
 Locations and addresses
