@@ -3,12 +3,10 @@
 # 1.2 Overview: Main Portfolio Project
 ``` Due Mon, Sep 7, 2026 @ 11:59 PM EDT•0% weight ```
 
-ASSIGNMENT
-
-ACTIVITY
+##ASSIGNMENT - ACTIVITY
 
 
-1.2 Overview: Main Portfolio Project
+### ** 1.2 Overview: Main Portfolio Project **
 OVERVIEW
 COMPLETION
 FEEDBACK
@@ -17,7 +15,7 @@ This month you will be creating a portfolio project/app that will show off the s
 
 This project will take a considerable amount of time, so make sure you start early and work on it often. There will be multiple milestones and deadlines that you must achieve along the way.
 
-Project Overview / Scope
+#### ** Project Overview / Scope **
 
 Your project will use the MERN Tech Stack and must include the following:
 
