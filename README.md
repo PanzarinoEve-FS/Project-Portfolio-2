@@ -60,33 +60,7 @@ ever talks to one origin and rate limits stay enforceable.
 | [HRC Corporate Equality Index](https://www.hrc.org/resources/corporate-equality-index) | Company LGBTQ+ workplace-policy scores (0-100) | `GET /api/cei` |
 | MongoDB (via Mongoose) | Community reviews collected by this app | `GET/POST /api/businesses` |
 
-The assignment requires at least one free API returning JSON. This project uses
-three, plus its own database.
 
-### Dropped: Leadsbox
-
-The original plan named Leadsbox as the business-record source. It was dropped -
-the URL in the brief is a product landing page, not a documented JSON endpoint.
-Nominatim covers business names, addresses and category search for free, with no
-key, and it is already the geocoder behind the map.
-
-### A note on the Corporate Equality Index
-
-HRC publishes no API, dataset or CSV, so `server/data/cei.json` is a small
-hand-transcribed seed set. Every entry carries the `source` URL of the HRC page
-it came from, the `year`, and whether the score is `verified`.
-
-Three things the UI has to keep clear, because getting them wrong would misinform
-people about real companies:
-
-- The CEI rates a **company's workplace policies for its own employees**. It is
-  not a rating of how a particular storefront treats customers.
-- An **unverified** score means the company did not submit a survey that year, so
-  the number is HRC's own assessment. Target, Walmart and Darden are all
-  unverified for 2026.
-- Only verified scores get confident colour in the UI. Publix scores an
-  unverified 0, and rendering that as an alarming red would assert more about a
-  named real company than the data supports.
 
 ### Ratings are sourced, never inferred
 
