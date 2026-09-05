@@ -7,11 +7,14 @@
 
 
 ### 1.2 Overview: Main Portfolio Project
-```OVERVIEW```
-```COMPLETION```
-```FEEDBACK```
-```This month you will be creating a portfolio project/app that will show off the skills that you have learned up to this point.```
 
+```OVERVIEW```
+
+```COMPLETION```
+
+```FEEDBACK```
+
+```This month you will be creating a portfolio project/app that will show off the skills that you have learned up to this point.```
 ```This project will take a considerable amount of time, so make sure you start early and work on it often. There will be multiple milestones and deadlines that you must achieve along the way.```
 
 ####  Project Overview / Scope
