@@ -35,6 +35,7 @@ Your project will use the MERN Tech Stack and must include the following:
 Milestone #1 (Due: Monday of Week 2)
 
 Decide on your topic and theme for your project.
+
 LGBTQIA+ Safety App where you can search businesses from a business api database connecting those businesses to street addresses in that api and then an api to get the user's location from their ip address to target results to local businesses.
 
 I was thinking of adding a review scraper that can determine demographic acceptance of LGBTQIA+ individuals.
