@@ -36,21 +36,23 @@ Milestone #1 (Due: Monday of Week 2)
 
 Decide on your topic and theme for your project.
 LGBTQIA+ Safety App where you can search businesses from a business api database connecting those businesses to street addresses in that api and then an api to get the user's location from their ip address to target results to local businesses.
+
 I was thinking of adding a review scraper that can determine demographic acceptance of LGBTQIA+ individuals.
-Adding business profiles that have stats such as:
+
+**Adding business profiles that have stats such as:**
 - Bathroom Access 
 - Likelihood of Karens
 - Likelihood of Conservatives
 - Acceptance Rating
 - Overall Rating
 
-**Apis:**
-```GeoJS```
-Geolocation by IP address
-[!GeoJS API] https://get.geojs.io/v1/ip/geo.json
+## APIs
 
-
-
+| API | Purpose | Endpoint |
+|---|---|---|
+| [GeoJS](https://get.geojs.io/v1/ip/geo.json) | Geolocation by IP address | `https://get.geojs.io/v1/ip/geo.json` |
+| [Nominatim](https://nominatim.openstreetmap.org/search.php?city=taipei&format=jsonv2) | Locations and addresses | `https://nominatim.openstreetmap.org/search.php?city=taipei&format=jsonv2` |
+| [Leadsbox](https://leadsbox.biz/?query=lawyers+in+germany) | 71 million business records across 202 countries | `https://leadsbox.biz/?query=lawyers+in+germany` |
 
 
 Check out the Free API sites for some ideas of an API that you can utilize
@@ -94,10 +96,7 @@ Fri Sep 4 @ 05:36 PM EDT
 Was thinking of making a website for the queer community, where you can search businesses and it creates company profiles identifying the company's acceptance of LGBTQIA+ people.
 Using these APIs at the very least.
 
-Geo
-Nominatum
-Locations and addresses
-https://nominatim.openstreetmap.org/search.php?city=taipei&format=jsonv2
+
 Open Data
 Leadsbox
 71 Million business records in 202 countries
