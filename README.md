@@ -49,11 +49,171 @@ I was thinking of adding a review scraper that can determine demographic accepta
 
 ## APIs
 
-| API | Purpose | Endpoint |
+All third-party calls are proxied through the Express server, so the browser only
+ever talks to one origin and rate limits stay enforceable.
+
+| Source | Purpose | Our route |
 |---|---|---|
-| [GeoJS](https://get.geojs.io/v1/ip/geo.json) | Geolocation by IP address | `https://get.geojs.io/v1/ip/geo.json` |
-| [Nominatim](https://nominatim.openstreetmap.org/search.php?city=taipei&format=jsonv2) | Locations and addresses | `https://nominatim.openstreetmap.org/search.php?city=taipei&format=jsonv2` |
-| [Leadsbox](https://leadsbox.biz/?query=lawyers+in+germany) | 71 million business records across 202 countries | `https://leadsbox.biz/?query=lawyers+in+germany` |
+| [GeoJS](https://get.geojs.io/) | Approximate location from the visitor's IP | `GET /api/geo/me` |
+| [Nominatim](https://nominatim.openstreetmap.org/) | Business search, nearby search, and OSM id lookup | `GET /api/places/search`, `/nearby`, `/lookup` |
+| [Refuge Restrooms](https://www.refugerestrooms.org/api/docs/) | Gender-neutral and accessible restrooms (returns lat/lng) | `GET /api/restrooms` |
+| [HRC Corporate Equality Index](https://www.hrc.org/resources/corporate-equality-index) | Company LGBTQ+ workplace-policy scores (0-100) | `GET /api/cei` |
+| MongoDB (via Mongoose) | Community reviews collected by this app | `GET/POST /api/businesses` |
+
+The assignment requires at least one free API returning JSON. This project uses
+three, plus its own database.
+
+### Dropped: Leadsbox
+
+The original plan named Leadsbox as the business-record source. It was dropped -
+the URL in the brief is a product landing page, not a documented JSON endpoint.
+Nominatim covers business names, addresses and category search for free, with no
+key, and it is already the geocoder behind the map.
+
+### A note on the Corporate Equality Index
+
+HRC publishes no API, dataset or CSV, so `server/data/cei.json` is a small
+hand-transcribed seed set. Every entry carries the `source` URL of the HRC page
+it came from, the `year`, and whether the score is `verified`.
+
+Three things the UI has to keep clear, because getting them wrong would misinform
+people about real companies:
+
+- The CEI rates a **company's workplace policies for its own employees**. It is
+  not a rating of how a particular storefront treats customers.
+- An **unverified** score means the company did not submit a survey that year, so
+  the number is HRC's own assessment. Target, Walmart and Darden are all
+  unverified for 2026.
+- Only verified scores get confident colour in the UI. Publix scores an
+  unverified 0, and rendering that as an alarming red would assert more about a
+  named real company than the data supports.
+
+### Ratings are sourced, never inferred
+
+The original brief proposed scraping reviews to infer "likelihood of
+conservatives" and similar stats. That was dropped deliberately: publishing
+algorithmic guesses about the politics of named real businesses is unreliable,
+legally risky, and impossible for a user to check.
+
+Every number in the app traces to a source - a person who submitted a review, a
+restroom somebody logged, or a score an organisation published under its own name.
+
+## Libraries
+
+The assignment requires at least 2 libraries besides React. These are the two:
+
+| Library | Purpose | Where it is used |
+|---|---|---|
+| [React Leaflet](https://react-leaflet.js.org/) | Interactive maps using free OpenStreetMap tiles. No API key or billing required, unlike Google Maps or Mapbox. Pairs directly with Nominatim, since both are OpenStreetMap projects. | `client/src/components/MapView.jsx` |
+| [Recharts](https://recharts.org/) | Radar charts that turn the five rating stats into a visual profile instead of a list of numbers. | `client/src/components/RatingsChart.jsx` |
+
+**Tutorial library (Exercise 01): React Leaflet.** It has a clean four-step
+progression to teach -- render a map, add a marker, add a popup, then plot an
+array of results from an API -- and one genuine gotcha worth writing up: the
+default marker icons break under Vite and have to be re-registered manually.
+
+### Supporting libraries
+
+| Library | Purpose |
+|---|---|
+| [React Router](https://reactrouter.com/) | Client-side routing across the 6 views |
+| [Express](https://expressjs.com/) | Backend API and third-party API proxy |
+| [Mongoose](https://mongoosejs.com/) | MongoDB schemas and the computed rating averages |
+| [Vite](https://vite.dev/) | Build tool and dev server (replaces Create React App, which React deprecated in 2025) |
+
+## Tech Stack
+
+MERN: **M**ongoDB, **E**xpress, **R**eact, **N**ode.
+
+```
+Project-Portfolio-2/
+|-- client/                 React front end (Vite)
+|   +-- src/
+|       |-- api/client.js       All fetch calls to our Express server
+|       |-- components/
+|       |   |-- MapView.jsx         React Leaflet map + markers
+|       |   |-- RatingsChart.jsx    Recharts radar of community ratings
+|       |   |-- BathroomAccess.jsx  Shared bathroom-access badge
+|       |   |-- CEIScore.jsx        HRC score with its caveats
+|       |   |-- BusinessCard.jsx    Result card
+|       |   |-- NavBar.jsx, SearchBar.jsx
+|       |-- hooks/
+|       |   +-- useDebouncedValue.js  Keeps the range slider off the rate limit
+|       |-- utils/
+|       |   |-- distance.js         Haversine, km/mi conversion, formatting
+|       |   +-- cei.js              Brand-name matching against the CEI set
+|       +-- pages/              Home, Search, Restrooms, Directory,
+|                               BusinessProfile, About
+|-- server/                 Node + Express back end
+|   |-- config/db.js            Mongoose connection
+|   |-- data/cei.json           Hand-transcribed HRC scores + source URLs
+|   |-- models/Business.js      Business + review schema, computed averages
+|   |-- routes/
+|   |   |-- geo.js              GeoJS proxy
+|   |   |-- places.js           Nominatim proxy (rate limited + cached)
+|   |   |-- restrooms.js        Refuge Restrooms proxy
+|   |   |-- cei.js              Serves the Corporate Equality Index seed set
+|   |   +-- businesses.js       MongoDB CRUD for community reviews
+|   +-- server.js
++-- package.json            Runs both halves together
+```
+
+### Routes / Views
+
+| Path | View | What it does |
+|---|---|---|
+| `/` | Home | Nearby businesses by IP location, with category chips, a km/mi range slider and bathroom filters |
+| `/search` | Find Places | Search businesses via Nominatim, plotted on the map |
+| `/restrooms` | Restrooms | Refuge Restrooms results with gender-neutral / accessible filters |
+| `/directory` | Directory | Every place the community has rated |
+| `/business/:osmId` | Profile | Company score, bathroom access, radar chart of ratings, and the review form |
+| `/about` | About | Data sources and how ratings work |
+
+## Getting Started
+
+```bash
+# 1. Install everything (root, server and client)
+npm run install:all
+
+# 2. Set up server environment variables
+cp server/.env.example server/.env
+
+# 3. Make sure MongoDB is running
+brew services start mongodb-community
+
+# 4. Run the front end and back end together
+npm run dev
+```
+
+Front end: http://localhost:5173 -- API: http://localhost:5050
+
+> **Note on ports:** the server uses **5050**, not the usual 5000, because
+> macOS AirPlay Receiver occupies port 5000 and causes `EADDRINUSE`.
+
+### Troubleshooting
+
+**`502` on every `/api/...` call.** The React app is running but Express is not,
+so the Vite proxy has nothing to forward to. Start the back end with
+`npm run server`, or use `npm run dev` to run both halves together. Running only
+`npm run client` is the usual cause.
+
+### Notes on the APIs
+
+- **Nominatim** limits callers to 1 request per second and requires an
+  identifying `User-Agent`. Both are enforced server-side in
+  `server/routes/places.js`, which also caches results for 24 hours. Never call
+  Nominatim straight from the browser -- that is how you get IP banned. The home
+  page range slider is debounced for the same reason: dragging it would
+  otherwise queue a backlog of requests against that limit.
+- **Refuge Restrooms** has no radius parameter. `by_location` returns results
+  closest-first, so `per_page` is the only lever for covering a wider area.
+- **A place is only written to MongoDB once somebody reviews it.** Profile pages
+  resolve any OpenStreetMap id through `/api/places/lookup`, so a shared profile
+  link works even for a business nobody has rated.
+- **CEI coverage is only as wide as the seed file.** Chains cluster by category,
+  so pharmacies match well and independent restaurants match rarely. Adding a
+  company is one entry in `server/data/cei.json`.
+
 
 
 Check out the Free API sites for some ideas of an API that you can utilize
