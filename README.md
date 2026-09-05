@@ -21,20 +21,16 @@
 
 Your project will use the MERN Tech Stack and must include the following:
 
-A Git Repo, with a master, dev, and milestone branches
-Readme File that explains your project and tracks your milestones
-A React Front End
-React Routing with at least 4 different views/pages
-Dashboard/Main
-User/Settings
-Search
-Detail Page
-Node/Express Backend
-A Mongo DB Element OR Local Storage for persistent data
-Connect to at least 1 free API that must return JSON data.
-The project must use at least 2 different libraries, not including React itself
-One of these libraries you will create a tutorial for in Exercise 01
-It should look visually appealing and must be easy for the end-user to use and understand. You may use Tailwind or any other front-end library/framework.
+- A Git Repo, with a master, dev, and milestone branches
+- Readme File that explains your project and tracks your milestones
+- A React Front End
+- React Routing with at least 4 different views/pages
+- Node/Express Backend
+- A Mongo DB Element OR Local Storage for persistent data
+- Connect to at least 1 free API that must return JSON data.
+- The project must use at least 2 different libraries, not including React itself
+- One of these libraries you will create a tutorial for in Exercise 01
+- It should look visually appealing and must be easy for the end-user to use and understand. You may use Tailwind or any other front-end library/framework.
 Milestone #1 (Due: Monday of Week 2)
 
 Decide on your topic and theme for your project.
