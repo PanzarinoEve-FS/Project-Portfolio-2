@@ -6,16 +6,15 @@
 ##ASSIGNMENT - ACTIVITY
 
 
-### ** 1.2 Overview: Main Portfolio Project **
-OVERVIEW
-COMPLETION
-FEEDBACK
-WDP2 Logo
-This month you will be creating a portfolio project/app that will show off the skills that you have learned up to this point.
+### 1.2 Overview: Main Portfolio Project
+```OVERVIEW```
+```COMPLETION```
+```FEEDBACK```
+```This month you will be creating a portfolio project/app that will show off the skills that you have learned up to this point.```
 
-This project will take a considerable amount of time, so make sure you start early and work on it often. There will be multiple milestones and deadlines that you must achieve along the way.
+```This project will take a considerable amount of time, so make sure you start early and work on it often. There will be multiple milestones and deadlines that you must achieve along the way.```
 
-#### ** Project Overview / Scope **
+####  Project Overview / Scope
 
 Your project will use the MERN Tech Stack and must include the following:
 
