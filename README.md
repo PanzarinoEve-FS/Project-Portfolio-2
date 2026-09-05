@@ -3,7 +3,7 @@
 # 1.2 Overview: Main Portfolio Project
 ``` Due Mon, Sep 7, 2026 @ 11:59 PM EDT•0% weight ```
 
-##ASSIGNMENT - ACTIVITY
+## ASSIGNMENT - ACTIVITY
 
 
 ### 1.2 Overview: Main Portfolio Project
