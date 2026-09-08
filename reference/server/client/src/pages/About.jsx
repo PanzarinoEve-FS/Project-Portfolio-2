@@ -5,18 +5,12 @@ export default function About() {
 
       <p>
         Safe Space Finder helps LGBTQIA+ people find local businesses where they will
-        be treated well.
+        be treated well. Every rating it shows is either submitted by a person or
+        published by a named organisation - nothing here is scraped, inferred, or
+        guessed by an algorithm.
       </p>
 
       <h2>Where each rating comes from</h2>
-
-      <h3>Trans Surgeries Wiki</h3>
-      <p>
-        Data Collected off Reddit Testimonials.
-        <a href="https://www.reddit.com/r/TransSurgeriesWiki/wiki/index/" target="_blank" rel="noreferrer">
-          r/TransSurgeriesWiki
-        </a>
-      </p>
 
       <h3>Community reviews</h3>
       <p>
@@ -97,6 +91,19 @@ export default function About() {
           business is only stored once somebody reviews it.
         </li>
       </ul>
+
+      <h2>What this project deliberately does not do</h2>
+      <p>
+        An earlier plan for this app was to scrape reviews and infer how conservative
+        or accepting a business was likely to be. That was dropped on purpose.
+        Publishing algorithmic guesses about the politics of named real businesses is
+        both unreliable and a legal risk, and it is not something a user could check.
+      </p>
+      <p>
+        Everything shown here can be traced to a source: a person who wrote a review,
+        a restroom somebody logged, or a rating an organisation published under its
+        own name.
+      </p>
 
       <h2>Built with</h2>
       <ul>

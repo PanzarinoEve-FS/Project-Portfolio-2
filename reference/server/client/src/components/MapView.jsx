@@ -32,11 +32,8 @@ function Recenter({ center, zoom }) {
 }
 
 export default function MapView({ center = [41.8781, -87.6298], zoom = 13, markers = [] }) {
-  // No zoom buttons: Leaflet anchors them to a map corner, and every corner
-  // is either under the sidebar or under the detail panel. Scroll, pinch,
-  // double-tap and keyboard +/- all still zoom.
   return (
-    <MapContainer center={center} zoom={zoom} scrollWheelZoom zoomControl={false} className="map">
+    <MapContainer center={center} zoom={zoom} scrollWheelZoom className="map">
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

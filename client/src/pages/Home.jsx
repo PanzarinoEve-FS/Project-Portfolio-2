@@ -1,13 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import { getMyLocation, getNearbyPlaces, getRestrooms, getCEI } from '../api/client.js';
-import { findNearestRestroom, toKm, fromKm } from '../utils/distance.js';
-import { matchCEI } from '../utils/cei.js';
-import { useDebouncedValue } from '../hooks/useDebouncedValue.js';
-import MapView from '../components/MapView.jsx';
-import BusinessCard from '../components/BusinessCard.jsx';
+import {
+  getMyLocation,
+  getNearbyPlaces,
+  searchPlaces,
+  getRestrooms,
+  getCEI,
+} from "../api/client.js";
+import { findNearestRestroom, toKm, fromKm } from "../utils/distance.js";
+import { matchCEI } from "../utils/cei.js";
+import { useDebouncedValue } from "../hooks/useDebouncedValue.js";
+import MapView from "../components/MapView.jsx";
+import BusinessCard from "../components/BusinessCard.jsx";
+import Switch from "../components/Switch.jsx";
+import SearchField from "../components/SearchField.jsx";
+import PrideFlag from "../components/PrideFlag.jsx";
+import MapNav from "../components/MapNav.jsx";
 
-const CATEGORIES = ['cafe', 'restaurant', 'bar', 'pharmacy', 'clinic'];
+const CATEGORIES = ["gas", "cafe", "restaurant", "bar", "pharmacy", "clinic"];
 
 const RANGE_BOUNDS = {
   km: { min: 1, max: 25, step: 1 },
@@ -16,67 +27,68 @@ const RANGE_BOUNDS = {
 
 export default function Home() {
   const [location, setLocation] = useState(null);
-  const [category, setCategory] = useState('cafe');
-  const [unit, setUnit] = useState('km');
-  const [range, setRange] = useState(3);
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("cafe");
+  const [unit, setUnit] = useState("mi");
+  const [range, setRange] = useState(6);
   const [filters, setFilters] = useState({ unisex: false, ada: false });
   const [places, setPlaces] = useState([]);
   const [restrooms, setRestrooms] = useState([]);
   const [cei, setCei] = useState({ entries: [], maxScore: 100 });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  // Only refetch once the slider settles
-
+  // Both the slider and the search box would otherwise fire a request per
+  // keystroke or per pixel, against Nominatim's one-per-second limit.
   const debouncedRange = useDebouncedValue(range, 500);
+  const debouncedQuery = useDebouncedValue(query, 500);
   const radiusKm = toKm(debouncedRange, unit);
 
-  // GeoJS gives an approximate location from the visitor's IP - no browser permission prompt.
   useEffect(() => {
     getMyLocation()
       .then(setLocation)
       .catch((err) => setError(err.message));
   }, []);
 
-  // Load the latest CEI data
   useEffect(() => {
     getCEI()
       .then(setCei)
       .catch(() => {});
   }, []);
 
-  // Load nearby businesses plus the documented restrooms around them.
   useEffect(() => {
     if (!location) return;
 
     let cancelled = false;
     setLoading(true);
-    setError('');
+    setError("");
 
-    const { lat, lng } = location;
+    const { lat, lng, city } = location;
+
+    // A typed query searches by name; an empty box browses the category.
+    const lookup = debouncedQuery.trim()
+      ? searchPlaces(debouncedQuery.trim(), city)
+      : getNearbyPlaces({
+          lat,
+          lng,
+          category,
+          radius: radiusKm,
+          limit: Math.min(40, Math.max(12, Math.round(radiusKm * 4))),
+        });
 
     Promise.all([
-      getNearbyPlaces({
-        lat,
-        lng,
-        category,
-        radius: radiusKm,
-        // Widening the range should surface more places, not the same
-        // handful spread further out. 40 is Nominatim's practical ceiling.
-        limit: Math.min(40, Math.max(12, Math.round(radiusKm * 4))),
-      }),
+      lookup,
       getRestrooms({
         lat,
         lng,
         unisex: filters.unisex,
         ada: filters.ada,
-        // Widen the restroom pull as the search area grows.
         perPage: Math.min(100, Math.round(radiusKm * 12)),
       }).catch(() => []),
     ])
-      .then(([nearby, rooms]) => {
+      .then(([found, rooms]) => {
         if (cancelled) return;
-        setPlaces(nearby.results);
+        setPlaces(found.results);
         setRestrooms(rooms);
       })
       .catch((err) => !cancelled && setError(err.message))
@@ -85,153 +97,161 @@ export default function Home() {
     return () => {
       cancelled = true;
     };
-  }, [location, category, radiusKm, filters.unisex, filters.ada]);
+  }, [
+    location,
+    category,
+    radiusKm,
+    debouncedQuery,
+    filters.unisex,
+    filters.ada,
+  ]);
 
-  // Switching units keeps the real distance the same rather than the number,
-  // so 5km becomes ~3mi instead of jumping to 5mi.
+  // Switching units keeps the real distance rather than the number, so 5km
+  // becomes ~3mi instead of jumping to 5mi.
   function handleUnitChange(nextUnit) {
     const bounds = RANGE_BOUNDS[nextUnit];
-    const converted = fromKm(toKm(range, unit), nextUnit);
-    const snapped = Math.round(converted / bounds.step) * bounds.step;
+    const snapped =
+      Math.round(fromKm(toKm(range, unit), nextUnit) / bounds.step) *
+      bounds.step;
 
     setUnit(nextUnit);
     setRange(Math.min(bounds.max, Math.max(bounds.min, snapped)));
   }
 
-  function toggleFilter(key) {
-    setFilters((current) => ({ ...current, [key]: !current[key] }));
-  }
-
-  // Attach the closest documented restroom so an unrated business can still
-  // say something useful about bathroom access.
-  const placesWithRestrooms = places.map((place) => ({
+  const enriched = places.map((place) => ({
     place,
     nearestRestroom: findNearestRestroom(place, restrooms),
     cei: matchCEI(place.name, cei.entries),
   }));
 
-  // The restroom list is already filtered server-side, so any match found
-  // here satisfies the active filters. With a filter on, drop the places
-  // that have no match rather than showing them as "Not rated yet".
+  // The restroom list is already filtered server-side, so any match here
+  // satisfies the active filters. Drop places with no match when filtering.
   const filtersActive = filters.unisex || filters.ada;
-  const visiblePlaces = filtersActive
-    ? placesWithRestrooms.filter(({ nearestRestroom }) => nearestRestroom)
-    : placesWithRestrooms;
-
-  const filterLabel = [
-    filters.unisex && 'gender-neutral',
-    filters.ada && 'wheelchair accessible',
-  ]
-    .filter(Boolean)
-    .join(' and ');
+  const visible = filtersActive
+    ? enriched.filter((e) => e.nearestRestroom)
+    : enriched;
 
   const bounds = RANGE_BOUNDS[unit];
-  const rangeLabel = `${range} ${unit === 'mi' ? (range === 1 ? 'mile' : 'miles') : 'km'}`;
+  const center = location ? [location.lat, location.lng] : [28.5978, -81.3024];
 
   return (
-    <section className="page">
-      {error && <p className="error">{error}</p>}
+    <div className="app">
+      <div className="map-layer">
+        <MapView
+          center={center}
+          zoom={13}
+          markers={visible.map(({ place, nearestRestroom }) => ({
+            id: place.osmId,
+            osmId: place.osmId,
+            name: place.name,
+            address: place.address,
+            lat: place.lat,
+            lng: place.lng,
+            tags: [place.category, nearestRestroom && "restroom nearby"].filter(
+              Boolean,
+            ),
+          }))}
+        />
+      </div>
 
-      {!location && !error && <p className="muted">Detecting your location...</p>}
+      <MapNav />
 
-      {location && (
-        <>
-          <h1>
-            Near {location.city}
-            {location.region ? `, ${location.region}` : ''}
-          </h1>
-          <p className="muted">
-            {filtersActive
-              ? `Showing ${visiblePlaces.length} of ${places.length} ${category} places within ${rangeLabel} with a documented ${filterLabel} restroom.`
-              : `Businesses within ${rangeLabel} of your approximate location.`}
-          </p>
+      <aside className="sidebar">
+        {/* The blur lives on its own layer. Safari paints a backdrop-filter as
+            a square that ignores border-radius, which spilled dark glass past
+            the flag's rounded corner; clip-path does apply to a filtered
+            layer, so the corner is cut here instead. */}
+        <div className="sidebar-glass" aria-hidden="true" />
+        {/* Safari will not clip children to a rounded corner on an element
+            that also carries a backdrop-filter. This inner wrapper does the
+            clipping and the scrolling; the glass stays on the parent. */}
+        <div className="sidebar-body">
+          <PrideFlag />
 
-          <div className="controls">
-            <div className="control-group">
-              <span className="control-label">Category</span>
-              <div className="chips">
-                {CATEGORIES.map((option) => (
-                  <button
-                    key={option}
-                    type="button"
-                    onClick={() => setCategory(option)}
-                    className={option === category ? 'chip active' : 'chip'}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div className="sidebar-title">
+            LGBTQIA+ Safety Index
+            <small>Business Search</small>
+          </div>
 
-            <div className="control-group">
-              <label className="control-label" htmlFor="range">
-                Search range
-              </label>
+          {/* Sticky on phones: the flag and title scroll away beneath this, and
+            the field pins once it reaches the top of the panel. */}
+          <div className="search-dock">
+            <SearchField
+              value={query}
+              onChange={setQuery}
+              placeholder="Search businesses"
+            />
+          </div>
+
+          <div className="sidebar-scroll">
+            <div className="group">
+              <div className="group-label">Range</div>
               <div className="range-row">
                 <input
-                  id="range"
                   type="range"
                   min={bounds.min}
                   max={bounds.max}
                   step={bounds.step}
                   value={range}
                   onChange={(e) => setRange(Number(e.target.value))}
+                  aria-label="Search range"
                 />
-                <output className="range-value" htmlFor="range">
-                  {rangeLabel}
-                </output>
-                <select
-                  value={unit}
-                  onChange={(e) => handleUnitChange(e.target.value)}
-                  aria-label="Distance unit"
+                <span className="score">{range}</span>
+                <div className="segmented">
+                  {["km", "mi"].map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      className={option === unit ? "active" : ""}
+                      onClick={() => handleUnitChange(option)}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="group">
+              <Switch
+                id="unisex"
+                label="Gender Neutral"
+                checked={filters.unisex}
+                onChange={(v) => setFilters((f) => ({ ...f, unisex: v }))}
+              />
+              <Switch
+                id="ada"
+                label="Wheelchair Accessible"
+                checked={filters.ada}
+                onChange={(v) => setFilters((f) => ({ ...f, ada: v }))}
+              />
+            </div>
+
+            <div className="chips" style={{ marginBottom: 14 }}>
+              {CATEGORIES.map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => setCategory(option)}
+                  className={
+                    option === category && !query.trim()
+                      ? "chip active"
+                      : "chip"
+                  }
                 >
-                  <option value="km">Kilometers</option>
-                  <option value="mi">Miles</option>
-                </select>
-              </div>
+                  {option}
+                </button>
+              ))}
             </div>
 
-            <div className="control-group">
-              <span className="control-label">Bathroom access</span>
-              <div className="filters">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={filters.unisex}
-                    onChange={() => toggleFilter('unisex')}
-                  />
-                  Gender-neutral only
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={filters.ada}
-                    onChange={() => toggleFilter('ada')}
-                  />
-                  Wheelchair accessible only
-                </label>
-              </div>
+            <div className="group-label">
+              Search Results{location ? ` - ${location.city}` : ""}
             </div>
-          </div>
 
-          <MapView
-            center={[location.lat, location.lng]}
-            zoom={13}
-            markers={visiblePlaces.map(({ place, nearestRestroom }) => ({
-              id: place.osmId,
-              osmId: place.osmId,
-              name: place.name,
-              address: place.address,
-              lat: place.lat,
-              lng: place.lng,
-              tags: [place.category, nearestRestroom && 'restroom nearby'].filter(Boolean),
-            }))}
-          />
+            {error && <p className="error">{error}</p>}
+            {loading && <p className="muted">Loading...</p>}
 
-          {loading && <p className="muted">Loading nearby places...</p>}
-
-          <div className="grid">
-            {visiblePlaces.map(({ place, nearestRestroom, cei: ceiMatch }) => (
+            {visible.map(({ place, nearestRestroom, cei: ceiMatch }) => (
               <BusinessCard
                 key={place.osmId}
                 business={place}
@@ -240,17 +260,18 @@ export default function Home() {
                 cei={ceiMatch}
               />
             ))}
-          </div>
 
-          {!loading && visiblePlaces.length === 0 && (
-            <p className="empty">
-              {filtersActive && places.length > 0
-                ? `None of the ${places.length} ${category} places within ${rangeLabel} have a documented ${filterLabel} restroom.`
-                : `No ${category} found within ${rangeLabel}.`}
-            </p>
-          )}
-        </>
-      )}
-    </section>
+            {!loading && visible.length === 0 && !error && (
+              <p className="empty">
+                {filtersActive && places.length > 0
+                  ? `None of the ${places.length} results have a documented matching restroom.`
+                  : "No results. Try a wider range or another category."}
+              </p>
+            )}
+
+          </div>
+        </div>
+      </aside>
+    </div>
   );
 }

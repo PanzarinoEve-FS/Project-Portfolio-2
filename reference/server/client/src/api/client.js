@@ -43,14 +43,6 @@ export const getRestrooms = ({ lat, lng, unisex = false, ada = false, perPage = 
   );
 
 // HRC Corporate Equality Index seed set
-// Overpass / OpenStreetMap tag search. Nominatim's free-text search barely
-// finds category places ("nail salon" returns almost nothing); tag search does.
-export const getOsmPlaces = ({ lat, lng, radius = 10, categories, limit = 60 }) =>
-  request(
-    `/api/osm?lat=${lat}&lng=${lng}&radius=${radius}` +
-      `&categories=${encodeURIComponent(categories)}&limit=${limit}`
-  );
-
 export const getCEI = () => request('/api/cei');
 
 // Our own database of community-rated places.
