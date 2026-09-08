@@ -197,6 +197,19 @@ a { color: var(--blue); text-decoration: none; }
 
 .map-nav .chip.active { background: var(--blue); color: #fff; }
 
+/* Clear the detail column when one is open. */
+.app:has(.detail) .map-nav {
+  left: calc(var(--sidebar-w) + 420px + var(--inset) * 3);
+}
+
+/* In-panel copy, used on phones only. */
+.sidebar-nav {
+  display: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 14px 2px;
+}
+
 .flag {
   flex: none;
   display: block;
@@ -464,10 +477,29 @@ input[type="range"]::-webkit-slider-thumb {
   bottom: var(--inset);
   left: calc(var(--sidebar-w) + var(--inset) * 2);
   width: 420px;
-  border-radius: var(--r-xl);
+  border-radius: var(--panel-radius, 10px);
   overflow-y: auto;
-  padding: 20px;
+  padding: 18px;
+  background: var(--surface);
+  box-shadow: var(--glass-shadow);
 }
+
+.detail h1 { font-size: 22px; }
+
+/* Long-form copy in the wider detail panel. */
+.panel-prose h2 { margin-top: 22px; font-size: 18px; }
+.panel-prose h2:first-child { margin-top: 0; }
+.panel-prose h3 { margin-top: 16px; font-size: 15px; }
+.panel-prose p,
+.panel-prose li { font-size: 14px; line-height: 1.55; }
+.panel-prose ul { padding-left: 20px; }
+
+/* Long-form copy inside a narrow panel. */
+.sidebar-prose h2 { margin-top: 20px; font-size: 16px; }
+.sidebar-prose h3 { margin-top: 14px; font-size: 14px; }
+.sidebar-prose p,
+.sidebar-prose li { font-size: 13px; line-height: 1.5; }
+.sidebar-prose ul { padding-left: 18px; }
 
 .detail-hero { text-align: center; padding-bottom: 8px; }
 
@@ -558,12 +590,10 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
     width: auto;
   }
 
-  /* The panel fills the screen, so the nav overlays the flag's right-hand
-     side rather than a map that is not visible. */
-  .map-nav {
-    left: calc(var(--inset) + 116px);
-    top: calc(var(--inset) + 8px);
-  }
+  /* No map alongside to float over, so the floating copy is hidden and the
+     in-panel one takes over: flag, then navigation, then the title. */
+  .map-nav { display: none; }
+  .sidebar-nav { display: flex; }
 
   /* Collapsing header: the whole panel scrolls rather than just the results
      list, so the flag and title travel up and out of the way while the search

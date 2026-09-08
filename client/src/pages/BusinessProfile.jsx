@@ -10,7 +10,8 @@ import {
   getCEI,
 } from '../api/client.js';
 import { findNearestRestroom, formatDistance } from '../utils/distance.js';
-import MapView from '../components/MapView.jsx';
+import MapShell from '../components/MapShell.jsx';
+import { useIsCompact } from '../hooks/useMediaQuery.js';
 import RatingsChart from '../components/RatingsChart.jsx';
 import BathroomAccess from '../components/BathroomAccess.jsx';
 import CEIScore from '../components/CEIScore.jsx';
@@ -43,6 +44,7 @@ export default function BusinessProfile() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const isCompact = useIsCompact();
 
   useEffect(() => {
     let cancelled = false;
@@ -105,24 +107,47 @@ export default function BusinessProfile() {
     }
   }
 
+  const shell = (body) => (
+    <MapShell
+      title="LGBTQIA+ Safety Index"
+      subtitle="Business Profile"
+      center={business ? [business.lat, business.lng] : [28.5978, -81.3024]}
+      zoom={business ? 16 : 12}
+      markers={
+        business
+          ? [{ id: business.osmId, name: business.name, lat: business.lat, lng: business.lng }]
+          : []
+      }
+      // On a phone the sidebar fills the screen, so the detail column would
+      // cover it; the profile goes inside the panel there instead.
+      detail={isCompact ? null : body}
+    >
+      <Link className="chip" to="/">
+        Back to search
+      </Link>
+
+      {isCompact && body}
+    </MapShell>
+  );
+
   if (error && !business) {
-    return (
-      <section className="page">
+    return shell(
+      <>
         <p className="error">{error}</p>
-        <Link to="/search">Back to search</Link>
-      </section>
+        <Link to="/">Back to search</Link>
+      </>
     );
   }
 
-  if (loading) return <section className="page"><p className="muted">Loading...</p></section>;
+  if (loading) return shell(<p className="muted">Loading...</p>);
 
   if (!business) return null;
 
   const reviewCount = business.reviews?.length ?? 0;
   const ceiMatch = matchCEI(business.name, cei.entries);
 
-  return (
-    <section className="page">
+  return shell(
+    <>
       <h1>{business.name}</h1>
       <p className="address">{business.address}</p>
 
@@ -164,20 +189,11 @@ export default function BusinessProfile() {
         )}
       </div>
 
-      <div className="profile-grid">
-        <div className="panel">
-          <h2>Community Ratings</h2>
-          <RatingsChart averages={business.averages} reviewCount={reviewCount} />
-        </div>
-
-        <div className="panel">
-          <h2>Location</h2>
-          <MapView
-            center={[business.lat, business.lng]}
-            zoom={16}
-            markers={[{ id: business.osmId, name: business.name, lat: business.lat, lng: business.lng }]}
-          />
-        </div>
+      {/* No Location panel here: the shell's map already centres on this
+          business with its own marker, so a second map would duplicate it. */}
+      <div className="panel">
+        <h2>Community Ratings</h2>
+        <RatingsChart averages={business.averages} reviewCount={reviewCount} />
       </div>
 
       <div className="panel">
@@ -237,6 +253,6 @@ export default function BusinessProfile() {
 
         {reviewCount === 0 && <p className="empty">No reviews yet.</p>}
       </div>
-    </section>
+    </>
   );
 }

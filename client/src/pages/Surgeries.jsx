@@ -4,6 +4,7 @@ import { getMyLocation, getOsmPlaces, searchPlaces } from '../api/client.js';
 import { toKm } from '../utils/distance.js';
 import { useDebouncedValue } from '../hooks/useDebouncedValue.js';
 import MapShell from '../components/MapShell.jsx';
+import RangeControl from '../components/RangeControl.jsx';
 import Switch from '../components/Switch.jsx';
 import SearchField from '../components/SearchField.jsx';
 
@@ -46,6 +47,9 @@ const redditSearch = (name) =>
 export default function Surgeries() {
   const [location, setLocation] = useState(null);
   const [scope, setScope] = useState('near');
+  const [unit, setUnit] = useState('mi');
+  // Surgical centres are sparse, so this starts wider than the other views.
+  const [range, setRange] = useState(25);
   const [stateName, setStateName] = useState('Florida');
   const [countryName, setCountryName] = useState('Thailand');
   const [query, setQuery] = useState('');
@@ -56,6 +60,9 @@ export default function Surgeries() {
   const [error, setError] = useState('');
 
   const debouncedQuery = useDebouncedValue(query, 400);
+  // Dragging the slider must not fire an Overpass call per pixel.
+  const debouncedRange = useDebouncedValue(range, 500);
+  const radiusKm = toKm(debouncedRange, unit);
 
   useEffect(() => {
     getMyLocation()
@@ -83,7 +90,7 @@ export default function Surgeries() {
           ? getOsmPlaces({
               lat: location.lat,
               lng: location.lng,
-              radius: toKm(25, 'mi'),
+              radius: radiusKm,
               categories: 'clinic,hospital,doctors',
             })
           : null
@@ -106,7 +113,7 @@ export default function Surgeries() {
     return () => {
       cancelled = true;
     };
-  }, [scope, stateName, countryName, location]);
+  }, [scope, stateName, countryName, location, radiusKm]);
 
   const visible = places
     .filter((p) => !surgicalOnly || SURGICAL_WORDS.some((w) => p.name.toLowerCase().includes(w)))
@@ -182,6 +189,16 @@ export default function Surgeries() {
           </select>
         )}
       </div>
+
+      {scope === 'near' && (
+        <RangeControl
+          range={range}
+          unit={unit}
+          onRangeChange={setRange}
+          onUnitChange={setUnit}
+          id="surgery-range"
+        />
+      )}
 
       {PROCEDURES.map(({ group, items }) => (
         <div className="group" key={group}>

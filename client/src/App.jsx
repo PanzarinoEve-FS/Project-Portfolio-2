@@ -14,7 +14,11 @@ import About from './pages/About.jsx';
 // standard scrolling page under a Liquid Glass toolbar.
 export default function App() {
   const { pathname } = useLocation();
-  const isMapView = ['/', '/surgeries', '/services'].includes(pathname);
+  // Every view that draws its own sidebar owns the full viewport, so the
+  // toolbar is only for the remaining standalone pages.
+  const isMapView =
+    ['/', '/surgeries', '/services', '/about'].includes(pathname) ||
+    pathname.startsWith('/business/');
 
   return (
     <>

@@ -7,11 +7,13 @@ const LINKS = [
   { to: '/about', label: 'About' },
 ];
 
-// Floats over the map beside the sidebar rather than living inside it, so the
-// panel stays given over to search and results.
-export default function MapNav() {
+// Rendered twice: floating over the map beside the sidebar on a wide screen,
+// and in the panel between the flag and the title on a phone, where there is
+// no map alongside to float over. CSS shows whichever suits the width, so only
+// one is ever in the accessibility tree.
+export default function MapNav({ className = 'map-nav' }) {
   return (
-    <nav className="map-nav">
+    <nav className={className}>
       {LINKS.map(({ to, label, end }) => (
         <NavLink
           key={to}

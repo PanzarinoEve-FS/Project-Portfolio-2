@@ -168,6 +168,8 @@ export default function Home() {
         <div className="sidebar-body">
           <PrideFlag />
 
+          <MapNav className="sidebar-nav" />
+
           <div className="sidebar-title">
             LGBTQIA+ Safety Index
             <small>Business Search</small>

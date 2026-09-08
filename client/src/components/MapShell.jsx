@@ -11,6 +11,7 @@ export default function MapShell({
   zoom = 12,
   markers = [],
   search = null,
+  detail = null,
   children,
 }) {
   return (
@@ -29,6 +30,8 @@ export default function MapShell({
         <div className="sidebar-body">
           <PrideFlag />
 
+          <MapNav className="sidebar-nav" />
+
           <div className="sidebar-title">
             {title}
             <small>{subtitle}</small>
@@ -39,6 +42,9 @@ export default function MapShell({
           <div className="sidebar-scroll">{children}</div>
         </div>
       </aside>
+
+      {/* Profile column, sitting between the sidebar and the map. */}
+      {detail && <div className="detail">{detail}</div>}
     </div>
   );
 }
