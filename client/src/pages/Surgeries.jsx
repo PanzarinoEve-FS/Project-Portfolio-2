@@ -19,27 +19,16 @@ const STATES = [
 ];
 
 const COUNTRIES = [
-  'Argentina','Australia','Belgium','Brazil','Canada','Chile','Colombia','Denmark',
-  'France','Germany','India','Ireland','Italy','Mexico','Netherlands','New Zealand',
-  'Norway','Poland','Portugal','Serbia','South Korea','Spain','Sweden','Thailand',
-  'Turkey','United Kingdom',
+  'Thailand', 'Canada', 'Austrailia', 'Europe', 'UK', 'South America', 'Other'
 ];
 
 const PROCEDURES = [
-  { group: 'Trans masculine surgeries', items: [
-    { id: 'masc-top', label: 'Top Surgery' },
-    { id: 'masc-bottom', label: 'Bottom Surgery' },
-  ]},
   { group: 'Trans feminine surgeries', items: [
     { id: 'fem-ffs', label: 'Facial Feminization Surgery' },
     { id: 'fem-top', label: 'Top Surgery' },
     { id: 'fem-bottom', label: 'Bottom Surgery' },
   ]},
 ];
-
-// OSM records that a place is a clinic or hospital, never which procedures it
-// performs. Narrowing on these words is a name filter, not a capability check.
-const SURGICAL_WORDS = ['surg', 'plastic', 'cosmetic', 'aesthetic', 'reconstruct'];
 
 const redditSearch = (name) =>
   `https://www.reddit.com/search/?q=${encodeURIComponent(`${name} surgery post-op`)}`;
@@ -54,7 +43,6 @@ export default function Surgeries() {
   const [countryName, setCountryName] = useState('Thailand');
   const [query, setQuery] = useState('');
   const [procedures, setProcedures] = useState({});
-  const [surgicalOnly, setSurgicalOnly] = useState(true);
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -115,9 +103,9 @@ export default function Surgeries() {
     };
   }, [scope, stateName, countryName, location, radiusKm]);
 
-  const visible = places
-    .filter((p) => !surgicalOnly || SURGICAL_WORDS.some((w) => p.name.toLowerCase().includes(w)))
-    .filter((p) => !debouncedQuery.trim() || p.name.toLowerCase().includes(debouncedQuery.toLowerCase().trim()));
+  const visible = places.filter(
+    (p) => !debouncedQuery.trim() || p.name.toLowerCase().includes(debouncedQuery.toLowerCase().trim())
+  );
 
   const wanted = PROCEDURES.flatMap((g) => g.items).filter((i) => procedures[i.id]);
 
@@ -215,14 +203,7 @@ export default function Surgeries() {
         </div>
       ))}
 
-      <div className="group">
-        <Switch
-          id="surgical-only"
-          label="Surgical centers only"
-          checked={surgicalOnly}
-          onChange={setSurgicalOnly}
-        />
-      </div>
+
 
       <div className="group-label">Search Results</div>
 
@@ -245,7 +226,9 @@ export default function Surgeries() {
       ))}
 
       {!loading && visible.length === 0 && !error && (
-        <p className="empty">No surgical centers found. Try another state or turn off the filter.</p>
+        <p className="empty">
+          No centers found. Try a wider range, another state, or a different country.
+        </p>
       )}
 
       <p className="muted disclaimer">

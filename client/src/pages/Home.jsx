@@ -28,10 +28,10 @@ const RANGE_BOUNDS = {
 export default function Home() {
   const [location, setLocation] = useState(null);
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("cafe");
+  const [category, setCategory] = useState("gas");
   const [unit, setUnit] = useState("mi");
   const [range, setRange] = useState(6);
-  const [filters, setFilters] = useState({ unisex: false, ada: false });
+  const [filters, setFilters] = useState({ unisex: true, ada: false });
   const [places, setPlaces] = useState([]);
   const [restrooms, setRestrooms] = useState([]);
   const [cei, setCei] = useState({ entries: [], maxScore: 100 });

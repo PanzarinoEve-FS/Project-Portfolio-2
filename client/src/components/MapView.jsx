@@ -19,8 +19,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-// MapContainer ignores `center` after the first render, so re-centring on new
-// search results needs this helper inside the map's context.
+// MapContainer ignores `center` after the first render
+//  so re-centering on new search results needs this helper inside the map's context.
 function Recenter({ center, zoom }) {
   const map = useMap();
 
@@ -32,9 +32,8 @@ function Recenter({ center, zoom }) {
 }
 
 export default function MapView({ center = [41.8781, -87.6298], zoom = 13, markers = [] }) {
-  // No zoom buttons: Leaflet anchors them to a map corner, and every corner
-  // is either under the sidebar or under the detail panel. Scroll, pinch,
-  // double-tap and keyboard +/- all still zoom.
+  // No zoom buttons: Leaflet anchors them to a map corner, and every corner is either under the sidebar or under the detail panel. 
+  // Scroll, pinch, double-tap and keyboard +/- all still zoom
   return (
     <MapContainer center={center} zoom={zoom} scrollWheelZoom zoomControl={false} className="map">
       <TileLayer
