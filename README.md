@@ -1,6 +1,6 @@
 # Project-Portfolio-2
 
-# 1.2 Overview: Main Portfolio Project
+# Milestone 1
 ``` Due Mon, Sep 7, 2026 @ 11:59 PM EDT•0% weight ```
 
 ## ASSIGNMENT - ACTIVITY
@@ -90,7 +90,7 @@ React Leaflet: Library — [Click to go to their website with more documentation
 
 MERN: **M**ongoDB, **E**xpress, **R**eact, **N**ode.
 
-## Milestone 2
+# Milestone 2
 
 Milestones occur at the end of each week to help you keep on track with finishing your main project on time
 
