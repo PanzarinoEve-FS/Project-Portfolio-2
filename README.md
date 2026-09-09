@@ -152,13 +152,21 @@ Update your Readme file with your progress so far.
 Successful completion of this milestone will show that you can…
 
 - Maintain, manage, and iterate code within a project repository
+  
 I started with the APIs and integrated them into the search functionality and using the Leaflet Maps Library to render the maps in the app. I figure I can figure out something for the Recharts library. Another thing I was thinking of is creating a heat map for the safest areas of town for an LGBTQIA+ person.
+
 - Update documentation using markdown syntax
+  
 Doing so.
+
 - Manage projects using modern development practices
+  
 I used a design system in figma and recreated an apple maps interface using the design system.
+
 - Utilize React Routing to create a working navigation
+  
 I have react router installed and I have the following pages at the moment:
+
 - Search > Home > Business search LGBTQIA+ Safety
 - Surgeries > Need to download all the data from the r/trans_surgeries
 - Services > Need to ask friends for reccomendations and log those businesses as LGBTQIA+ friendly
