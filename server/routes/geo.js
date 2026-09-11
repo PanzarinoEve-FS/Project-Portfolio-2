@@ -2,8 +2,6 @@ import express from 'express';
 
 const router = express.Router();
 
-// GET /api/geo/me -> approximate location from the caller's IP address.
-// Proxied through the server so the browser never talks to GeoJS directly.
 router.get('/me', async (req, res) => {
   try {
     const response = await fetch('https://get.geojs.io/v1/ip/geo.json');

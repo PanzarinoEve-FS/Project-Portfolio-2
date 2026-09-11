@@ -10,6 +10,8 @@ import restroomsRoutes from './routes/restrooms.js';
 import businessRoutes from './routes/businesses.js';
 import ceiRoutes from './routes/cei.js';
 import osmRoutes from './routes/osm.js';
+import redditRoutes from './routes/reddit.js';
+import surgeonRoutes from './routes/surgeons.js';
 
 const app = express();
 const PORT = process.env.PORT || 5050;
@@ -26,6 +28,8 @@ app.use('/api/restrooms', restroomsRoutes);
 app.use('/api/businesses', businessRoutes);
 app.use('/api/cei', ceiRoutes);
 app.use('/api/osm', osmRoutes);
+app.use('/api/reddit', redditRoutes);
+app.use('/api/surgeons', surgeonRoutes);
 
 app.use((req, res) => res.status(404).json({ error: 'Route not found' }));
 

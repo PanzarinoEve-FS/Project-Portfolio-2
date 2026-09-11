@@ -1,23 +1,54 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
+import CEI from '../models/CEI.js';
+
 const router = express.Router();
 
-// The dataset is small and changes about once a year, so it is read once at
-// startup and served whole. The client matches business names against it
-// locally, which avoids one request per business on a map full of results.
 const dataPath = fileURLToPath(new URL('../data/cei.json', import.meta.url));
-const cei = JSON.parse(readFileSync(dataPath, 'utf8'));
+const seed = JSON.parse(readFileSync(dataPath, 'utf8'));
 
-// GET /api/cei -> the whole Corporate Equality Index seed set
-router.get('/', (req, res) => {
+const live = () => mongoose.connection.readyState === 1;
+
+const fromFile = (entry) =>
+  Object.fromEntries(Object.entries(entry).filter(([k]) => !k.startsWith('_')));
+
+const meta = {
+  index: seed.index,
+  publisher: seed.publisher,
+  edition: seed.edition,
+  checkedOn: seed.checkedOn,
+  maxScore: seed.maxScore,
+};
+
+router.get('/', async (req, res) => {
   res.set('Cache-Control', 'public, max-age=86400');
+
+  try {
+    if (live()) {
+      const entries = await CEI.find(
+        {},
+
+        { _id: 0, __v: 0, anchorNote: 0, brandsNote: 0, createdAt: 0, updatedAt: 0 }
+      )
+        .sort({ company: 1 })
+        .lean();
+
+      if (entries.length) {
+        return res.json({ ...meta, total: entries.length, entries, store: 'mongodb' });
+      }
+    }
+  } catch (err) {
+    console.error('CEI query failed, falling back to the seed file:', err.message);
+  }
+
   res.json({
-    index: cei.index,
-    publisher: cei.publisher,
-    maxScore: cei.maxScore,
-    entries: cei.entries.map(({ _brandsNote, ...entry }) => entry),
+    ...meta,
+    total: seed.entries.length,
+    entries: seed.entries.map(fromFile),
+    store: 'seed-file',
   });
 });
 

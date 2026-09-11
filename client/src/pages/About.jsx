@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { getMyLocation } from "../api/client.js";
-import MapShell from "../components/MapShell.jsx";
+import MapShell from "../components/Map/MapShell.jsx";
 import { useIsCompact } from "../hooks/useMediaQuery.js";
 
 export default function About() {
@@ -14,8 +14,6 @@ export default function About() {
       .catch(() => {});
   }, []);
 
-  // Rendered in the detail column on a wide screen, or inside the sidebar
-  // on a phone where that column would cover the panel entirely.
   const body = (
     <div className="prose panel-prose">
       <h2>Where each rating comes from</h2>
@@ -34,10 +32,12 @@ export default function About() {
 
       <h3>Community reviews</h3>
       <p>
-        The five stats on a business profile - bathroom access, acceptance,
-        staff friendliness, safety and overall - come from people who chose to
-        submit them. A profile with two reviews is showing you two opinions, not
-        a verdict.
+        A review is a star rating out of five, plus two yes/no answers: whether
+        the restroom is gender-neutral and whether it is wheelchair accessible.
+        Those two are counted, not averaged, so a profile says how many people
+        reported each rather than scoring it. All of it comes from people who
+        chose to submit it -- a profile with two reviews is showing you two
+        opinions, not a verdict.
       </p>
 
       <h3>Documented restrooms</h3>

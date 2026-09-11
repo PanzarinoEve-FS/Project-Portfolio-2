@@ -1,15 +1,14 @@
 import MapView from './MapView.jsx';
-import PrideFlag from './PrideFlag.jsx';
-import MapNav from './MapNav.jsx';
+import PrideFlag from '../Assets/PrideFlag.jsx';
+import MapNav from '../Navigation/MapNav.jsx';
 
-// The layout every map view shares: a full-bleed map with the sidebar
-// floating over it, the way an iPadOS split view works.
 export default function MapShell({
   title,
   subtitle,
   center,
   zoom = 12,
   markers = [],
+  cluster = false,
   search = null,
   detail = null,
   children,
@@ -17,14 +16,13 @@ export default function MapShell({
   return (
     <div className="app">
       <div className="map-layer">
-        <MapView center={center} zoom={zoom} markers={markers} />
+        <MapView center={center} zoom={zoom} markers={markers} cluster={cluster} />
       </div>
 
       <MapNav />
 
       <aside className="sidebar">
-        {/* The blur lives on its own layer so it cannot scroll or spill past
-            the rounded corner. */}
+
         <div className="sidebar-glass" aria-hidden="true" />
 
         <div className="sidebar-body">
@@ -43,7 +41,6 @@ export default function MapShell({
         </div>
       </aside>
 
-      {/* Profile column, sitting between the sidebar and the map. */}
       {detail && <div className="detail">{detail}</div>}
     </div>
   );

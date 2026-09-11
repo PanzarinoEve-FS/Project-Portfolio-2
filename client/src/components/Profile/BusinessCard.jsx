@@ -3,7 +3,15 @@ import { Link } from 'react-router-dom';
 import BathroomAccess from './BathroomAccess.jsx';
 import CEIScore from './CEIScore.jsx';
 
-export default function BusinessCard({ business, nearestRestroom, unit = 'km', cei }) {
+export default function BusinessCard({
+  business,
+  nearestRestroom,
+  unit = 'km',
+  cei,
+  to = '/business',
+  beyondCoverage = false,
+  coverageLabel,
+}) {
   const reviewCount = business.reviews?.length ?? 0;
   const overall = business.averages?.overall;
 
@@ -18,9 +26,11 @@ export default function BusinessCard({ business, nearestRestroom, unit = 'km', c
       <p className="address">{business.address}</p>
 
       <BathroomAccess
-        score={business.averages?.bathroomAccess}
+        averages={business.averages}
         reviewCount={reviewCount}
         nearestRestroom={nearestRestroom}
+        beyondCoverage={beyondCoverage}
+        coverageLabel={coverageLabel}
         unit={unit}
       />
 
@@ -30,7 +40,7 @@ export default function BusinessCard({ business, nearestRestroom, unit = 'km', c
         <span className="muted">
           {reviewCount === 0 ? 'No reviews yet' : `${reviewCount} review${reviewCount === 1 ? '' : 's'}`}
         </span>
-        <Link to={`/business/${encodeURIComponent(business.osmId)}`}>View profile</Link>
+        <Link to={`${to}/${encodeURIComponent(business.osmId)}`}>View profile</Link>
       </div>
     </article>
   );

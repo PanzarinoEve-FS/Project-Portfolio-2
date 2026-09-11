@@ -1,81 +1,1418 @@
 {
-  "_about": "Human Rights Campaign Corporate Equality Index scores. HRC publishes no API or dataset, so these are transcribed by hand from the per-company pages linked in each entry's `source`. The CEI rates a COMPANY's workplace policies for its own employees -- it is not a rating of how a particular storefront treats customers. An unverified score means the company did not submit a survey that year, so the number is HRC's own assessment rather than a confirmed one.",
+  "_about": "Human Rights Campaign Corporate Equality Index scores. HRC publishes no API or dataset, so these are read from the per-company pages linked in each entry's `source`. The CEI rates a COMPANY's workplace policies for its own employees -- it is not a rating of how a particular storefront treats customers. An unverified score means the company did not submit a survey that year, so the number is HRC's own assessment rather than a confirmed one.",
+  "_coverage": "Only companies with storefronts a map search can actually return are listed; a packaged-goods or airline entry could never match an OpenStreetMap business name. Many large chains are absent because HRC does not rate them at all -- the index skews toward public companies, so privately held and heavily franchised chains (Chick-fil-A, In-N-Out, Trader Joe's, Aldi, Wegmans, H-E-B, Subway, Sheetz, QuikTrip, Circle K, Five Guys, Dairy Queen and others) have no CEI score to show. A business with no match here is unrated, which is not the same as scoring badly.",
+  "_notInHere": "Hospitals and clinics are rated by HRC's separate Healthcare Equality Index, which scores how a facility treats LGBTQ+ PATIENTS -- including transgender-inclusive healthcare benefits -- rather than how a company treats its employees. Those scores are a different index and are not mixed in here.",
   "index": "Corporate Equality Index",
   "publisher": "Human Rights Campaign Foundation",
+  "edition": 2026,
+  "checkedOn": "2026-09-11",
   "maxScore": 100,
   "entries": [
     {
-      "company": "Starbucks Corp.",
+      "company": "Advance Auto Parts (Advance Holding)",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Advance Auto Parts"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/advance-auto-parts-advance-holding"
+    },
+    {
+      "company": "Ahold Delhaize USA (ADUSA)",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Stop & Shop",
+        "Food Lion",
+        "Giant Food",
+        "Hannaford",
+        "Martin's"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/ahold-delhaize-usa-adusa"
+    },
+    {
+      "company": "Albertsons Companies Inc.",
+      "score": 45,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Albertsons",
+        "Safeway",
+        "Vons",
+        "Jewel-Osco",
+        "Acme Markets",
+        "Shaw's",
+        "Star Market",
+        "Randalls",
+        "Tom Thumb",
+        "Pavilions",
+        "Haggen"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/albertsons-companies-inc."
+    },
+    {
+      "company": "Amazon.com Inc.",
       "score": 100,
       "year": 2026,
       "verified": true,
-      "brands": ["Starbucks"],
-      "source": "https://www.hrc.org/resources/corporations/starbucks-corp."
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Amazon Fresh",
+        "Amazon Go"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/amazon.com-inc."
+    },
+    {
+      "company": "Apple Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Computer Hardware and Office Equipment",
+      "brands": [
+        "Apple Store"
+      ],
+      "anchoredBrands": [
+        "Apple"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/apple-inc."
+    },
+    {
+      "company": "AT&T Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Telecommunications",
+      "brands": [
+        "AT&T Store",
+        "AT&T"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/at-t-inc."
+    },
+    {
+      "company": "AutoZone Inc.",
+      "score": 50,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "AutoZone"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/autozone-inc."
+    },
+    {
+      "company": "Bank of America Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Banking and Financial Services",
+      "brands": [
+        "Bank of America",
+        "Merrill"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/bank-of-america-corp."
+    },
+    {
+      "company": "Barnes & Noble Inc.",
+      "score": 55,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Barnes & Noble"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/barnes-noble-inc."
+    },
+    {
+      "company": "Bath & Body Works LLC",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Bath & Body Works"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/bath-body-works-llc"
+    },
+    {
+      "company": "Best Buy Co. Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Best Buy"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/best-buy-co.-inc."
+    },
+    {
+      "company": "BP America Inc.",
+      "score": 95,
+      "year": 2026,
+      "verified": false,
+      "industry": "Oil and Gas",
+      "brands": [
+        "BP",
+        "Amoco",
+        "ampm"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/bp-america-inc."
+    },
+    {
+      "company": "Brinker International Inc.",
+      "score": 40,
+      "year": 2026,
+      "verified": false,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Chili's",
+        "Maggiano's"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/brinker-international-inc."
+    },
+    {
+      "company": "Capital One Financial Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Banking and Financial Services",
+      "brands": [
+        "Capital One"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/capital-one-financial-corp."
+    },
+    {
+      "company": "Caribou Coffee Company Inc.",
+      "score": 65,
+      "year": 2026,
+      "verified": true,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Caribou Coffee"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/caribou-coffee-company-inc."
+    },
+    {
+      "company": "Casey's General Stores Inc.",
+      "score": 5,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Casey's General Store",
+        "Casey's"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/caseys-general-stores-inc."
+    },
+    {
+      "company": "Charter Communications",
+      "score": 90,
+      "year": 2026,
+      "verified": false,
+      "industry": "Telecommunications",
+      "brands": [
+        "Spectrum"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/charter-communications"
+    },
+    {
+      "company": "Chevron Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Oil and Gas",
+      "brands": [
+        "Chevron",
+        "Texaco"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/chevron-corp."
     },
     {
       "company": "Chipotle Mexican Grill Inc.",
       "score": 100,
       "year": 2026,
       "verified": true,
-      "brands": ["Chipotle"],
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Chipotle"
+      ],
       "source": "https://www.hrc.org/resources/corporations/chipotle-mexican-grill-inc."
+    },
+    {
+      "company": "Choice Hotels International Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Hotels, Resorts and Casinos",
+      "brands": [
+        "Comfort Inn",
+        "Comfort Suites",
+        "Quality Inn",
+        "Sleep Inn",
+        "Clarion",
+        "Econo Lodge",
+        "Rodeway Inn",
+        "MainStay Suites",
+        "Cambria Hotel"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/choice-hotels-international-inc."
+    },
+    {
+      "company": "Cigna Group, The",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Healthcare",
+      "brands": [
+        "Cigna",
+        "Evernorth"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/cigna-group-the"
+    },
+    {
+      "company": "Citigroup Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Banking and Financial Services",
+      "brands": [
+        "Citibank",
+        "Citigroup"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/citigroup-inc."
+    },
+    {
+      "company": "Comcast NBCUniversal",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Telecommunications",
+      "brands": [
+        "Xfinity"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/comcast-nbcuniversal"
+    },
+    {
+      "company": "Costco Wholesale Corp.",
+      "score": 25,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Costco"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/costco-wholesale-corp."
+    },
+    {
+      "company": "Cracker Barrel Old Country Store Inc.",
+      "score": 30,
+      "year": 2026,
+      "verified": false,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Cracker Barrel"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/cracker-barrel-old-country-store-inc."
     },
     {
       "company": "CVS Health Corp.",
       "score": 100,
       "year": 2026,
       "verified": true,
-      "brands": ["CVS"],
+      "industry": "Healthcare",
+      "brands": [
+        "CVS",
+        "CVS Pharmacy",
+        "MinuteClinic"
+      ],
       "source": "https://www.hrc.org/resources/corporations/cvs-health-corp."
-    },
-    {
-      "company": "Marriott International Inc.",
-      "score": 100,
-      "year": 2026,
-      "verified": true,
-      "brands": ["Marriott"],
-      "source": "https://www.hrc.org/resources/corporations/marriott-international-inc."
-    },
-    {
-      "company": "Target Corp.",
-      "score": 100,
-      "year": 2026,
-      "verified": false,
-      "brands": [],
-      "anchoredBrands": ["Target"],
-      "_anchorNote": "Target is a common English word, so it only matches at the start of a name. Otherwise 'On Target Fitness' would match.",
-      "source": "https://www.hrc.org/resources/corporations/target-corp."
-    },
-    {
-      "company": "Walmart Inc.",
-      "score": 100,
-      "year": 2026,
-      "verified": false,
-      "brands": ["Walmart"],
-      "source": "https://www.hrc.org/resources/corporations/walmart-inc."
     },
     {
       "company": "Darden Restaurants Inc.",
       "score": 100,
       "year": 2026,
       "verified": false,
+      "industry": "Food, Beverages and Groceries",
       "brands": [
         "Olive Garden",
         "LongHorn Steakhouse",
         "Bahama Breeze",
         "Seasons 52",
-        "The Capital Grille"
+        "The Capital Grille",
+        "Yard House",
+        "Cheddar's Scratch Kitchen",
+        "Ruth's Chris"
       ],
       "_brandsNote": "HRC's page also lists Red Lobster, but Darden sold that chain in 2014, so it is deliberately excluded here.",
       "source": "https://www.hrc.org/resources/corporations/darden-restaurants-inc."
+    },
+    {
+      "company": "DaVita Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Healthcare",
+      "brands": [
+        "DaVita"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/davita-inc."
+    },
+    {
+      "company": "Deere & Co.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Manufacturing",
+      "brands": [
+        "John Deere"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/deere-co."
+    },
+    {
+      "company": "Denny's Corp.",
+      "score": 90,
+      "year": 2026,
+      "verified": false,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Denny's"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/dennys-corp."
+    },
+    {
+      "company": "Dick's Sporting Goods, Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Dick's Sporting Goods"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/dicks-sporting-goods-inc."
+    },
+    {
+      "company": "Dollar General Corp.",
+      "score": 80,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Dollar General",
+        "pOpshelf"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/dollar-general-corp."
+    },
+    {
+      "company": "Dollar Tree, Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Dollar Tree",
+        "Family Dollar"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/dollar-tree-inc."
+    },
+    {
+      "company": "Domino's Pizza Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Domino's"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/dominos-pizza-inc."
+    },
+    {
+      "company": "Elevance Health",
+      "score": 95,
+      "year": 2026,
+      "verified": false,
+      "industry": "Healthcare",
+      "brands": [
+        "Elevance",
+        "Anthem Blue Cross",
+        "Carelon"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/elevance-health"
+    },
+    {
+      "company": "Exxon Mobil Corp.",
+      "score": 75,
+      "year": 2026,
+      "verified": true,
+      "industry": "Oil and Gas",
+      "brands": [
+        "Exxon",
+        "Mobil",
+        "Esso",
+        "ExxonMobil"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/exxon-mobil-corp."
+    },
+    {
+      "company": "FedEx Corp.",
+      "score": 85,
+      "year": 2026,
+      "verified": false,
+      "industry": "Mail and Freight Delivery",
+      "brands": [
+        "FedEx Office",
+        "FedEx Ship Center",
+        "FedEx"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/fedex-corp."
+    },
+    {
+      "company": "Fifth Third Bancorp",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Banking and Financial Services",
+      "brands": [
+        "Fifth Third Bank",
+        "Fifth Third"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/fifth-third-bancorp"
+    },
+    {
+      "company": "Ford Motor Co.",
+      "score": 85,
+      "year": 2026,
+      "verified": false,
+      "industry": "Automotive",
+      "brands": [
+        "Ford",
+        "Lincoln Dealer"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/ford-motor-co."
+    },
+    {
+      "company": "Fresenius Kabi Usa, LLC",
+      "score": 65,
+      "year": 2026,
+      "verified": false,
+      "industry": "Healthcare",
+      "brands": [
+        "Fresenius Kidney Care",
+        "Fresenius Medical"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/fresenius-kabi-usa-llc"
+    },
+    {
+      "company": "Gap Inc.",
+      "score": 80,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Athleta",
+        "Banana Republic",
+        "Old Navy"
+      ],
+      "anchoredBrands": [
+        "Gap"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/gap-inc.",
+      "_anchorNote": "Gap is an ordinary English word, so it only matches at the start of a name. 'The Gap' was tried as a plain brand and made 'Mind the Gap Cafe' match, so the anchored rule stands."
+    },
+    {
+      "company": "General Motors Co.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Automotive",
+      "brands": [
+        "Chevrolet",
+        "Buick",
+        "GMC",
+        "Cadillac"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/general-motors-co."
+    },
+    {
+      "company": "Giant Eagle Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Giant Eagle",
+        "GetGo"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/giant-eagle-inc."
+    },
+    {
+      "company": "Harley-Davidson Inc.",
+      "score": 35,
+      "year": 2026,
+      "verified": false,
+      "industry": "Automotive",
+      "brands": [
+        "Harley-Davidson"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/harley-davidson-inc."
+    },
+    {
+      "company": "HILTON",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Hotels, Resorts and Casinos",
+      "brands": [
+        "Hilton",
+        "Hampton Inn",
+        "DoubleTree",
+        "Embassy Suites",
+        "Homewood Suites",
+        "Home2 Suites",
+        "Tru by Hilton",
+        "Waldorf Astoria",
+        "Conrad",
+        "Canopy",
+        "Curio"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/hilton"
+    },
+    {
+      "company": "Home Depot Inc., The",
+      "score": 45,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Home Depot"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/home-depot-inc.-the"
+    },
+    {
+      "company": "Humana Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Healthcare",
+      "brands": [
+        "Humana",
+        "CenterWell"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/humana-inc."
+    },
+    {
+      "company": "Hyatt Hotels Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Hotels, Resorts and Casinos",
+      "brands": [
+        "Hyatt",
+        "Andaz",
+        "Thompson Hotel",
+        "Alila"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/hyatt-hotels-corp."
+    },
+    {
+      "company": "IHG Hotels & Resorts",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Hotels, Resorts and Casinos",
+      "brands": [
+        "Holiday Inn",
+        "Crowne Plaza",
+        "Candlewood Suites",
+        "Staybridge Suites",
+        "Kimpton",
+        "InterContinental",
+        "Hotel Indigo",
+        "Avid Hotel"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/ihg-hotels-resorts"
+    },
+    {
+      "company": "IKEA Holding US Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "IKEA"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/ikea-holding-us-inc."
+    },
+    {
+      "company": "JPMorgan Chase & Co.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Banking and Financial Services",
+      "brands": [
+        "JPMorgan Chase",
+        "Chase Bank"
+      ],
+      "anchoredBrands": [
+        "Chase"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/jpmorgan-chase-co."
+    },
+    {
+      "company": "Kaiser Permanente",
+      "score": 90,
+      "year": 2026,
+      "verified": false,
+      "industry": "Healthcare",
+      "brands": [
+        "Kaiser Permanente"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/kaiser-permanente"
+    },
+    {
+      "company": "KeyCorp",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Banking and Financial Services",
+      "brands": [
+        "KeyBank"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/keycorp"
+    },
+    {
+      "company": "Kohl's Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Kohl's"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/kohls-corp."
+    },
+    {
+      "company": "Krispy Kreme Doughnut Corporation",
+      "score": 75,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Krispy Kreme"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/krispy-kreme-doughnut-corporation"
+    },
+    {
+      "company": "Kroger Co., The",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Kroger",
+        "Ralphs",
+        "Fred Meyer",
+        "King Soopers",
+        "Smith's",
+        "Fry's",
+        "QFC",
+        "Harris Teeter",
+        "Dillons",
+        "Mariano's",
+        "Pick 'n Save",
+        "Food 4 Less"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/kroger-co.-the"
+    },
+    {
+      "company": "Laboratory Corporation of America Holdings",
+      "score": 85,
+      "year": 2026,
+      "verified": false,
+      "industry": "Healthcare",
+      "brands": [
+        "Labcorp",
+        "LabCorp"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/laboratory-corporation-of-america-holdings"
+    },
+    {
+      "company": "Levi Strauss & Co.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Apparel, Fashion, Textiles, Dept. Stores",
+      "brands": [
+        "Levi's",
+        "Levi Strauss"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/levi-strauss-co."
+    },
+    {
+      "company": "Lowe's Companies Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Lowe's"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/lowes-companies-inc."
+    },
+    {
+      "company": "Lululemon Athletica Inc.",
+      "score": 5,
+      "year": 2026,
+      "verified": false,
+      "industry": "Apparel, Fashion, Textiles, Dept. Stores",
+      "brands": [
+        "Lululemon"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/lululemon-athletica-inc."
+    },
+    {
+      "company": "LVMH North America",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Sephora"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/lvmh-north-america"
+    },
+    {
+      "company": "Macy's Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Macy's",
+        "Bloomingdale's"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/macys-inc."
+    },
+    {
+      "company": "Marathon Petroleum Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Oil and Gas",
+      "brands": [
+        "Marathon",
+        "ARCO"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/marathon-petroleum-corp."
+    },
+    {
+      "company": "Marriott International Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Hotels, Resorts and Casinos",
+      "brands": [
+        "Marriott",
+        "Courtyard",
+        "Residence Inn",
+        "Fairfield Inn",
+        "SpringHill Suites",
+        "TownePlace Suites",
+        "Sheraton",
+        "Westin",
+        "Ritz-Carlton",
+        "St. Regis",
+        "Aloft",
+        "Moxy",
+        "AC Hotel",
+        "Renaissance Hotel",
+        "Gaylord"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/marriott-international-inc."
+    },
+    {
+      "company": "McDonald's Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "McDonald's",
+        "McDonalds"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/mcdonalds-corp."
+    },
+    {
+      "company": "Meijer Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Meijer"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/meijer-inc."
+    },
+    {
+      "company": "Michaels Companies Inc., The",
+      "score": 85,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Michaels Store",
+        "Michaels Arts"
+      ],
+      "anchoredBrands": [
+        "Michaels"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/michaels-companies-inc.-the"
+    },
+    {
+      "company": "Microsoft Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Computer Software",
+      "brands": [
+        "Microsoft Store"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/microsoft-corp."
+    },
+    {
+      "company": "Murphy USA",
+      "score": 5,
+      "year": 2026,
+      "verified": false,
+      "industry": "Oil and Gas",
+      "brands": [
+        "Murphy USA",
+        "Murphy Express"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/murphy-usa"
+    },
+    {
+      "company": "Nike Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Apparel, Fashion, Textiles, Dept. Stores",
+      "brands": [
+        "Nike",
+        "Converse"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/nike-inc."
+    },
+    {
+      "company": "Nordstrom Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Nordstrom",
+        "Nordstrom Rack"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/nordstrom-inc."
+    },
+    {
+      "company": "O'Reilly Automotive Inc.",
+      "score": 5,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "O'Reilly Auto Parts"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/oreilly-automotive-inc."
+    },
+    {
+      "company": "Panera Bread Co.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Panera Bread",
+        "Panera"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/panera-bread-co."
+    },
+    {
+      "company": "Papa John's International Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Papa John's"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/papa-johns-international-inc."
+    },
+    {
+      "company": "Petco Health & Wellness, Inc.",
+      "score": 95,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Petco"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/petco-health-wellness-inc."
+    },
+    {
+      "company": "PetSmart LLC",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "PetSmart"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/petsmart-llc"
+    },
+    {
+      "company": "Phillips 66",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Oil and Gas",
+      "brands": [
+        "Phillips 66",
+        "Conoco",
+        "76 Gas"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/phillips-66"
+    },
+    {
+      "company": "PNC Financial Services Group Inc., The",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Banking and Financial Services",
+      "brands": [
+        "PNC Bank",
+        "PNC"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/pnc-financial-services-group-inc.-the"
     },
     {
       "company": "Publix Super Markets Inc.",
       "score": 0,
       "year": 2026,
       "verified": false,
-      "brands": ["Publix"],
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Publix"
+      ],
       "source": "https://www.hrc.org/resources/corporations/publix-super-markets-inc."
+    },
+    {
+      "company": "Quest Diagnostics Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Healthcare",
+      "brands": [
+        "Quest Diagnostics"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/quest-diagnostics-inc."
+    },
+    {
+      "company": "Ralph Lauren Corp.",
+      "score": 95,
+      "year": 2026,
+      "verified": true,
+      "industry": "Apparel, Fashion, Textiles, Dept. Stores",
+      "brands": [
+        "Ralph Lauren",
+        "Polo Ralph Lauren"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/ralph-lauren-corp."
+    },
+    {
+      "company": "Regions Financial Corp.",
+      "score": 60,
+      "year": 2026,
+      "verified": false,
+      "industry": "Banking and Financial Services",
+      "brands": [
+        "Regions Bank"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/regions-financial-corp."
+    },
+    {
+      "company": "Restaurant Brands International",
+      "score": 85,
+      "year": 2026,
+      "verified": false,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Burger King",
+        "Popeyes",
+        "Firehouse Subs"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/restaurant-brands-international"
+    },
+    {
+      "company": "Rite Aid Corp.",
+      "score": 55,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Rite Aid"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/rite-aid-corp."
+    },
+    {
+      "company": "Shake Shack Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Shake Shack"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/shake-shack-inc."
+    },
+    {
+      "company": "Shell USA, Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Oil and Gas",
+      "brands": [
+        "Shell Gas",
+        "Shell Station"
+      ],
+      "anchoredBrands": [
+        "Shell"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/shell-usa-inc."
+    },
+    {
+      "company": "Sprouts Farmers Market",
+      "score": 5,
+      "year": 2026,
+      "verified": false,
+      "industry": "Food and Drug Stores",
+      "brands": [
+        "Sprouts Farmers Market",
+        "Sprouts"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/sprouts-farmers-market"
+    },
+    {
+      "company": "Starbucks Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Starbucks"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/starbucks-corp."
+    },
+    {
+      "company": "T-Mobile USA Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Telecommunications",
+      "brands": [
+        "T-Mobile",
+        "Metro by T-Mobile"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/t-mobile-usa-inc."
+    },
+    {
+      "company": "Target Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [],
+      "anchoredBrands": [
+        "Target"
+      ],
+      "_anchorNote": "Target is a common English word, so it only matches at the start of a name. Otherwise 'On Target Fitness' would match.",
+      "source": "https://www.hrc.org/resources/corporations/target-corp."
+    },
+    {
+      "company": "Tesla Inc.",
+      "score": 55,
+      "year": 2026,
+      "verified": false,
+      "industry": "Automotive",
+      "brands": [
+        "Tesla"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/tesla-inc."
+    },
+    {
+      "company": "TJX Companies Inc., The",
+      "score": 45,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "TJ Maxx",
+        "T.J. Maxx",
+        "Marshalls",
+        "HomeGoods",
+        "HomeSense",
+        "Sierra"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/tjx-companies-inc.-the"
+    },
+    {
+      "company": "Toyota North America",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Automotive",
+      "brands": [
+        "Toyota",
+        "Lexus"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/toyota-north-america"
+    },
+    {
+      "company": "Tractor Supply Company",
+      "score": 80,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Tractor Supply"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/tractor-supply-company"
+    },
+    {
+      "company": "Truist Financial",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Banking and Financial Services",
+      "brands": [
+        "Truist"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/truist-financial"
+    },
+    {
+      "company": "U.S. Bancorp",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Banking and Financial Services",
+      "brands": [
+        "U.S. Bank",
+        "US Bank"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/u.s.-bancorp"
+    },
+    {
+      "company": "Ulta Salon, Cosmetics & Fragrance",
+      "score": 90,
+      "year": 2026,
+      "verified": true,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Ulta Beauty",
+        "Ulta"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/ulta-salon-cosmetics-fragrance"
+    },
+    {
+      "company": "Under Armour Inc.",
+      "score": 85,
+      "year": 2026,
+      "verified": false,
+      "industry": "Apparel, Fashion, Textiles, Dept. Stores",
+      "brands": [
+        "Under Armour"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/under-armour-inc."
+    },
+    {
+      "company": "United Parcel Service Inc.",
+      "score": 85,
+      "year": 2026,
+      "verified": false,
+      "industry": "Mail and Freight Delivery",
+      "brands": [
+        "The UPS Store",
+        "UPS Store"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/united-parcel-service-inc."
+    },
+    {
+      "company": "UnitedHealth Group Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Healthcare",
+      "brands": [
+        "UnitedHealthcare",
+        "Optum"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/unitedhealth-group-inc."
+    },
+    {
+      "company": "Valero Energy Corp.",
+      "score": 30,
+      "year": 2026,
+      "verified": false,
+      "industry": "Oil and Gas",
+      "brands": [
+        "Valero"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/valero-energy-corp."
+    },
+    {
+      "company": "Verizon Communications Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Telecommunications",
+      "brands": [
+        "Verizon"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/verizon-communications-inc."
+    },
+    {
+      "company": "VF Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Apparel, Fashion, Textiles, Dept. Stores",
+      "brands": [
+        "Vans",
+        "The North Face",
+        "Timberland",
+        "Dickies"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/vf-corp."
+    },
+    {
+      "company": "Walgreen Co.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Walgreens",
+        "Duane Reade"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/walgreen-co."
+    },
+    {
+      "company": "Walmart Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Walmart",
+        "Sam's Club"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/walmart-inc."
+    },
+    {
+      "company": "Wawa Inc.",
+      "score": 95,
+      "year": 2026,
+      "verified": false,
+      "industry": "Retail and Consumer Products",
+      "brands": [
+        "Wawa"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/wawa-inc."
+    },
+    {
+      "company": "Wells Fargo & Co.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Banking and Financial Services",
+      "brands": [
+        "Wells Fargo"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/wells-fargo-co."
+    },
+    {
+      "company": "Wendy's Co., The",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Wendy's"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/wendys-co.-the"
+    },
+    {
+      "company": "Wiley Rein LLP",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "industry": "Law Firms",
+      "brands": [
+        "REI"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/wiley-rein-llp"
+    },
+    {
+      "company": "Williams-Sonoma Inc.",
+      "score": 90,
+      "year": 2026,
+      "verified": false,
+      "industry": "Home Furnishing",
+      "brands": [
+        "Williams Sonoma",
+        "Pottery Barn",
+        "West Elm"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/williams-sonoma-inc."
+    },
+    {
+      "company": "Wyndham Hotels & Resorts Inc.",
+      "score": 65,
+      "year": 2026,
+      "verified": false,
+      "industry": "Hotels, Resorts and Casinos",
+      "brands": [
+        "Days Inn",
+        "Super 8",
+        "Ramada",
+        "Baymont",
+        "La Quinta",
+        "Microtel",
+        "Travelodge",
+        "Howard Johnson",
+        "Wingate",
+        "AmericInn",
+        "Wyndham"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/wyndham-hotels-resorts-inc."
+    },
+    {
+      "company": "Yum! Brands Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "industry": "Food, Beverages and Groceries",
+      "brands": [
+        "Taco Bell",
+        "KFC",
+        "Pizza Hut",
+        "Habit Burger"
+      ],
+      "source": "https://www.hrc.org/resources/corporations/yum-brands-inc."
     }
   ]
 }

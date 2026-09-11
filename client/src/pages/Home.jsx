@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import PlaceDetail from "../components/Profile/PlaceDetail.jsx";
 
 import {
   getMyLocation,
@@ -8,29 +9,32 @@ import {
   getRestrooms,
   getCEI,
 } from "../api/client.js";
-import { findNearestRestroom, toKm, fromKm } from "../utils/distance.js";
+import {
+  findNearestRestroom,
+  distanceInMetres,
+  toKm,
+  fromKm,
+} from "../utils/distance.js";
 import { matchCEI } from "../utils/cei.js";
 import { useDebouncedValue } from "../hooks/useDebouncedValue.js";
-import MapView from "../components/MapView.jsx";
-import BusinessCard from "../components/BusinessCard.jsx";
-import Switch from "../components/Switch.jsx";
-import SearchField from "../components/SearchField.jsx";
-import PrideFlag from "../components/PrideFlag.jsx";
-import MapNav from "../components/MapNav.jsx";
+import MapView from "../components/Map/MapView.jsx";
+import BusinessCard from "../components/Profile/BusinessCard.jsx";
+import Switch from "../components/Apple Design Elements/Switch.jsx";
+import SearchField from "../components/Apple Design Elements/SearchField.jsx";
+import RangeControl from "../components/Apple Design Elements/RangeControl.jsx";
+import PrideFlag from "../components/Assets/PrideFlag.jsx";
+import MapNav from "../components/Navigation/MapNav.jsx";
 
 const CATEGORIES = ["gas", "cafe", "restaurant", "bar", "pharmacy", "clinic"];
 
-const RANGE_BOUNDS = {
-  km: { min: 1, max: 25, step: 1 },
-  mi: { min: 1, max: 15, step: 1 },
-};
-
 export default function Home() {
+
+  const { osmId } = useParams();
   const [location, setLocation] = useState(null);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("gas");
   const [unit, setUnit] = useState("mi");
-  const [range, setRange] = useState(6);
+  const [range, setRange] = useState(5);
   const [filters, setFilters] = useState({ unisex: true, ada: false });
   const [places, setPlaces] = useState([]);
   const [restrooms, setRestrooms] = useState([]);
@@ -38,8 +42,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Both the slider and the search box would otherwise fire a request per
-  // keystroke or per pixel, against Nominatim's one-per-second limit.
+  const [cappedKm, setCappedKm] = useState(null);
+
   const debouncedRange = useDebouncedValue(range, 500);
   const debouncedQuery = useDebouncedValue(query, 500);
   const radiusKm = toKm(debouncedRange, unit);
@@ -65,7 +69,6 @@ export default function Home() {
 
     const { lat, lng, city } = location;
 
-    // A typed query searches by name; an empty box browses the category.
     const lookup = debouncedQuery.trim()
       ? searchPlaces(debouncedQuery.trim(), city)
       : getNearbyPlaces({
@@ -90,6 +93,7 @@ export default function Home() {
         if (cancelled) return;
         setPlaces(found.results);
         setRestrooms(rooms);
+        setCappedKm(found.cappedAtKm ?? null);
       })
       .catch((err) => !cancelled && setError(err.message))
       .finally(() => !cancelled && setLoading(false));
@@ -106,32 +110,34 @@ export default function Home() {
     filters.ada,
   ]);
 
-  // Switching units keeps the real distance rather than the number, so 5km
-  // becomes ~3mi instead of jumping to 5mi.
-  function handleUnitChange(nextUnit) {
-    const bounds = RANGE_BOUNDS[nextUnit];
-    const snapped =
-      Math.round(fromKm(toKm(range, unit), nextUnit) / bounds.step) *
-      bounds.step;
+  const restroomReachKm =
+    location && restrooms.length
+      ? Math.max(...restrooms.map((r) => distanceInMetres(location, r))) / 1000
+      : 0;
+  const coverageLabel = restroomReachKm
+    ? `${Math.round(fromKm(restroomReachKm, unit))} ${unit}`
+    : null;
 
-    setUnit(nextUnit);
-    setRange(Math.min(bounds.max, Math.max(bounds.min, snapped)));
-  }
+  const enriched = places.map((place) => {
+    const nearestRestroom = findNearestRestroom(place, restrooms);
+    return {
+      place,
+      nearestRestroom,
 
-  const enriched = places.map((place) => ({
-    place,
-    nearestRestroom: findNearestRestroom(place, restrooms),
-    cei: matchCEI(place.name, cei.entries),
-  }));
+      beyondCoverage:
+        !nearestRestroom &&
+        Boolean(location) &&
+        restroomReachKm > 0 &&
+        distanceInMetres(location, place) / 1000 > restroomReachKm,
+      cei: matchCEI(place.name, cei.entries),
+    };
+  });
 
-  // The restroom list is already filtered server-side, so any match here
-  // satisfies the active filters. Drop places with no match when filtering.
   const filtersActive = filters.unisex || filters.ada;
   const visible = filtersActive
-    ? enriched.filter((e) => e.nearestRestroom)
+    ? enriched.filter((e) => e.nearestRestroom || e.beyondCoverage)
     : enriched;
 
-  const bounds = RANGE_BOUNDS[unit];
   const center = location ? [location.lat, location.lng] : [28.5978, -81.3024];
 
   return (
@@ -156,15 +162,16 @@ export default function Home() {
 
       <MapNav />
 
+      {osmId && (
+        <div className="detail">
+          <PlaceDetail osmId={osmId} backTo="/" backLabel="Back to search" />
+        </div>
+      )}
+
       <aside className="sidebar">
-        {/* The blur lives on its own layer. Safari paints a backdrop-filter as
-            a square that ignores border-radius, which spilled dark glass past
-            the flag's rounded corner; clip-path does apply to a filtered
-            layer, so the corner is cut here instead. */}
+
         <div className="sidebar-glass" aria-hidden="true" />
-        {/* Safari will not clip children to a rounded corner on an element
-            that also carries a backdrop-filter. This inner wrapper does the
-            clipping and the scrolling; the glass stays on the parent. */}
+
         <div className="sidebar-body">
           <PrideFlag />
 
@@ -175,8 +182,6 @@ export default function Home() {
             <small>Business Search</small>
           </div>
 
-          {/* Sticky on phones: the flag and title scroll away beneath this, and
-            the field pins once it reaches the top of the panel. */}
           <div className="search-dock">
             <SearchField
               value={query}
@@ -186,33 +191,20 @@ export default function Home() {
           </div>
 
           <div className="sidebar-scroll">
-            <div className="group">
-              <div className="group-label">Range</div>
-              <div className="range-row">
-                <input
-                  type="range"
-                  min={bounds.min}
-                  max={bounds.max}
-                  step={bounds.step}
-                  value={range}
-                  onChange={(e) => setRange(Number(e.target.value))}
-                  aria-label="Search range"
-                />
-                <span className="score">{range}</span>
-                <div className="segmented">
-                  {["km", "mi"].map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      className={option === unit ? "active" : ""}
-                      onClick={() => handleUnitChange(option)}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <RangeControl
+              range={range}
+              unit={unit}
+              onRangeChange={setRange}
+              onUnitChange={setUnit}
+            />
+
+            {cappedKm && (
+              <p className="muted">
+                OpenStreetMap will only answer a category search out to about{" "}
+                {Math.round(fromKm(cappedKm, unit))} {unit}, so that is how far
+                this searched.
+              </p>
+            )}
 
             <div className="group">
               <Switch
@@ -253,13 +245,15 @@ export default function Home() {
             {error && <p className="error">{error}</p>}
             {loading && <p className="muted">Loading...</p>}
 
-            {visible.map(({ place, nearestRestroom, cei: ceiMatch }) => (
+            {visible.map(({ place, nearestRestroom, beyondCoverage, cei: ceiMatch }) => (
               <BusinessCard
                 key={place.osmId}
                 business={place}
                 nearestRestroom={nearestRestroom}
                 unit={unit}
                 cei={ceiMatch}
+                beyondCoverage={beyondCoverage}
+                coverageLabel={coverageLabel}
               />
             ))}
 

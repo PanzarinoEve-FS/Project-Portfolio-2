@@ -418,6 +418,23 @@ input[type="range"]::-webkit-slider-thumb {
 .address { margin: 2px 0 0; color: var(--label-secondary); font-size: 13px; }
 .score { color: var(--blue); font-weight: 600; font-size: 15px; }
 
+/* Rows of tags and chips. Lost in the iOS restyle, which left six places
+   rendering their children with no spacing at all. */
+.popup-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.popup-tags:empty { display: none; }
+
+/* Chips in a tag row are links, so give them room to be tapped. */
+.popup-tags .chip { padding: 5px 11px; font-size: 13px; }
+.popup-address { color: var(--label-secondary); font-size: 13px; }
+.popup-link { display: inline-block; margin-top: 8px; font-weight: 500; }
+
 .tag {
   display: inline-block;
   padding: 2px 8px;
@@ -442,7 +459,6 @@ input[type="range"]::-webkit-slider-thumb {
 
 .bathroom-good    { background: rgba(52, 199, 89, 0.14);  color: #248a3d; }
 .bathroom-mixed   { background: rgba(255, 149, 0, 0.14);  color: #a05a00; }
-.bathroom-poor    { background: rgba(255, 59, 48, 0.14);  color: #c9271e; }
 .bathroom-nearby  { background: rgba(0, 122, 255, 0.12);  color: #0058b8; }
 .bathroom-unknown { background: var(--fill); color: var(--label-secondary); }
 
@@ -462,7 +478,6 @@ input[type="range"]::-webkit-slider-thumb {
 @media (prefers-color-scheme: dark) {
   .bathroom-good  { color: #30d158; }
   .bathroom-mixed { color: #ff9f0a; }
-  .bathroom-poor  { color: #ff453a; }
   .bathroom-nearby{ color: #64d2ff; }
   .cei-good  { color: #30d158; }
   .cei-mixed { color: #ff9f0a; }
@@ -647,4 +662,129 @@ body:has(.toolbar) #root { height: auto; }
   background: var(--fill);
   font-size: 12px;
   line-height: 1.45;
+}
+
+/* --- Profile pages -------------------------------------------------------- */
+.profile-hero { margin-bottom: 14px; }
+.profile-hero h1 { margin-bottom: 4px; }
+.profile-contact { margin: 2px 0 0; font-size: 14px; }
+.profile-contact a { font-weight: 500; }
+
+/* Reddit post-op links */
+.reddit-post {
+  display: block;
+  padding: 10px 0;
+  border-top: 0.5px solid var(--separator);
+  color: var(--label);
+}
+
+.reddit-post:first-of-type { border-top: none; }
+.reddit-post strong { display: block; font-size: 14px; font-weight: 600; line-height: 1.35; }
+.reddit-post span { display: block; margin-top: 3px; font-size: 12px; }
+.reddit-post:hover strong { color: var(--blue); }
+
+/* Directory status chips */
+.status-good    { background: rgba(52, 199, 89, 0.16);  color: #248a3d; }
+.status-mixed   { background: rgba(255, 149, 0, 0.16);  color: #a05a00; }
+.status-poor    { background: rgba(255, 59, 48, 0.16);  color: #c9271e; }
+@media (prefers-color-scheme: dark) {
+  .status-good  { color: #30d158; }
+  .status-mixed { color: #ff9f0a; }
+  .status-poor  { color: #ff453a; }
+}
+
+/* Cluster bubbles, restyled to match the app rather than Leaflet's defaults. */
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large { background: rgba(0, 122, 255, 0.25); }
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background: var(--blue);
+  color: #fff;
+  font: 600 13px -apple-system, system-ui, sans-serif;
+}
+
+/* Star ratings */
+.stars { display: inline-flex; align-items: center; gap: 2px; color: var(--orange); }
+.stars .star { display: inline-flex; padding: 0; border: none; background: none; color: inherit; }
+.stars button.star { cursor: pointer; }
+.stars button.star:hover { transform: scale(1.12); }
+.rating-summary { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+
+/* --- Rules dropped in the iOS restyle, restored ---------------------------- */
+
+/* Bathroom access gets its own padded block on a profile. */
+.bathroom-panel { padding: 12px; }
+.bathroom-panel .bathroom { margin-top: 0; }
+
+/* Checkbox rows (Restrooms page). */
+.filters { display: flex; flex-wrap: wrap; gap: 16px; margin: 12px 0; }
+.filters label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 15px;
+  color: var(--label);
+  accent-color: var(--blue);
+}
+
+/* The standalone search form on the Find Places page. */
+.search-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+.search-bar input { flex: 1 1 180px; }
+.search-bar button {
+  padding: 9px 18px;
+  border: none;
+  border-radius: var(--r-sm);
+  background: var(--blue);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Primary call-to-action on a profile. */
+.website-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 18px;
+  border-radius: var(--r-sm);
+  background: var(--blue);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.website-button:hover { filter: brightness(1.08); }
+
+/* Profile header contact details */
+.profile-clinic { margin: 2px 0 0; font-size: 15px; font-weight: 600; color: var(--label); }
+.profile-specialty { margin: 4px 0 0; font-size: 13px; color: var(--label-secondary); }
+.profile-contact a { font-size: 17px; font-weight: 600; }
+
+/* Back control, only needed where the detail panel covers the list. */
+.detail-back { display: none; }
+
+@media (max-width: 820px) {
+  /* The panel and the list are both full screen on a phone, so the panel has
+     to sit above the list -- otherwise it renders behind it and looks like
+     nothing happened. */
+  .detail { z-index: 11; }
+
+  .detail-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 12px;
+    padding: 7px 14px;
+    border-radius: var(--r-pill);
+    background: var(--fill);
+    color: var(--blue);
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .detail-back::before { content: "\2039"; font-size: 19px; line-height: 1; }
 }

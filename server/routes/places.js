@@ -2,18 +2,12 @@ import express from 'express';
 
 const router = express.Router();
 
-// Nominatim's usage policy is strict: max 1 request per second, an
-// identifying User-Agent, and no bulk geocoding. Both rules are enforced
-// here so a busy client can never get the app IP-banned.
-// https://operations.osmfoundation.org/policies/nominatim/
-
 const cache = new Map();
-const CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24 hours
+const CACHE_TTL_MS = 1000 * 60 * 60 * 24;
 const MIN_REQUEST_GAP_MS = 1100;
 
 let lastRequestAt = 0;
 
-// Serialises calls so two overlapping requests still go out ~1s apart.
 let queue = Promise.resolve();
 
 function throttled(task) {
@@ -26,7 +20,6 @@ function throttled(task) {
     return task();
   });
 
-  // Keep the chain alive even if this task rejects.
   queue = run.catch(() => {});
   return run;
 }
@@ -42,7 +35,6 @@ function normalise(place) {
   };
 }
 
-// Runs a throttled, cached Nominatim query and returns normalised places.
 async function queryNominatim(url, cacheKey) {
   const hit = cache.get(cacheKey);
 
@@ -71,7 +63,6 @@ async function queryNominatim(url, cacheKey) {
   return { cached: false, results };
 }
 
-// GET /api/places/search?q=coffee&city=Chicago
 router.get('/search', async (req, res) => {
   const { q, city, limit = 20 } = req.query;
 
@@ -93,9 +84,6 @@ router.get('/search', async (req, res) => {
   }
 });
 
-// GET /api/places/nearby?lat=&lng=&category=cafe&radius=2
-// Restricts a category search to a box around the caller, so the home page
-// can show local businesses without the visitor typing anything.
 router.get('/nearby', async (req, res) => {
   const { lat, lng, category = 'cafe', radius = 2, limit = 12 } = req.query;
 
@@ -105,16 +93,20 @@ router.get('/nearby', async (req, res) => {
 
   const latitude = Number(lat);
   const longitude = Number(lng);
-  const km = Number(radius);
+  const asked = Number(radius);
 
-  if ([latitude, longitude, km].some(Number.isNaN)) {
+  if ([latitude, longitude, asked].some(Number.isNaN)) {
     return res.status(400).json({ error: 'lat, lng and radius must be numbers' });
   }
 
-  // Convert the radius in km to degrees. Longitude degrees shrink towards
-  // the poles, so scale them by cos(latitude).
+  const MAX_VIEWBOX_KM = 1200;
+  const km = Math.min(MAX_VIEWBOX_KM, asked);
+
   const latOffset = km / 111;
   const lngOffset = km / (111 * Math.cos((latitude * Math.PI) / 180) || 1);
+
+  const clampLat = (v) => Math.max(-90, Math.min(90, v));
+  const clampLng = (v) => Math.max(-180, Math.min(180, v));
 
   try {
     const url = new URL('https://nominatim.openstreetmap.org/search');
@@ -122,29 +114,30 @@ router.get('/nearby', async (req, res) => {
     url.searchParams.set('addressdetails', '1');
     url.searchParams.set('limit', limit);
     url.searchParams.set('q', category);
-    // viewbox is left,top,right,bottom; bounded=1 discards anything outside it.
+
     url.searchParams.set(
       'viewbox',
       [
-        longitude - lngOffset,
-        latitude + latOffset,
-        longitude + lngOffset,
-        latitude - latOffset,
+        clampLng(longitude - lngOffset),
+        clampLat(latitude + latOffset),
+        clampLng(longitude + lngOffset),
+        clampLat(latitude - latOffset),
       ].join(',')
     );
     url.searchParams.set('bounded', '1');
 
     const key = `nearby|${latitude.toFixed(3)}|${longitude.toFixed(3)}|${category}|${km}|${limit}`;
-    res.json(await queryNominatim(url, key));
+    const found = await queryNominatim(url, key);
+
+    res.json({
+      ...found,
+      ...(asked > km ? { cappedAtKm: km, askedKm: asked } : {}),
+    });
   } catch (err) {
     res.status(err.status || 500).json({ error: err.message });
   }
 });
 
-// GET /api/places/lookup?osmId=way-710692552
-// Resolves a single OSM id back into a place. This is what lets a profile
-// page work from a bare URL -- a shared link, a refresh, or a result that
-// was never saved to MongoDB.
 const OSM_PREFIX = { node: 'N', way: 'W', relation: 'R' };
 
 router.get('/lookup', async (req, res) => {

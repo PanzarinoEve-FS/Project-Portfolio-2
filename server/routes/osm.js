@@ -2,15 +2,8 @@ import express from 'express';
 
 const router = express.Router();
 
-// Overpass queries OpenStreetMap by tag, which Nominatim's free-text search
-// cannot do well -- "nail salon" returns almost nothing there, while
-// shop=beauty returns dozens. Overpass is free and needs no key, but it is a
-// shared community service, so requests are throttled and cached here.
-
-// Whitelist. The client sends category names, never Overpass query language,
-// so nothing user-supplied is ever interpolated into the query.
 const CATEGORIES = {
-  // Gender-affirming services
+
   nails: '["beauty"="nails"]',
   beauty: '["shop"="beauty"]',
   hairdresser: '["shop"="hairdresser"]',
@@ -18,21 +11,17 @@ const CATEGORIES = {
   spa: '["leisure"="spa"]',
   tattoo: '["shop"="tattoo"]',
 
-  // Medical
   clinic: '["healthcare"="clinic"]',
   doctors: '["amenity"="doctors"]',
   hospital: '["amenity"="hospital"]',
 };
 
-// Overpass enforces per-IP slots and answers with an HTML error page rather
-// than JSON when a caller is over budget. Mirrors share the same data, so
-// falling through to one recovers from a busy primary.
 const ENDPOINTS = [
   'https://overpass-api.de/api/interpreter',
   'https://overpass.kumi.systems/api/interpreter',
 ];
 const cache = new Map();
-const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 hours
+const CACHE_TTL_MS = 1000 * 60 * 60 * 6;
 const MIN_REQUEST_GAP_MS = 5000;
 
 let lastRequestAt = 0;
@@ -59,7 +48,6 @@ function addressOf(tags) {
     .join(', ');
 }
 
-// GET /api/osm?lat=&lng=&radius=&categories=nails,beauty
 router.get('/', async (req, res) => {
   const { lat, lng, radius = 8, categories = '', limit = 60 } = req.query;
 
@@ -80,9 +68,9 @@ router.get('/', async (req, res) => {
 
   const latitude = Number(lat);
   const longitude = Number(lng);
-  // Snap to whole kilometres so near-identical radii share a cache entry --
-  // 6 mi is 9.656 km, which otherwise missed the cache on every load.
-  const metres = Math.min(50000, Math.round(Number(radius)) * 1000);
+
+  const asked = Math.round(Number(radius)) * 1000;
+  const metres = Math.min(400000, asked);
 
   if ([latitude, longitude, metres].some(Number.isNaN)) {
     return res.status(400).json({ error: 'lat, lng and radius must be numbers' });
@@ -99,8 +87,6 @@ router.get('/', async (req, res) => {
     .map((c) => `nwr${CATEGORIES[c]}${around};`)
     .join('')});out tags center ${limit};`;
 
-  // Overpass can answer 200 with an HTML error page, so the body is parsed
-  // defensively rather than trusting the status code.
   async function ask(endpoint) {
     const response = await throttled(() =>
       fetch(endpoint, {
@@ -129,8 +115,6 @@ router.get('/', async (req, res) => {
     let data;
     let lastError;
 
-    // Two passes over the endpoints: Overpass slots usually free up within a
-    // few seconds, so a single retry turns most "busy" answers into results.
     for (let attempt = 0; attempt < 2 && !data; attempt++) {
       for (const endpoint of ENDPOINTS) {
         try {
@@ -166,7 +150,11 @@ router.get('/', async (req, res) => {
       .filter((p) => p.lat !== undefined && p.lng !== undefined);
 
     cache.set(key, { at: Date.now(), results });
-    res.json({ cached: false, results });
+    res.json({
+      cached: false,
+      results,
+      ...(asked > metres ? { cappedAtKm: metres / 1000, askedKm: asked / 1000 } : {}),
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

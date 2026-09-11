@@ -6,7 +6,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "seed": "npm run seed:surgeons && npm run seed:cei",
+    "seed:surgeons": "node scripts/seedSurgeons.js",
+    "seed:cei": "node scripts/seedCEI.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

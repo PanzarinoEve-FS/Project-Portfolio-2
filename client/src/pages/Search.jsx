@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { getMyLocation, searchPlaces } from '../api/client.js';
-import MapView from '../components/MapView.jsx';
-import SearchBar from '../components/SearchBar.jsx';
-import BusinessCard from '../components/BusinessCard.jsx';
+import MapView from '../components/Map/MapView.jsx';
+import SearchBar from '../components/Search/SearchBar.jsx';
+import BusinessCard from '../components/Profile/BusinessCard.jsx';
 
 export default function Search() {
   const [results, setResults] = useState([]);
@@ -12,7 +12,6 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Pre-fill the city box with wherever the visitor appears to be.
   useEffect(() => {
     getMyLocation()
       .then((location) => {

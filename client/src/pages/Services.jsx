@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import PlaceDetail from '../components/Profile/PlaceDetail.jsx';
 
 import { getMyLocation, getOsmPlaces } from '../api/client.js';
-import { toKm } from '../utils/distance.js';
+import { toKm, fromKm } from '../utils/distance.js';
 import { useDebouncedValue } from '../hooks/useDebouncedValue.js';
-import MapShell from '../components/MapShell.jsx';
-import RangeControl from '../components/RangeControl.jsx';
-import BusinessCard from '../components/BusinessCard.jsx';
-import Switch from '../components/Switch.jsx';
-import SearchField from '../components/SearchField.jsx';
+import MapShell from '../components/Map/MapShell.jsx';
+import RangeControl from '../components/Apple Design Elements/RangeControl.jsx';
+import BusinessCard from '../components/Profile/BusinessCard.jsx';
+import Switch from '../components/Apple Design Elements/Switch.jsx';
+import SearchField from '../components/Apple Design Elements/SearchField.jsx';
 
-// Each service maps to the OpenStreetMap tags that actually carry it.
-// Electrolysis, laser and threading are not distinct OSM tags, so those fall
-// back to shop=beauty narrowed by a name keyword.
 const SERVICES = [
   { id: 'electrolysis', label: 'Electrolysis', categories: ['beauty'], keywords: ['electrolysis', 'electrolog'] },
   { id: 'laser', label: 'Laser Hair Removal', categories: ['beauty'], keywords: ['laser', 'hair removal'] },
@@ -21,17 +20,20 @@ const SERVICES = [
 ];
 
 export default function Services() {
+  const { osmId } = useParams();
   const [location, setLocation] = useState(null);
   const [query, setQuery] = useState('');
   const [active, setActive] = useState({ nails: true, massage: true });
   const [unit, setUnit] = useState('mi');
-  const [range, setRange] = useState(6);
+  const [range, setRange] = useState(5);
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const [cappedKm, setCappedKm] = useState(null);
+
   const debouncedQuery = useDebouncedValue(query, 400);
-  // Dragging the slider must not fire an Overpass call per pixel.
+
   const debouncedRange = useDebouncedValue(range, 500);
   const radiusKm = toKm(debouncedRange, unit);
 
@@ -55,7 +57,11 @@ export default function Services() {
     setError('');
 
     getOsmPlaces({ lat: location.lat, lng: location.lng, radius: radiusKm, categories: categoryKey })
-      .then(({ results }) => !cancelled && setPlaces(results))
+      .then(({ results, cappedAtKm }) => {
+        if (cancelled) return;
+        setPlaces(results);
+        setCappedKm(cappedAtKm ?? null);
+      })
       .catch((err) => !cancelled && setError(err.message))
       .finally(() => !cancelled && setLoading(false));
 
@@ -64,8 +70,6 @@ export default function Services() {
     };
   }, [location, categoryKey, radiusKm]);
 
-  // A service with keywords only matches places whose name mentions it, since
-  // OSM has no tag for it. Services without keywords match on tag alone.
   const matchesSelection = (place) => {
     const name = place.name.toLowerCase();
     return selected.some((service) => {
@@ -94,9 +98,17 @@ export default function Services() {
         lng: p.lng,
         tags: [p.category],
       }))}
-      search={<SearchField value={query} onChange={setQuery} placeholder="Filter by name" />}
+      search={<SearchField value={query} onChange={setQuery} placeholder="Search Services" />}
+      detail={osmId ? <PlaceDetail osmId={osmId} backTo="/services" backLabel="Back to services" /> : null}
     >
       <RangeControl range={range} unit={unit} onRangeChange={setRange} onUnitChange={setUnit} />
+
+      {cappedKm && (
+        <p className="muted">
+          OpenStreetMap will only answer a tag search out to about{' '}
+          {Math.round(fromKm(cappedKm, unit))} {unit}, so that is how far this searched.
+        </p>
+      )}
 
       <div className="group">
         <div className="group-label">Services</div>
@@ -119,7 +131,7 @@ export default function Services() {
       {loading && <p className="muted">Loading...</p>}
 
       {visible.map((place) => (
-        <BusinessCard key={place.osmId} business={place} unit="mi" />
+        <BusinessCard key={place.osmId} business={place} unit={unit} to="/service" />
       ))}
 
       {!loading && visible.length === 0 && !error && (

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { getBusinesses } from '../api/client.js';
-import BusinessCard from '../components/BusinessCard.jsx';
+import BusinessCard from '../components/Profile/BusinessCard.jsx';
 
 export default function Directory() {
   const [businesses, setBusinesses] = useState([]);

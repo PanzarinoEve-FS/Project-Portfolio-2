@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { getMyLocation, getRestrooms } from '../api/client.js';
-import MapView from '../components/MapView.jsx';
+import MapView from '../components/Map/MapView.jsx';
 
 export default function Restrooms() {
   const [restrooms, setRestrooms] = useState([]);
@@ -33,7 +33,7 @@ export default function Restrooms() {
         setError(err.message);
         setLoading(false);
       });
-    // Runs once on mount; filter changes are handled by toggleFilter.
+
   }, [load]);
 
   function toggleFilter(key) {
