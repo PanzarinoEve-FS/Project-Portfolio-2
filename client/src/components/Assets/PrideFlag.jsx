@@ -1,5 +1,6 @@
 import flag from '../../images/images-3.png';
 
+// Intersex-inclusive Progress Pride flag banner 
 export default function PrideFlag({ className = 'flag' }) {
   return (
     <img

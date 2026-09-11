@@ -5,10 +5,11 @@ import { useEffect } from 'react';
 import L from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
-
+// Without these the cluster circles render in the DOM but are invisible.
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
+// Leaflet's default marker images break under Vite because the CSS points at relative paths the bundler rewrites. 
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -20,6 +21,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
+//MapContainer ignores `center` after the first render 
 function Recenter({ center, zoom }) {
   const map = useMap();
 

@@ -4,6 +4,7 @@ import Business from '../models/Business.js';
 
 const router = express.Router();
 
+// Every route below needs Mongo. Fail with a clear message instead of hanging.
 router.use((req, res, next) => {
   if (mongoose.connection.readyState !== 1) {
     return res.status(503).json({ error: 'Database unavailable. Is mongod running?' });
@@ -11,6 +12,7 @@ router.use((req, res, next) => {
   next();
 });
 
+// GET /api/businesses -> every rated place
 router.get('/', async (req, res) => {
   try {
     const businesses = await Business.find().sort({ updatedAt: -1 });
@@ -20,6 +22,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET /api/businesses/:osmId -> one profile
 router.get('/:osmId', async (req, res) => {
   try {
     const business = await Business.findOne({ osmId: req.params.osmId });
@@ -34,6 +37,7 @@ router.get('/:osmId', async (req, res) => {
   }
 });
 
+// POST /api/businesses -> create a place, or return the existing one
 router.post('/', async (req, res) => {
   const { osmId, name, address, category, lat, lng, phone, website } = req.body;
 
@@ -52,6 +56,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// POST /api/businesses/:osmId/reviews -> add a community rating
 router.post('/:osmId/reviews', async (req, res) => {
   try {
     const business = await Business.findOne({ osmId: req.params.osmId });
@@ -65,7 +70,7 @@ router.post('/:osmId/reviews', async (req, res) => {
 
     res.status(201).json(business);
   } catch (err) {
-
+    // Mongoose validation errors are the user's fault, not the server's.
     const status = err.name === 'ValidationError' ? 400 : 500;
     res.status(status).json({ error: err.message });
   }

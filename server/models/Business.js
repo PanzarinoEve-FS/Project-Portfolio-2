@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+// One rating submitted by one user for one place: five stars, plus two facts
+// about the restroom that the person can vouch for from their own visit.
 const reviewSchema = new mongoose.Schema(
   {
     author: { type: String, default: 'Anonymous', trim: true, maxlength: 80 },
@@ -11,6 +13,8 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// A place people can rate. `osmId` ties it back to the OpenStreetMap result
+// so the same business is not stored twice.
 const businessSchema = new mongoose.Schema(
   {
     osmId: { type: String, required: true, unique: true, index: true },
@@ -26,6 +30,7 @@ const businessSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Summary of every review. Feeds the star display and the bathroom badge.
 businessSchema.virtual('averages').get(function () {
   const reviews = this.reviews || [];
 
@@ -37,7 +42,7 @@ businessSchema.virtual('averages').get(function () {
 
   return {
     overall: Number((total / reviews.length).toFixed(1)),
-
+    // How many reviewers reported each, so the badge can say "3 of 5".
     genderNeutral: reviews.filter((r) => r.genderNeutralRestroom).length,
     wheelchair: reviews.filter((r) => r.wheelchairAccessible).length,
     count: reviews.length,

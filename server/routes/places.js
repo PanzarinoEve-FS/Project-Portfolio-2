@@ -2,12 +2,16 @@ import express from 'express';
 
 const router = express.Router();
 
+// Nominatim policy: 1 request/sec, identifying User-Agent, no bulk geocoding.
+// https://operations.osmfoundation.org/policies/nominatim/
+
 const cache = new Map();
-const CACHE_TTL_MS = 1000 * 60 * 60 * 24;
+const CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24 hours
 const MIN_REQUEST_GAP_MS = 1100;
 
 let lastRequestAt = 0;
 
+// Serialises calls so two overlapping requests still go out ~1s apart.
 let queue = Promise.resolve();
 
 function throttled(task) {
@@ -20,6 +24,7 @@ function throttled(task) {
     return task();
   });
 
+  // Keep the chain alive even if this task rejects.
   queue = run.catch(() => {});
   return run;
 }
@@ -35,6 +40,7 @@ function normalise(place) {
   };
 }
 
+// Runs a throttled, cached Nominatim query and returns normalised places.
 async function queryNominatim(url, cacheKey) {
   const hit = cache.get(cacheKey);
 
@@ -63,6 +69,7 @@ async function queryNominatim(url, cacheKey) {
   return { cached: false, results };
 }
 
+// GET /api/places/search?q=coffee&city=Chicago
 router.get('/search', async (req, res) => {
   const { q, city, limit = 20 } = req.query;
 
@@ -84,6 +91,8 @@ router.get('/search', async (req, res) => {
   }
 });
 
+// GET /api/places/nearby?lat=&lng=&category=cafe&radius=2
+// Category search boxed around the caller, so the home page needs no typing.
 router.get('/nearby', async (req, res) => {
   const { lat, lng, category = 'cafe', radius = 2, limit = 12 } = req.query;
 
@@ -99,12 +108,16 @@ router.get('/nearby', async (req, res) => {
     return res.status(400).json({ error: 'lat, lng and radius must be numbers' });
   }
 
+  // Past ~1200km Nominatim ignores the viewbox and matches the query as a name,
+  // so "gas" returns the one business called Gas. 1200 answers, 1600 does not.
   const MAX_VIEWBOX_KM = 1200;
   const km = Math.min(MAX_VIEWBOX_KM, asked);
 
+  // km to degrees; longitude degrees shrink towards the poles.
   const latOffset = km / 111;
   const lngOffset = km / (111 * Math.cos((latitude * Math.PI) / 180) || 1);
 
+  // A thousand-mile box runs off the globe, which Nominatim rejects.
   const clampLat = (v) => Math.max(-90, Math.min(90, v));
   const clampLng = (v) => Math.max(-180, Math.min(180, v));
 
@@ -114,7 +127,7 @@ router.get('/nearby', async (req, res) => {
     url.searchParams.set('addressdetails', '1');
     url.searchParams.set('limit', limit);
     url.searchParams.set('q', category);
-
+    // viewbox is left,top,right,bottom; bounded=1 discards anything outside it.
     url.searchParams.set(
       'viewbox',
       [
@@ -138,6 +151,8 @@ router.get('/nearby', async (req, res) => {
   }
 });
 
+// GET /api/places/lookup?osmId=way-710692552
+// Resolves an OSM id back into a place, so a profile works from a bare URL.
 const OSM_PREFIX = { node: 'N', way: 'W', relation: 'R' };
 
 router.get('/lookup', async (req, res) => {

@@ -13,6 +13,7 @@ const LABEL = {
 
 const TONE = { active: 'good', unclear: 'mixed', retired: 'poor' };
 
+// The profile body
 export default function SurgeonDetail({ entry }) {
   const isCentre = entry.kind !== 'surgeon';
   const [reviews, setReviews] = useState(entry.reviews ?? []);
@@ -28,6 +29,7 @@ export default function SurgeonDetail({ entry }) {
         <h1>{entry.name}</h1>
         {entry.clinic && <p className="profile-clinic">{entry.clinic}</p>}
 
+        {/* Phone first: it is the thing someone actually needs to act on. */}
         {entry.phone && (
           <p className="profile-contact">
             <a href={`tel:${entry.phone.replace(/[^\d+]/g, '')}`}>{entry.phone}</a>
@@ -61,6 +63,7 @@ export default function SurgeonDetail({ entry }) {
         {entry.note && <p className="muted" style={{ marginTop: 8 }}>{entry.note}</p>}
       </div>
 
+      {/* A central lists its doctors; a surgeon lists who else is at their clinic. */}
       {isCentre ? (
         <div className="panel">
           <h2>Doctors listed here</h2>

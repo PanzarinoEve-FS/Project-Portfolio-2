@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+// Connects to MongoDB. The app still boots if this fails so that the
+// API-proxy routes keep working while you set Mongo up.
 export async function connectDB(uri) {
   try {
     await mongoose.connect(uri);

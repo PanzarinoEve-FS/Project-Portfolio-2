@@ -10,6 +10,8 @@ import BathroomAccess from './BathroomAccess.jsx';
 import CEIScore from './CEIScore.jsx';
 import ReviewSection from '../Reviews/ReviewSection.jsx';
 
+// A place profile that renders inside a list view's detail column
+// opening one never unmounts the search results behind it.
 export default function PlaceDetail({ osmId, backTo = '/', backLabel = 'Back to search' }) {
   const profile = useProfile(osmId);
   const { place, loading, error, reviewCount } = profile;

@@ -1,5 +1,6 @@
 import { ceiBand } from '../../utils/cei.js';
 
+// Only a verified score earns confident color
 function tone(match) {
   return match.verified ? ceiBand(match.score) : 'unconfirmed';
 }
@@ -16,6 +17,7 @@ function statusLine(match) {
   return `Did not submit a ${match.year} survey. HRC scored this from publicly available information.`;
 }
 
+// Shows a company's Corporate Equality Index score for a business 
 export default function CEIScore({ match, maxScore = 100, detailed = false }) {
   if (!match) return null;
 

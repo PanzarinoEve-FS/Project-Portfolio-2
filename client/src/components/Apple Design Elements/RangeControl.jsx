@@ -1,5 +1,6 @@
 import { fromKm, toKm } from '../../utils/distance.js';
 
+// The slider steps through these stops rather than sliding linearly.
 export const RANGE_STOPS = {
   mi: [1, 2, 3, 5, 10, 15, 25, 50, 75, 100, 150, 200, 300, 500, 750, 1000, 1500],
   km: [1, 3, 5, 10, 15, 25, 40, 75, 125, 160, 250, 320, 500, 800, 1200, 1600, 2400],
@@ -10,6 +11,7 @@ export const RANGE_BOUNDS = {
   km: { min: 1, max: 2400 },
 };
 
+// The stops a view offers, once its own min/max are applied.
 export function stopsFor(unit, min, max) {
   const low = min?.[unit] ?? RANGE_BOUNDS[unit].min;
   const high = max?.[unit] ?? RANGE_BOUNDS[unit].max;
@@ -20,6 +22,7 @@ export function stopsFor(unit, min, max) {
 const nearestStop = (value, stops) =>
   stops.reduce((best, s) => (Math.abs(s - value) < Math.abs(best - value) ? s : best), stops[0]);
 
+// Switching units keeps the real distance rather than the number
 export function convertRange(range, fromUnit, toUnit, min, max) {
   return nearestStop(fromKm(toKm(range, fromUnit), toUnit), stopsFor(toUnit, min, max));
 }
@@ -27,6 +30,7 @@ export function convertRange(range, fromUnit, toUnit, min, max) {
 export const rangeLabel = (range, unit) =>
   `${range} ${unit === 'mi' ? (range === 1 ? 'mile' : 'miles') : 'km'}`;
 
+// Slider plus a km/mi segmented control
 export default function RangeControl({ range, unit, onRangeChange, onUnitChange, id = 'range', min, max }) {
   const stops = stopsFor(unit, min, max);
   const index = stops.indexOf(nearestStop(range, stops));
@@ -38,7 +42,7 @@ export default function RangeControl({ range, unit, onRangeChange, onUnitChange,
       </label>
 
       <div className="range-row">
-
+        {/* The slider's value is a position in the ladder. RANGE_STOPS */}
         <input
           id={id}
           type="range"

@@ -2,6 +2,7 @@ import StarRating from '../Apple Design Elements/StarRating.jsx';
 import RatingsChart from '../Apple Design Elements/RatingsChart.jsx';
 import Switch from '../Apple Design Elements/Switch.jsx';
 
+// Community ratings 
 export default function ReviewSection({ place, form, setForm, saving, error, onSubmit, reviewCount }) {
   const averages = place.averages || {};
   const average = averages.overall || 0;

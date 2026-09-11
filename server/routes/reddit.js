@@ -8,13 +8,20 @@ const taxonomy = JSON.parse(
   readFileSync(fileURLToPath(new URL('../data/surgery-taxonomy.json', import.meta.url)), 'utf8')
 );
 
+// Reddit blocks unauthenticated access: the .json endpoints answer 403, plain
+// HTML is an empty JS shell, and a headless browser gets a "prove your
+// humanity" challenge. The official OAuth API is the only durable route, and
+// it is free at this volume (100 queries/minute for a registered script app).
+//
+// Credentials live in server/.env and never reach the browser.
+
 const TOKEN_URL = 'https://www.reddit.com/api/v1/access_token';
 const API = 'https://oauth.reddit.com';
 const SUBREDDIT = 'TransSurgeriesWiki';
 
 const cache = new Map();
-const CACHE_TTL_MS = 1000 * 60 * 60 * 12;
-const MIN_REQUEST_GAP_MS = 700;
+const CACHE_TTL_MS = 1000 * 60 * 60 * 12; // wiki pages change rarely
+const MIN_REQUEST_GAP_MS = 700; // well inside 100/min
 
 let token = null;
 let tokenExpiresAt = 0;
@@ -41,6 +48,7 @@ function throttled(task) {
   return run;
 }
 
+// App-only token: read access to public data, no user account involved.
 async function getToken() {
   if (token && Date.now() < tokenExpiresAt) return token;
 
@@ -77,7 +85,7 @@ async function getToken() {
   }
 
   token = data.access_token;
-
+  // Refresh a minute early so a request never rides an expiring token.
   tokenExpiresAt = Date.now() + (data.expires_in - 60) * 1000;
   return token;
 }
@@ -92,7 +100,7 @@ async function apiGet(path) {
   );
 
   if (response.status === 401) {
-    token = null;
+    token = null; // force a refresh on the next call
     throw Object.assign(new Error('token-rejected'), { status: 401 });
   }
 
@@ -113,12 +121,15 @@ function fail(res, err) {
   res.status(err.status || 500).json({ error: messages[err.message] || err.message });
 }
 
+// GET /api/reddit/taxonomy -> the wiki's procedure and region structure.
+// Static, so it works with or without credentials.
 router.get('/taxonomy', (req, res) => {
   const { _about, ...rest } = taxonomy;
   res.set('Cache-Control', 'public, max-age=86400');
   res.json(rest);
 });
 
+// GET /api/reddit/status -> is this configured and working?
 router.get('/status', async (req, res) => {
   if (!credentials()) {
     return res.json({ configured: false, reason: 'REDDIT_CLIENT_ID / REDDIT_CLIENT_SECRET not set' });
@@ -131,6 +142,7 @@ router.get('/status', async (req, res) => {
   }
 });
 
+// GET /api/reddit/wiki?page=srs -> one wiki page as markdown
 router.get('/wiki', async (req, res) => {
   const page = String(req.query.page || 'index').replace(/[^a-z0-9/_-]/gi, '');
   const key = `wiki|${page}`;
@@ -161,6 +173,7 @@ router.get('/wiki', async (req, res) => {
   }
 });
 
+// GET /api/reddit/search?q=&sub= -> posts, for surgeon-name lookups
 router.get('/search', async (req, res) => {
   const q = String(req.query.q || '').trim();
   const sub = String(req.query.sub || 'Transgender_Surgeries').replace(/[^a-z0-9_]/gi, '');
@@ -184,6 +197,7 @@ router.get('/search', async (req, res) => {
     });
     const data = await apiGet(`/r/${sub}/search?${params}`);
 
+    // Links and short attributed excerpts only -- never an aggregate score.
     const results = (data.data?.children || []).map(({ data: post }) => ({
       id: post.id,
       title: post.title,

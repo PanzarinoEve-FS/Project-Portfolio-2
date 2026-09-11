@@ -5,12 +5,14 @@ import { fileURLToPath } from 'node:url';
 
 import CEI from '../models/CEI.js';
 
+// Imports server/data/cei.json. Safe to re-run: upserts on company name.
 const dataPath = fileURLToPath(new URL('../data/cei.json', import.meta.url));
 const doc = JSON.parse(readFileSync(dataPath, 'utf8'));
 
 await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/safety-app');
 console.log(`connected to ${mongoose.connection.host}/${mongoose.connection.name}`);
 
+// The file marks maintainer notes with _; Mongo reserves that prefix.
 const ops = doc.entries.map(({ _anchorNote, _brandsNote, ...rest }) => ({
   updateOne: {
     filter: { company: rest.company },

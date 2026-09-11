@@ -1,4 +1,4 @@
-
+// Five stars. Interactive when onChange is given, static otherwise.
 export default function StarRating({ value = 0, onChange, size = 24, label }) {
   const interactive = Boolean(onChange);
 

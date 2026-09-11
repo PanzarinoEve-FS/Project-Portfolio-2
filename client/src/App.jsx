@@ -10,9 +10,13 @@ import SurgeonProfile from './pages/SurgeonProfile.jsx';
 import Directory from './pages/Directory.jsx';
 import About from './pages/About.jsx';
 
+// Home owns the whole viewport: a full-bleed map with the sidebar floating
+// over it, the way an iPadOS split view works. Every other route is a
+// standard scrolling page under a Liquid Glass toolbar.
 export default function App() {
   const { pathname } = useLocation();
-
+  // Every view that draws its own sidebar owns the full viewport, so the
+  // toolbar is only for the remaining standalone pages.
   const isMapView =
     ['/', '/surgeries', '/services', '/about'].includes(pathname) ||
     pathname.startsWith('/surgeries/') ||

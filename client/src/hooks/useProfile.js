@@ -10,6 +10,9 @@ export const BLANK_REVIEW = {
   wheelchairAccessible: false,
 };
 
+// Shared by every profile page. A place only lands in MongoDB once somebody
+// reviews it, so a 404 is the normal case for an unreviewed one -- it falls
+// back to resolving the id straight from OpenStreetMap.
 export function useProfile(osmId) {
   const [place, setPlace] = useState(null);
   const [form, setForm] = useState(BLANK_REVIEW);
@@ -47,7 +50,8 @@ export function useProfile(osmId) {
     }
 
     try {
-
+      // The place may not exist in the database yet. saveBusiness returns the
+      // existing row if it does, so this is safe to call every time.
       const { name, address, category, lat, lng, phone, website } = place;
       await saveBusiness({ osmId, name, address, category, lat, lng, phone, website });
 

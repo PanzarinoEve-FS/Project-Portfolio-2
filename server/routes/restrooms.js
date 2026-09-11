@@ -2,6 +2,9 @@ import express from 'express';
 
 const router = express.Router();
 
+// GET /api/restrooms?lat=&lng=&unisex=&ada=
+// Refuge Restrooms returns latitude/longitude already, so results drop
+// straight onto the Leaflet map with no geocoding step.
 router.get('/', async (req, res) => {
   const { lat, lng, unisex, ada, per_page = 20 } = req.query;
 

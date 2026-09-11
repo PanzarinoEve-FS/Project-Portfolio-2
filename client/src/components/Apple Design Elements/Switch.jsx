@@ -1,4 +1,4 @@
-
+// iOS switch. Rendered as a button with role="switch" 
 export default function Switch({ checked, onChange, label, id }) {
   return (
     <div className="switch-row">

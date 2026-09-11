@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
+// 1-5 star ratings
 export default function RatingsChart({ reviews = [] }) {
   if (reviews.length === 0) return null;
 
@@ -41,7 +42,7 @@ export default function RatingsChart({ reviews = [] }) {
         />
         <Bar dataKey="count" radius={[0, 5, 5, 0]} barSize={14}>
           {data.map((d) => (
-
+            // Empty rows stay visible but recede, so the shape reads at a glance.
             <Cell key={d.stars} fill={d.count ? 'var(--orange)' : 'var(--fill)'} />
           ))}
         </Bar>

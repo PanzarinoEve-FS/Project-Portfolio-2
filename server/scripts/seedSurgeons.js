@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 
 import Surgeon from '../models/Surgeon.js';
 
+// Imports server/data/surgeons.json into MongoDB. Safe to re-run: every row is
+// upserted on its slug, so re-seeding refreshes the data without duplicating.
 const slugify = (name) =>
   name.toLowerCase().normalize('NFKD').replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-');
 

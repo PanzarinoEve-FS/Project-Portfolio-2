@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+// Community ratings for a directory entry. Keyed by the entry's slug, since
+// the wiki gives no identifier and these are not OpenStreetMap places.
 const surgeonReviewSchema = new mongoose.Schema(
   {
     slug: { type: String, required: true, index: true },

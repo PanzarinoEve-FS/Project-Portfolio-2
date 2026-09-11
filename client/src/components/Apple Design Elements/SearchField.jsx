@@ -1,4 +1,4 @@
-
+// iOS search field: filled capsule with a leading magnifying glass and a clear button that appears once there is text.
 export default function SearchField({ value, onChange, placeholder = 'Search', onSubmit }) {
   return (
     <form

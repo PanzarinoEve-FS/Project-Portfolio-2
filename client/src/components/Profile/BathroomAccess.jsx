@@ -1,5 +1,6 @@
 import { formatDistance } from '../../utils/distance.js';
 
+// Bathroom access is the headline of this app.
 export default function BathroomAccess({
   averages,
   reviewCount = 0,
@@ -8,7 +9,7 @@ export default function BathroomAccess({
   beyondCoverage = false,
   coverageLabel,
 }) {
-
+  // Counts what reviewers reported, not an averaged score.
   const reported = averages?.genderNeutral || 0;
   const accessible = averages?.wheelchair || 0;
 
@@ -46,6 +47,7 @@ export default function BathroomAccess({
     );
   }
 
+  // Refuge Restrooms answers with the records nearest a point
   if (beyondCoverage) {
     return (
       <div className="bathroom bathroom-unknown">

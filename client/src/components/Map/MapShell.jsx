@@ -2,6 +2,8 @@ import MapView from './MapView.jsx';
 import PrideFlag from '../Assets/PrideFlag.jsx';
 import MapNav from '../Navigation/MapNav.jsx';
 
+// The layout every map view shares: a full-bleed map 
+// sidebar floating over it, the way an iPadOS split view works.
 export default function MapShell({
   title,
   subtitle,
@@ -22,7 +24,11 @@ export default function MapShell({
       <MapNav />
 
       <aside className="sidebar">
-
+        {/* The blur lives on its own layer so it cannot scroll or spill past
+            the rounded corner.
+            
+            This CSS was the bain of my existence because safari has a bug.
+            */}
         <div className="sidebar-glass" aria-hidden="true" />
 
         <div className="sidebar-body">
@@ -41,6 +47,7 @@ export default function MapShell({
         </div>
       </aside>
 
+      {/* Profile column, sitting between the sidebar and the map. */}
       {detail && <div className="detail">{detail}</div>}
     </div>
   );

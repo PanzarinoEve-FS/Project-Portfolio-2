@@ -4,6 +4,7 @@ import { addSurgeonReview } from '../../api/client.js';
 import StarRating from '../Apple Design Elements/StarRating.jsx';
 import RatingsChart from '../Apple Design Elements/RatingsChart.jsx';
 
+// Community ratings for a directory entry: five stars and a comment.
 export default function SurgeonReviews({ slug, reviews = [], average, onChange }) {
   const [rating, setRating] = useState(0);
   const [author, setAuthor] = useState('');

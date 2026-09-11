@@ -1,4 +1,5 @@
-
+// Great-circle distance between two points, in metres.
+// Used to tell a business that a documented restroom is close by
 export function distanceInMetres(a, b) {
   const EARTH_RADIUS_M = 6371000;
   const toRad = (deg) => (deg * Math.PI) / 180;
@@ -13,6 +14,7 @@ export function distanceInMetres(a, b) {
   return 2 * EARTH_RADIUS_M * Math.asin(Math.sqrt(h));
 }
 
+// Closest restroom to a place, but only if it is within `maxMetres`.
 export function findNearestRestroom(place, restrooms, maxMetres = 150) {
   let best = null;
 
@@ -28,9 +30,11 @@ export function findNearestRestroom(place, restrooms, maxMetres = 150) {
 
 export const KM_PER_MILE = 1.609344;
 
+// Range controls let the user pick units, but the API always takes km.
 export const toKm = (value, unit) => (unit === 'mi' ? value * KM_PER_MILE : value);
 export const fromKm = (km, unit) => (unit === 'mi' ? km / KM_PER_MILE : km);
 
+// Short distances read better in metres/feet than in km/miles.
 export function formatDistance(metres, unit = 'km') {
   if (unit === 'mi') {
     const feet = metres * 3.28084;

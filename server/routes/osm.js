@@ -2,8 +2,13 @@ import express from 'express';
 
 const router = express.Router();
 
-const CATEGORIES = {
+// Overpass queries OSM by tag, which Nominatim's text search cannot do:
+// "nail salon" finds little, shop=beauty finds dozens. Free, no key, but a
+// shared service -- so throttled and cached here.
 
+// Whitelist: the client sends category names, never query language.
+const CATEGORIES = {
+  // Gender-affirming services
   nails: '["beauty"="nails"]',
   beauty: '["shop"="beauty"]',
   hairdresser: '["shop"="hairdresser"]',
@@ -11,17 +16,20 @@ const CATEGORIES = {
   spa: '["leisure"="spa"]',
   tattoo: '["shop"="tattoo"]',
 
+  // Medical
   clinic: '["healthcare"="clinic"]',
   doctors: '["amenity"="doctors"]',
   hospital: '["amenity"="hospital"]',
 };
 
+// Over budget, Overpass answers HTML rather than JSON. Mirrors share the
+// same data, so falling through recovers from a busy primary.
 const ENDPOINTS = [
   'https://overpass-api.de/api/interpreter',
   'https://overpass.kumi.systems/api/interpreter',
 ];
 const cache = new Map();
-const CACHE_TTL_MS = 1000 * 60 * 60 * 6;
+const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 hours
 const MIN_REQUEST_GAP_MS = 5000;
 
 let lastRequestAt = 0;
@@ -48,6 +56,7 @@ function addressOf(tags) {
     .join(', ');
 }
 
+// GET /api/osm?lat=&lng=&radius=&categories=nails,beauty
 router.get('/', async (req, res) => {
   const { lat, lng, radius = 8, categories = '', limit = 60 } = req.query;
 
@@ -68,7 +77,9 @@ router.get('/', async (req, res) => {
 
   const latitude = Number(lat);
   const longitude = Number(lng);
-
+  // Snap to whole kilometres so near-identical radii share a cache entry --
+  // 6 mi is 9.656 km, which otherwise missed the cache on every load.
+  // A wide radius on a broad tag can time out, so it is capped and reported.
   const asked = Math.round(Number(radius)) * 1000;
   const metres = Math.min(400000, asked);
 
@@ -87,6 +98,7 @@ router.get('/', async (req, res) => {
     .map((c) => `nwr${CATEGORIES[c]}${around};`)
     .join('')});out tags center ${limit};`;
 
+  // Overpass can answer 200 with an HTML error page, so parse defensively.
   async function ask(endpoint) {
     const response = await throttled(() =>
       fetch(endpoint, {
@@ -115,6 +127,7 @@ router.get('/', async (req, res) => {
     let data;
     let lastError;
 
+    // Slots free up within seconds, so one retry clears most "busy" answers.
     for (let attempt = 0; attempt < 2 && !data; attempt++) {
       for (const endpoint of ENDPOINTS) {
         try {

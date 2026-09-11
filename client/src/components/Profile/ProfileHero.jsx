@@ -1,4 +1,4 @@
-
+// Name, phone and address, as in the wireframe's profile header.
 export default function ProfileHero({ place }) {
   return (
     <header className="profile-hero">
