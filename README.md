@@ -53,6 +53,7 @@ I Fixed some CSS Bugs. I Organized my codebase. I added Navigation. I added Appl
 
 <br>
 🌵 Challenges - What problems did I have & how I'm addressing them
+
 The biggest issues I've been having is that the apis have limits that ultimately limit the range of the search.
 I am addressing this by looking up the limits of the apis and shortening the range.
 There's a CSS bug in Safari that was causing me problems with my layout. I fixed it but it took me probably like 30 minutes to get it looking right.
@@ -60,11 +61,13 @@ I was accidentally working on main instead of dev and had a problem where I beli
 I have been sloppy with how I have been doing things and need to recenter. I feel rushed for time a lot.
 <br>
 🏆 Accomplishments - What is something I "leveled up" on this week
+
 My biggest accomplishment is in collecting my own data. 
 I wanted to make this project before but never felt properly inspired until now. This even motivates me and makes my old projects seem like smaller tasks than I originally anticipated. 
 I am part of the trans surgeries subreddit and I made a searchable database of surgeons and trans surgery centers.
 <br>
 🔮 Next Steps - What I plan to prioritize and do next
+
 I received feedback saying my page needs more views. I can add a profile and login system where users can save surgery centers doctors and business to their profile.
 Every Page on my site is a profile of some kind. 
 I have the business profiles, surgeon/surgery center profiles, and I will add the login and user profiles. 
