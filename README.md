@@ -41,6 +41,7 @@ For each Milestone #2-4, you should use all 4 icons.
 
 For this milestone you will have created a wireframe prototype in Figma.   
 Post your link here, so you have easy access to it.
+
 [Figma Link](https://www.figma.com/design/PTKjniE6Ftt6kcxaLnMq9y/LGBTQIA--Safe-Search?node-id=7-1308&t=osXndGdI5rSKF4YG-1)
 
 <br>
