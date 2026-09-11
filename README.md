@@ -27,10 +27,13 @@ For each Milestone #2-4, you should use all 4 icons.
 ⚙️ Overview - What I worked on this past week
 <br>
 🌵 Challenges - What problems did I have & how I'm addressing them
+
 <br>
 🏆 Accomplishments - What is something I "leveled up" on this week
+
 <br>
 🔮 Next Steps - What I plan to prioritize and do next
+
 
 <br>
 
@@ -38,38 +41,61 @@ For each Milestone #2-4, you should use all 4 icons.
 
 For this milestone you will have created a wireframe prototype in Figma.   
 Post your link here, so you have easy access to it.
-- Figma Link
 
+[Figma Link](https://www.figma.com/design/PTKjniE6Ftt6kcxaLnMq9y/LGBTQIA--Safe-Search?node-id=7-1308&t=osXndGdI5rSKF4YG-1)
 
 <br>
 
 ### Milestone 2
-⚙️ Overview - Write overview here.
-<br>
-🌵 Challenges - Write challenges here.
-<br>
-🏆 Accomplishments - Write Accomplishments here.
-<br>
-🔮 Next Steps - Write your next steps here.
+⚙️ Overview - What I worked on this past week
+I gathered Surgeon data and CEI(Corporate Equality Index) Data into mongodb. I polished the review system and have finished the surgeon search.
+I Fixed some CSS Bugs. I Organized my codebase. I added Navigation. I added Apple Design System reusable components. I created Profiles for businesses, aswell as well as doctors and Surgery Centers.
 
+<br>
+🌵 Challenges - What problems did I have & how I'm addressing them
+The biggest issues I've been having is that the apis have limits that ultimately limit the range of the search.
+I am addressing this by looking up the limits of the apis and shortening the range.
+There's a CSS bug in Safari that was causing me problems with my layout. I fixed it but it took me probably like 30 minutes to get it looking right.
+I was accidentally working on main instead of dev and had a problem where I believe I had to rebase my branch. I have a hard time with GitHub branches because I know I can't make mistakes like this in a production environment.
+I have been sloppy with how I have been doing things and need to recenter. I feel rushed for time a lot.
+<br>
+🏆 Accomplishments - What is something I "leveled up" on this week
+My biggest accomplishment is in collecting my own data. 
+I wanted to make this project before but never felt properly inspired until now. This even motivates me and makes my old projects seem like smaller tasks than I originally anticipated. 
+I am part of the trans surgeries subreddit and I made a searchable database of surgeons and trans surgery centers.
+<br>
+🔮 Next Steps - What I plan to prioritize and do next
+I received feedback saying my page needs more views. I can add a profile and login system where users can save surgery centers doctors and business to their profile.
+Every Page on my site is a profile of some kind. 
+I have the business profiles, surgeon/surgery center profiles, and I will add the login and user profiles. 
+I created issues that define my next steps to complete Milestone 2.
+
+
+<br>
 <br>
 
 Please discuss the following:  
 #### Page #1   
-- Name  
-- Purpose   
+- Name: LGBTQIA+ Safety Index Search  
+- Purpose: Search business, see gender neutral bathrooms nearby   
 
 #### Page #2   
-- Name  
-- Purpose   
+- Name: Surgeon/Surgery Center Search
+- Purpose: Search transgender surgeons and surgery centers in local mongodb database.
 
 #### Page #3   
-- Name  
-- Purpose   
+- Name: Services
+- Purpose: Different filters related to gender affirming care
 
 #### Page #4   
-- Name  
-- Purpose   
+- Name: Profile Page / Login / Register
+- Purpose: Account system mongodb. save surgeons surgery centers and businesses to your profile for easy access.
+
+
+#### Page #5
+- Name: Heatmap
+- Purpose: See if there is anything I can do with Leaflet to show a data driven LGBTQIA+ Acceptance to show safe parts of town versus parts to avoid and parts with no data.
+
 
 #### Remember that creating a project board, issues, and milestones is 50% of your grade!     
 If you are having trouble, contact your instructor ASAP, you might need to be part of the ePortoflio group to have better access.
