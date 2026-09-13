@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 import SurgeonReviews from '../Reviews/SurgeonReviews.jsx';
+import FavoriteButton from '../Assets/FavoriteButton.jsx';
 
 const LABEL = {
   srs: 'Bottom Surgery (SRS)',
@@ -26,6 +27,19 @@ export default function SurgeonDetail({ entry }) {
       </Link>
 
       <header className="profile-hero">
+        <FavoriteButton
+          kind={isCentre ? 'centre' : 'surgeon'}
+          refId={entry.slug}
+          name={entry.name}
+          subtitle={
+            entry.address || [entry.clinic, entry.city, entry.state, entry.country]
+              .filter(Boolean)
+              .join(', ')
+          }
+          size={26}
+          className="favorite-corner"
+        />
+
         <h1>{entry.name}</h1>
         {entry.clinic && <p className="profile-clinic">{entry.clinic}</p>}
 

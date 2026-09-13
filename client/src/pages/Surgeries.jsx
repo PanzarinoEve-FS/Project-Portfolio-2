@@ -7,6 +7,7 @@ import { useDebouncedValue } from '../hooks/useDebouncedValue.js';
 import { distanceInMetres, toKm } from '../utils/distance.js';
 import MapShell from '../components/Map/MapShell.jsx';
 import RangeControl from '../components/Apple Design Elements/RangeControl.jsx';
+import FavoriteButton from '../components/Assets/FavoriteButton.jsx';
 import Switch from '../components/Apple Design Elements/Switch.jsx';
 import SearchField from '../components/Apple Design Elements/SearchField.jsx';
 
@@ -50,7 +51,11 @@ export default function Surgeries() {
   const [location, setLocation] = useState(null);
   const [unit, setUnit] = useState('mi');
 
-  const [range, setRange] = useState(500);
+  // Must be a value the ladder actually offers. It was 500 while the ladder
+  // still went to 1500; once the cap became 200 the slider sat pinned at its
+  // maximum showing "500", and the filter really did use 500 -- so the first
+  // touch of the slider snapped to 200 and results disappeared.
+  const [range, setRange] = useState(200);
   const [data, setData] = useState({ entries: [], total: 0, checkedOn: null, source: '' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -193,6 +198,8 @@ export default function Surgeries() {
           onUnitChange={setUnit}
           id="surgery-range"
           min={{ mi: 25, km: 50 }}
+          // Surgeons are sparse enough that a nationwide search is the point,
+          // unlike the local business and service searches.
           max={{ mi: 1500, km: 2400 }}
         />
       )}
@@ -229,7 +236,17 @@ export default function Surgeries() {
         <article className="card" key={entry.name}>
           <div className="card-head">
             <h3>{entry.name}</h3>
-            <span className={`tag status-${STATUS_TONE[entry.status] ?? 'unknown'}`}>{entry.status}</span>
+            <div className="card-head-right">
+              <span className={`tag status-${STATUS_TONE[entry.status] ?? 'unknown'}`}>{entry.status}</span>
+              <FavoriteButton
+                kind={entry.kind === 'surgeon' ? 'surgeon' : 'centre'}
+                refId={entry.slug}
+                name={entry.name}
+                subtitle={[entry.clinic, entry.city, entry.state, entry.country]
+                  .filter(Boolean)
+                  .join(' - ')}
+              />
+            </div>
           </div>
 
           <p className="address">

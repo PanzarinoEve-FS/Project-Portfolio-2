@@ -7,14 +7,14 @@ import CEI from '../models/CEI.js';
 
 const router = express.Router();
 
-// Scores live in MongoDB (`npm run seed:cei`). The JSON file it was seeded
-// from stays as a fallback for when mongod is not running.
+// Scores live in MongoDB (`npm run seed:cei`). 
+// The JSON file it was seeded from stays as a fallback for when mongod is not running.
+
 const dataPath = fileURLToPath(new URL('../data/cei.json', import.meta.url));
 const seed = JSON.parse(readFileSync(dataPath, 'utf8'));
 
 const live = () => mongoose.connection.readyState === 1;
 
-// _-prefixed keys are maintainer notes, not client data.
 const fromFile = (entry) =>
   Object.fromEntries(Object.entries(entry).filter(([k]) => !k.startsWith('_')));
 
@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
     if (live()) {
       const entries = await CEI.find(
         {},
-        // Maintainer notes and bookkeeping fields stay server-side.
+     
         { _id: 0, __v: 0, anchorNote: 0, brandsNote: 0, createdAt: 0, updatedAt: 0 }
       )
         .sort({ company: 1 })

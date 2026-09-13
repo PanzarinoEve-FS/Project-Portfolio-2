@@ -3,6 +3,8 @@
 async function request(path, options = {}) {
   const response = await fetch(path, {
     headers: { 'Content-Type': 'application/json' },
+    // The session lives in an httpOnly cookie, so it has to ride along.
+    credentials: 'include',
     ...options,
   });
 
@@ -88,3 +90,24 @@ export const addReview = (osmId, review) =>
     method: 'POST',
     body: JSON.stringify(review),
   });
+
+// Accounts. The session is an httpOnly cookie, so nothing is stored here.
+const send = (path, body, method = 'POST') =>
+  request(path, { method, body: JSON.stringify(body) });
+
+export const register = (fields) => send('/api/auth/register', fields);
+
+export const login = (loginName, password) =>
+  send('/api/auth/login', { login: loginName, password });
+
+export const logout = () => send('/api/auth/logout', {});
+export const getMe = () => request('/api/auth/me');
+export const updateMe = (changes) => send('/api/auth/me', changes, 'PATCH');
+
+// Saved places.
+export const getFavorites = () => request('/api/favorites');
+
+export const addFavorite = (favorite) => send('/api/favorites', favorite);
+
+export const removeFavorite = (kind, refId) =>
+  request(`/api/favorites/${kind}/${encodeURIComponent(refId)}`, { method: 'DELETE' });

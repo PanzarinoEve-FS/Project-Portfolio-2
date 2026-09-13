@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import BathroomAccess from './BathroomAccess.jsx';
+import FavoriteButton from '../Assets/FavoriteButton.jsx';
 import CEIScore from './CEIScore.jsx';
 
 export default function BusinessCard({
@@ -19,7 +20,15 @@ export default function BusinessCard({
     <article className="card">
       <div className="card-head">
         <h3>{business.name}</h3>
-        {reviewCount > 0 && <span className="score">{overall} / 5</span>}
+        <div className="card-head-right">
+          {reviewCount > 0 && <span className="score">{overall} / 5</span>}
+          <FavoriteButton
+            kind="business"
+            refId={business.osmId}
+            name={business.name}
+            subtitle={business.address}
+          />
+        </div>
       </div>
 
       {business.category && <span className="tag">{business.category}</span>}
