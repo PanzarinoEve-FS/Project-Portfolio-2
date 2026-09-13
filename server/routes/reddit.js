@@ -1,3 +1,5 @@
+// this was my original plan to pull the information from the live reddit wiki, but I had problems with Reddit Developer API so scrapped it
+
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -8,12 +10,7 @@ const taxonomy = JSON.parse(
   readFileSync(fileURLToPath(new URL('../data/surgery-taxonomy.json', import.meta.url)), 'utf8')
 );
 
-// Reddit blocks unauthenticated access: the .json endpoints answer 403, plain
-// HTML is an empty JS shell, and a headless browser gets a "prove your
-// humanity" challenge. The official OAuth API is the only durable route, and
-// it is free at this volume (100 queries/minute for a registered script app).
-//
-// Credentials live in server/.env and never reach the browser.
+
 
 const TOKEN_URL = 'https://www.reddit.com/api/v1/access_token';
 const API = 'https://oauth.reddit.com';

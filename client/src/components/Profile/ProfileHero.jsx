@@ -1,7 +1,18 @@
+import FavoriteButton from '../Assets/FavoriteButton.jsx';
+
 // Name, phone and address, as in the wireframe's profile header.
 export default function ProfileHero({ place }) {
   return (
     <header className="profile-hero">
+      <FavoriteButton
+        kind="business"
+        refId={place.osmId}
+        name={place.name}
+        subtitle={place.address}
+        size={26}
+        className="favorite-corner"
+      />
+
       <h1>{place.name}</h1>
 
       {place.phone && (

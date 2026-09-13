@@ -87,16 +87,29 @@ router.get('/', async (req, res) => {
     return res.status(400).json({ error: 'lat, lng and radius must be numbers' });
   }
 
+  // Overpass is always asked for a generous set and the cache holds all of it,
+  // so one upstream request can serve any limit. Keying the cache on the limit
+  // instead would mean a caller asking for 200 got a cached 60 -- which is
+  // exactly what used to happen.
+  // `out ... N` caps RAW elements, and the unnamed ones are discarded below --
+  // most OSM beauty nodes carry no name. A cap of 500 therefore spent its whole
+  // budget on nameless nodes in a wide search, so the handful of named matches
+  // fell outside it and widening the radius could LOSE a result. Asking for
+  // plenty of raw elements is both complete and, measured against the live
+  // service, about twice as fast as making Overpass intersect with ["name"].
+  const FETCH_CAP = 3000;
+  const want = Math.max(1, Math.min(FETCH_CAP, Number(limit) || 60));
+
   const key = `${latitude.toFixed(3)}|${longitude.toFixed(3)}|${metres}|${wanted.sort().join(',')}`;
   const hit = cache.get(key);
   if (hit && Date.now() - hit.at < CACHE_TTL_MS) {
-    return res.json({ cached: true, results: hit.results });
+    return res.json({ cached: true, results: hit.results.slice(0, want) });
   }
 
   const around = `(around:${metres},${latitude},${longitude})`;
-  const body = `[out:json][timeout:40];(${wanted
+  const body = `[out:json][timeout:60];(${wanted
     .map((c) => `nwr${CATEGORIES[c]}${around};`)
-    .join('')});out tags center ${limit};`;
+    .join('')});out tags center ${FETCH_CAP};`;
 
   // Overpass can answer 200 with an HTML error page, so parse defensively.
   async function ask(endpoint) {
@@ -165,7 +178,7 @@ router.get('/', async (req, res) => {
     cache.set(key, { at: Date.now(), results });
     res.json({
       cached: false,
-      results,
+      results: results.slice(0, want),
       ...(asked > metres ? { cappedAtKm: metres / 1000, askedKm: asked / 1000 } : {}),
     });
   } catch (err) {

@@ -11,7 +11,6 @@ const MIN_REQUEST_GAP_MS = 1100;
 
 let lastRequestAt = 0;
 
-// Serialises calls so two overlapping requests still go out ~1s apart.
 let queue = Promise.resolve();
 
 function throttled(task) {
@@ -24,7 +23,7 @@ function throttled(task) {
     return task();
   });
 
-  // Keep the chain alive even if this task rejects.
+
   queue = run.catch(() => {});
   return run;
 }
@@ -92,7 +91,7 @@ router.get('/search', async (req, res) => {
 });
 
 // GET /api/places/nearby?lat=&lng=&category=cafe&radius=2
-// Category search boxed around the caller, so the home page needs no typing.
+// Category search 
 router.get('/nearby', async (req, res) => {
   const { lat, lng, category = 'cafe', radius = 2, limit = 12 } = req.query;
 

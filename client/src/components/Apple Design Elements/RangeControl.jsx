@@ -1,14 +1,17 @@
 import { fromKm, toKm } from '../../utils/distance.js';
 
 // The slider steps through these stops rather than sliding linearly.
+// The full ladder. A view narrows it with min/max -- the local searches stop
+// at 200 miles, the surgeon directory runs the whole way out.
 export const RANGE_STOPS = {
   mi: [1, 2, 3, 5, 10, 15, 25, 50, 75, 100, 150, 200, 300, 500, 750, 1000, 1500],
   km: [1, 3, 5, 10, 15, 25, 40, 75, 125, 160, 250, 320, 500, 800, 1200, 1600, 2400],
 };
 
+// Default ceiling for a local business search. 200 miles is about 320 km.
 export const RANGE_BOUNDS = {
-  mi: { min: 1, max: 1500 },
-  km: { min: 1, max: 2400 },
+  mi: { min: 1, max: 200 },
+  km: { min: 1, max: 320 },
 };
 
 // The stops a view offers, once its own min/max are applied.
