@@ -92,9 +92,12 @@ Please discuss the following:
 - Purpose: Account system mongodb. save surgeons surgery centers and businesses to your profile for easy access.
 
 
+<<<<<<< HEAD
 #### Page #5
 - Name: Heatmap
 - Purpose: See if there is anything I can do with Leaflet to show a data driven LGBTQIA+ Acceptance to show safe parts of town versus parts to avoid and parts with no data.
+=======
+>>>>>>> bf877ac (Revise milestones and project overview in README)
 
 
 #### Remember that creating a project board, issues, and milestones is 50% of your grade!     
