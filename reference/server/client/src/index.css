@@ -1,0 +1,346 @@
+:root {
+  --bg: #faf8fc;
+  --panel: #ffffff;
+  --ink: #2b2436;
+  --muted: #6f6683;
+  --line: #e6e0ee;
+  --accent: #7c3aed;
+  --danger: #c2255c;
+  --good: #0f7b6c;
+  --good-bg: #e6f5f2;
+  --mixed: #9a6700;
+  --mixed-bg: #fdf4e3;
+  --poor: #c2255c;
+  --poor-bg: #fdeaf1;
+  --info: #4c4180;
+  --info-bg: #eeebf8;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1; }
+
+/* Navigation */
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand { font-weight: 700; font-size: 1.15rem; color: var(--accent); text-decoration: none; }
+.navbar nav { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+
+.nav-link {
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.nav-link:hover { background: var(--bg); color: var(--ink); }
+.nav-link.active { background: var(--accent); color: #fff; }
+
+/* Layout */
+.page { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+.page > h1 { margin-bottom: 0.25rem; }
+
+.hero {
+  padding: 2.5rem 2rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+  border-radius: var(--radius);
+  color: #fff;
+}
+
+.hero h1 { margin: 0 0 0.5rem; font-size: 2rem; }
+.hero p { margin: 0 0 1.5rem; max-width: 52ch; opacity: 0.95; }
+
+.button {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.panel {
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.panel h2 { margin-top: 0; font-size: 1.1rem; }
+.profile-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr 1fr; }
+
+/* Map -- Leaflet needs an explicit height or it renders 0px tall. */
+.map {
+  height: 420px;
+  width: 100%;
+  margin: 1rem 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.profile-grid .map { height: 300px; margin: 0; }
+.popup-address { color: var(--muted); font-size: 0.85rem; }
+.popup-tags { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.4rem; }
+.popup-link { display: inline-block; margin-top: 0.5rem; color: var(--accent); }
+
+/* Forms */
+.search-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.25rem 0; }
+.search-bar input { flex: 1 1 180px; }
+
+input[type="text"], input:not([type]), textarea {
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: inherit;
+  background: var(--panel);
+  color: var(--ink);
+}
+
+button {
+  padding: 0.65rem 1.3rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 1.25rem; margin: 1rem 0; }
+.filters label { display: flex; align-items: center; gap: 0.4rem; color: var(--muted); }
+
+.review-form { display: flex; flex-direction: column; gap: 0.85rem; }
+.slider { display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.9rem; }
+.slider input { width: 100%; }
+
+/* Cards */
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  margin-top: 1.5rem;
+}
+
+.card {
+  padding: 1.1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.card h3 { margin: 0; font-size: 1rem; }
+.card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+.card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 0.75rem; }
+.card-foot a { color: var(--accent); font-size: 0.9rem; }
+
+.review { padding: 0.85rem 0; border-top: 1px solid var(--line); }
+.review p { margin: 0.35rem 0 0; }
+
+.tag {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.score { color: var(--accent); font-weight: 700; }
+
+/* Bathroom access -- the headline stat, so it gets its own block. */
+.bathroom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  border-left: 4px solid currentColor;
+  font-size: 0.85rem;
+}
+
+.bathroom-label { font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; font-size: 0.7rem; }
+.bathroom-value { font-weight: 600; }
+
+.bathroom-good { color: var(--good); background: var(--good-bg); }
+.bathroom-mixed { color: var(--mixed); background: var(--mixed-bg); }
+.bathroom-poor { color: var(--poor); background: var(--poor-bg); }
+.bathroom-nearby { color: var(--info); background: var(--info-bg); }
+.bathroom-unknown { color: var(--muted); background: var(--bg); }
+
+/* Bathroom access on the profile page -- bigger, with the source detail. */
+.bathroom-panel { padding: 1.25rem; }
+.bathroom-panel .bathroom { margin-top: 0; font-size: 0.95rem; padding: 0.75rem 0.9rem; }
+.bathroom-panel .bathroom-label { font-size: 0.72rem; }
+
+.restroom-detail { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.restroom-detail h3 { margin: 0; font-size: 1rem; }
+.restroom-detail .popup-tags { margin-top: 0.6rem; }
+
+.restroom-directions {
+  margin: 0.75rem 0 0;
+  padding: 0.65rem 0.8rem;
+  background: var(--bg);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.restroom-source { margin: 0.75rem 0 0; font-size: 0.78rem; }
+
+/* HRC Corporate Equality Index */
+.cei {
+  margin-top: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border-left: 4px solid currentColor;
+  font-size: 0.85rem;
+}
+
+.cei-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+
+.cei-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cei-score { font-weight: 700; white-space: nowrap; }
+
+.cei-company {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+/* The status line carries the caveat, so it must not read as fine print. */
+.cei-status {
+  margin: 0.45rem 0 0;
+  padding-top: 0.45rem;
+  border-top: 1px solid currentColor;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  opacity: 0.95;
+}
+
+.cei-status strong { text-transform: uppercase; letter-spacing: 0.03em; font-size: 0.7rem; }
+
+.cei-good { color: var(--good); background: var(--good-bg); }
+.cei-mixed { color: var(--mixed); background: var(--mixed-bg); }
+.cei-poor { color: var(--poor); background: var(--poor-bg); }
+
+/* Unverified scores stay neutral whatever the number says. */
+.cei-unconfirmed { color: var(--info); background: var(--info-bg); }
+
+.cei-note { margin: 0.6rem 0 0; color: var(--ink); font-size: 0.82rem; }
+.cei-source { display: inline-block; margin-top: 0.6rem; font-size: 0.82rem; font-weight: 600; }
+
+/* Category filter chips */
+.chip {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* Home search controls */
+.controls {
+  display: grid;
+  gap: 1.1rem;
+  margin: 1.25rem 0;
+  padding: 1.1rem 1.25rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.control-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.control-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.range-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.85rem; }
+.range-row input[type="range"] { flex: 1 1 200px; accent-color: var(--accent); }
+
+.range-value {
+  min-width: 5.5rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+select {
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+}
+
+.controls .filters { margin: 0; gap: 1.25rem; }
+.controls .filters label { accent-color: var(--accent); }
+
+
+.address { color: var(--muted); font-size: 0.9rem; margin: 0.35rem 0 0; }
+.muted { color: var(--muted); }
+.error { color: var(--danger); }
+.empty { padding: 1.5rem 0; color: var(--muted); text-align: center; }
+
+.prose h2 { margin-top: 1.75rem; }
+
+.footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .profile-grid { grid-template-columns: 1fr; }
+}

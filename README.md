@@ -1,107 +1,220 @@
-# Project-Portfolio-2
 
-# 1.2 Overview: Main Portfolio Project
-``` Due Mon, Sep 7, 2026 @ 11:59 PM EDT•0% weight ```
+# 💻 Project & Portfolio II
 
-## ASSIGNMENT - ACTIVITY
+# Project Name: WDP2 Portfolio Project
 
+### Eve Panzarino (jhankins)
 
-### 1.2 Overview: Main Portfolio Project
+🆔 &nbsp; #0004828216
 
-```OVERVIEW```
-
-```COMPLETION```
-
-```FEEDBACK```
-
-```This month you will be creating a portfolio project/app that will show off the skills that you have learned up to this point.```
-
-```This project will take a considerable amount of time, so make sure you start early and work on it often. There will be multiple milestones and deadlines that you must achieve along the way.```
-
-####  Project Overview / Scope
-
-Your project will use the MERN Tech Stack and must include the following:
-
-- A Git Repo, with a master, dev, and milestone branches
-- Readme File that explains your project and tracks your milestones
-- A React Front End
-- React Routing with at least 4 different views/pages
-- Node/Express Backend
-- A Mongo DB Element OR Local Storage for persistent data
-- Connect to at least 1 free API that must return JSON data.
-- The project must use at least 2 different libraries, not including React itself
-- One of these libraries you will create a tutorial for in Exercise 01
-- It should look visually appealing and must be easy for the end-user to use and understand. You may use Tailwind or any other front-end library/framework.
-Milestone #1 (Due: Monday of Week 2)
-
-Decide on your topic and theme for your project.
-
-LGBTQIA+ Safety App where you can search businesses from a business api database connecting those businesses to street addresses in that api and then an api to get the user's location from their ip address to target results to local businesses.
-
-I was thinking of adding a review scraper that can determine demographic acceptance of LGBTQIA+ individuals.
-
-**Adding business profiles that have stats such as:**
-- Bathroom Access 
-- Likelihood of Karens
-- Likelihood of Conservatives
-- Acceptance Rating
-- Overall Rating
-
-## APIs
-
-| API | Purpose | Endpoint |
-|---|---|---|
-| [GeoJS](https://get.geojs.io/v1/ip/geo.json) | Geolocation by IP address | `https://get.geojs.io/v1/ip/geo.json` |
-| [Nominatim](https://nominatim.openstreetmap.org/search.php?city=taipei&format=jsonv2) | Locations and addresses | `https://nominatim.openstreetmap.org/search.php?city=taipei&format=jsonv2` |
-| [Leadsbox](https://leadsbox.biz/?query=lawyers+in+germany) | 71 million business records across 202 countries | `https://leadsbox.biz/?query=lawyers+in+germany` |
+📪 &nbsp; jnhankins@student.fullsail.edu
 
 
-Check out the Free API sites for some ideas of an API that you can utilize
-Apipheny
-Mixed Analytics
-I Am Sajan
-Functional Spec that explains the scope of the work and the deadlines that must be met.
-Create a Wireframe Prototype in Figma that will help non-tech people understand your idea. 
- Keep in mind that a lot of your bosses will need only high-level concepts and will not be concerned with the actual code. The code is your job.
-Milestone #2 (Due: Monday of Week 3)
-
-Create your Git Repo using the provided link, which will clone over a blank repo.
-Start to code your project. 
-I will not give you a step-by-step guide for this. 
-At this point, you must use your skills and build it out yourself.
-Along the way, if you get stuck, you may reach out to the lab assistants, but remember this is YOUR portfolio project, and troubleshooting your own code is a part of this process.
-By Milestone #2, I am going to be checking that you have a React app that can compile without error and that you have your navigation up and running.
-Milestone #3 (Due: Monday of Week 4)
-
-By this point, you should have a functional prototype of your project. It might not look pretty yet, but that is what the final week is for.
-Your Git Repo should have a number of significant commits pushed to it.
-Milestone #4 (Due: Sunday of Week 4)
-
-Your completed project will be due. 
-You must create a (3 to 10) minute long video that goes through your project, what you did this month, and the technologies that you used to get it working. 
-Remember it is your job to sell your work and really show it off.
-
-Completion
+![Degree Program](https://img.shields.io/badge/Degree-Web%20Development-orange?logo=gnometerminal)
+<br>
+![Class Name](https://img.shields.io/badge/Class-Project%20and%20Portfolio%20II-orange?logo=react)
 
 
-Click on the button below if you have completed this assignment.
 
-MARK AS COMPLETED
-Feedback
+<br>
+
+## 📢 &nbsp; Milestone Check-Ins
+
+Each week I will summarize my milestone activity and progress by writing a stand-up. A stand-up is meant to be a succinct update on how things are going.  
+Use the prompts below as a guide on what to write about.    
+For each Milestone #2-4, you should use all 4 icons.   
+
+⚙️ Overview - What I worked on this past week
+<br>
+🌵 Challenges - What problems did I have & how I'm addressing them
+
+<br>
+🏆 Accomplishments - What is something I "leveled up" on this week
+
+<br>
+🔮 Next Steps - What I plan to prioritize and do next
 
 
-Send a comment or question to your instructor.
-Eve Hankins's profile image
-You
-Fri Sep 4 @ 05:36 PM EDT
-Was thinking of making a website for the queer community, where you can search businesses and it creates company profiles identifying the company's acceptance of LGBTQIA+ people.
-Using these APIs at the very least.
+<br>
+
+### Milestone 1
+
+For this milestone you will have created a wireframe prototype in Figma.   
+Post your link here, so you have easy access to it.
+
+[Figma Link](https://www.figma.com/design/PTKjniE6Ftt6kcxaLnMq9y/LGBTQIA--Safe-Search?node-id=7-1308&t=osXndGdI5rSKF4YG-1)
+
+<br>
+
+### Milestone 2
+⚙️ Overview - What I worked on this past week
+I gathered Surgeon data and CEI(Corporate Equality Index) Data into mongodb. I polished the review system and have finished the surgeon search.
+I Fixed some CSS Bugs. I Organized my codebase. I added Navigation. I added Apple Design System reusable components. I created Profiles for businesses, aswell as well as doctors and Surgery Centers.
+
+<br>
+🌵 Challenges - What problems did I have & how I'm addressing them
+The biggest issues I've been having is that the apis have limits that ultimately limit the range of the search.
+I am addressing this by looking up the limits of the apis and shortening the range.
+There's a CSS bug in Safari that was causing me problems with my layout. I fixed it but it took me probably like 30 minutes to get it looking right.
+I was accidentally working on main instead of dev and had a problem where I believe I had to rebase my branch. I have a hard time with GitHub branches because I know I can't make mistakes like this in a production environment.
+I have been sloppy with how I have been doing things and need to recenter. I feel rushed for time a lot.
+<br>
+🏆 Accomplishments - What is something I "leveled up" on this week
+My biggest accomplishment is in collecting my own data. 
+I wanted to make this project before but never felt properly inspired until now. This even motivates me and makes my old projects seem like smaller tasks than I originally anticipated. 
+I am part of the trans surgeries subreddit and I made a searchable database of surgeons and trans surgery centers.
+<br>
+🔮 Next Steps - What I plan to prioritize and do next
+I received feedback saying my page needs more views. I can add a profile and login system where users can save surgery centers doctors and business to their profile.
+Every Page on my site is a profile of some kind. 
+I have the business profiles, surgeon/surgery center profiles, and I will add the login and user profiles. 
+I created issues that define my next steps to complete Milestone 2.
 
 
-Open Data
-Leadsbox
-71 Million business records in 202 countries
-https://leadsbox.biz/?query=lawyers+in+germany
+<br>
+<br>
 
-EDIT
+Please discuss the following:  
+#### Page #1   
+- Name: LGBTQIA+ Safety Index Search  
+- Purpose: Search business, see gender neutral bathrooms nearby   
 
+#### Page #2   
+- Name: Surgeon/Surgery Center Search
+- Purpose: Search transgender surgeons and surgery centers in local mongodb database.
+
+#### Page #3   
+- Name: Services
+- Purpose: Different filters related to gender affirming care
+
+#### Page #4   
+- Name: Profile Page / Login / Register
+- Purpose: Account system mongodb. save surgeons surgery centers and businesses to your profile for easy access.
+
+
+
+
+#### Remember that creating a project board, issues, and milestones is 50% of your grade!     
+If you are having trouble, contact your instructor ASAP, you might need to be part of the ePortoflio group to have better access.
+
+
+
+
+<br>
+
+### Milestone 3
+⚙️ Overview - Write overview here.
+<br>
+🌵 Challenges - Write challenges here.
+<br>
+🏆 Accomplishments - Write Accomplishments here.
+<br>
+🔮 Next Steps - Write your next steps here.
+
+<br>
+
+Please discuss the following:
+#### API    
+- Link to the API that is used in your code    
+- Reason you chose the API    
+- Where in your code did you use it?    
+
+#### 1st Library
+- Link to the library    
+- Link to library tutorial that you made already.    
+- Reason you chose this library.    
+- Where in your code is it used?    
+
+#### 2nd Library    
+- Link to the library    
+- Reason you chose this library.    
+- Where in your code is it used?    
+
+#### Persistent Data    
+- Discuss if you have used MongoDB or Local Storage.    
+- How was it used in your code?    
+- Where in your code is it used?    
+
+
+
+
+<br>
+
+### Milestone 4
+⚙️ Overview - Write overview here.
+<br>
+🌵 Challenges - Write challenges here.
+<br>
+🏆 Accomplishments - Write Accomplishments here.
+<br>
+🔮 Next Steps - Write your next steps here.
+
+<br>
+
+Please discuss the following:  
+#### Changes
+- Discuss any changes or updates that you have made to your site since Milestone #3.
+
+#### Styling
+- Discuss the process you used to style your page.
+
+#### Link To Overview Video
+- Once it is created, put the link to your overview video of your site here.
+
+<br>
+<br>
+<hr/>
+
+# Project Overview
+
+### Your project will use the MERN Tech Stack and must include the following:
+
+-   A Git Repo, with a master, dev, and milestone branches
+-   Readme File that explains your project and tracks your milestones
+-   A React Front End
+-   React Routing with  _at least_  4 different views/pages
+    -   Dashboard/Main
+    -   User/Settings
+    -   Search
+    -   Detail Page
+-   Node/Express Backend
+-   A Mongo DB Element OR Local Storage for persistent data
+-   Connect to at least 1 free API
+-   The project must use at least 2 different libraries, not including React itself
+    -   One of these libraries you will create a tutorial for in Exercise 01
+-   It should look visually appealing and must be easy for the end-user to use and understand. You may use Tailwind or any other front-end library/framework.
+
+**Milestone #1 (Due: Monday of Week 2)**
+
+-   Decide on your topic and theme for your project.
+    -   Check out the Free API sites for some ideas of an API that you can utilize
+        -   [Apipheny](https://apipheny.io/free-api/)  
+            
+        -   [Mixed Analytics](https://mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis/)  
+            
+        -   [I Am Sajan](https://iamsajan.com/free-api-without-an-api-key/)  
+            
+-   Functional Spec that explains the scope of the work and the deadlines that must be met.  
+    
+-   Create a Wireframe Prototype in Figma that will help non-tech people understand your idea.
+    -   Keep in mind that a lot of your bosses will need only high-level concepts and will not be concerned with the actual code. The code is your job.
+
+**Milestone #2 **(Due: Monday of Week 3)****
+
+-   Create your Git Repo using the provided link, which will clone over a blank repo.
+-   Start to code your project.
+    -   I will not give you a step-by-step guide for this.
+    -   At this point, you must use your skills and build it out yourself.
+-   Along the way, if you get stuck, you may reach out to the lab assistants, but remember this is YOUR portfolio project, and troubleshooting your own code is a part of this process.
+-   By Milestone #2, I am going to be checking that you have a React app that can compile without error and that you have your navigation up and running.
+
+**Milestone #3 **(Due: Monday of Week 4)****
+
+-   By this point, you should have a functional prototype of your project. It might not look pretty yet, but that is what the final week is for.
+-   Your Git Repo should have a number of significant commits pushed to it.
+
+**Milestone #4 **(Due: Sunday of Week 4)****
+
+-   Your completed project will be due.
+-   You must create a (3 to 10) minute long video that goes through your project, what you did this month, and the technologies that you used to get it working.
+    -   Remember it is your job to sell your work and really show it off.
