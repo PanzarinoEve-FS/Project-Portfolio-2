@@ -15,6 +15,8 @@ import redditRoutes from './routes/reddit.js';
 import surgeonRoutes from './routes/surgeons.js';
 import authRoutes from './routes/auth.js';
 import favoriteRoutes from './routes/favorites.js';
+import zipscoreRoutes from './routes/zipscores.js';
+import reviewRoutes from './routes/reviews.js';
 import { optionalAuth } from './middleware/auth.js';
 
 const app = express();
@@ -51,6 +53,8 @@ app.use('/api/reddit', redditRoutes);
 app.use('/api/surgeons', surgeonRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/favorites', favoriteRoutes);
+app.use('/api/zipscores', zipscoreRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 app.use((req, res) => res.status(404).json({ error: 'Route not found' }));
 

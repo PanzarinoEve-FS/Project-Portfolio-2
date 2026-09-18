@@ -111,3 +111,11 @@ export const addFavorite = (favorite) => send('/api/favorites', favorite);
 
 export const removeFavorite = (kind, refId) =>
   request(`/api/favorites/${kind}/${encodeURIComponent(refId)}`, { method: 'DELETE' });
+
+// Business Safety Score for every ZIP on the map.
+// ZIP areas in a [west, south, east, north] box, or every scored ZIP without one.
+export const getZipScores = (bbox) =>
+  request(bbox ? `/api/zipscores?bbox=${bbox.map((value) => value.toFixed(4)).join(',')}` : '/api/zipscores');
+export const getZipScore = (zip) => request(`/api/zipscores/${encodeURIComponent(zip)}`);
+
+export const getWebReviews = () => request('/api/reviews');

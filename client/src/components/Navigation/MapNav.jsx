@@ -8,6 +8,7 @@ const LINKS = [
   { to: '/', label: 'Search', end: true },
   { to: '/surgeries', label: 'Surgeries' },
   { to: '/services', label: 'Services' },
+  { to: '/heatmap', label: 'Heatmap' },
   { to: '/about', label: 'About' },
 ];
 

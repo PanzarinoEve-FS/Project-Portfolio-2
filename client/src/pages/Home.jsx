@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import PlaceDetail from "../components/Profile/PlaceDetail.jsx";
 
 import {
+  getOsmPlaces,
   getMyLocation,
   getNearbyPlaces,
   searchPlaces,
@@ -27,6 +28,9 @@ import MapNav from "../components/Navigation/MapNav.jsx";
 import AccountPanel, { useAccountPanel } from "../components/Account/AccountPanel.jsx";
 
 const CATEGORIES = ["gas", "cafe", "restaurant", "bar", "pharmacy", "clinic"];
+
+// "all" searches every category above at once.
+const FILTERS = [...CATEGORIES, "all"];
 
 // How far the search may widen itself before giving up.
 const MAX_WIDEN_STEPS = 6;
@@ -84,15 +88,15 @@ export default function Home() {
 
     const { lat, lng, city } = location;
 
+    const limit = Math.min(40, Math.max(12, Math.round(radiusKm * 4)));
+
+    // "all" wants the nearest businesses whatever their type, which is a tag
+    // search rather than a text one, so it goes to OpenStreetMap directly.
     const lookup = debouncedQuery.trim()
       ? searchPlaces(debouncedQuery.trim(), city)
-      : getNearbyPlaces({
-          lat,
-          lng,
-          category,
-          radius: radiusKm,
-          limit: Math.min(40, Math.max(12, Math.round(radiusKm * 4))),
-        });
+      : category === "all"
+        ? getOsmPlaces({ lat, lng, radius: radiusKm, categories: "all", limit })
+        : getNearbyPlaces({ lat, lng, category, radius: radiusKm, limit });
 
     Promise.all([
       lookup,
@@ -276,7 +280,7 @@ export default function Home() {
             </div>
 
             <div className="chips" style={{ marginBottom: 14 }}>
-              {CATEGORIES.map((option) => (
+              {FILTERS.map((option) => (
                 <button
                   key={option}
                   type="button"

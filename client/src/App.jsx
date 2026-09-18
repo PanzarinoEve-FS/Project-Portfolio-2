@@ -11,6 +11,7 @@ import SurgeryProfile from './pages/SurgeryProfile.jsx';
 import SurgeonProfile from './pages/SurgeonProfile.jsx';
 import Directory from './pages/Directory.jsx';
 import About from './pages/About.jsx';
+import ZipMap from './pages/ZipMap.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Profile from './pages/Profile.jsx';
@@ -37,7 +38,7 @@ export default function App() {
   // Every view that draws its own sidebar owns the full viewport, so the
   // toolbar is only for the remaining standalone pages.
   const isMapView =
-    ['/', '/surgeries', '/services', '/about', '/login', '/register', '/profile'].includes(pathname) ||
+    ['/', '/surgeries', '/services', '/heatmap', '/about', '/login', '/register', '/profile'].includes(pathname) ||
     pathname.startsWith('/surgeries/') ||
     pathname.startsWith('/business/') ||
     pathname.startsWith('/surgery/') ||
@@ -64,6 +65,7 @@ export default function App() {
           <nav className="chips">
             <Link className="chip" to="/surgeries">Surgeries</Link>
             <Link className="chip" to="/services">Services</Link>
+            <Link className="chip" to="/heatmap">Heatmap</Link>
             <Link className="chip" to="/about">About</Link>
             {ready && (
               <Link className="chip" to={accountHref(account.view)}>
@@ -92,6 +94,7 @@ export default function App() {
         <Route path="/surgery/:osmId" element={<SurgeryProfile />} />
         <Route path="/service/:osmId" element={<Services />} />
         <Route path="/surgeon/:slug" element={<SurgeonProfile />} />
+        <Route path="/heatmap" element={<ZipMap />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
