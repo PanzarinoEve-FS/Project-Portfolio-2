@@ -1,0 +1,27 @@
+{
+  "name": "safety-app-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "npm run seed:surgeons && npm run seed:cei && npm run seed:reviews",
+    "seed:surgeons": "node scripts/seedSurgeons.js",
+    "seed:cei": "node scripts/seedCEI.js",
+    "seed:reviews": "node scripts/seedReviews.js",
+    "seed:zctas": "node scripts/seedZctas.js",
+    "score:zips": "node scripts/scoreZips.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.9.5",
+    "morgan": "^1.10.0"
+  }
+}

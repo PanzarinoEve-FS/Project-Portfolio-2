@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- A map pin, since the app is a map, filled with the pride stripes.
+       Detail is kept coarse so it still reads at 16px. -->
+  <defs>
+    <clipPath id="pin">
+      <path d="M32 3c-11 0-20 8.9-20 19.9 0 14.6 17.6 35.4 18.4 36.3a2.1 2.1 0 0 0 3.2 0C34.4 58.3 52 37.5 52 22.9 52 11.9 43 3 32 3z"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#pin)">
+    <rect width="64" height="64" fill="#e40303"/>
+    <rect y="10.7" width="64" height="10.7" fill="#ff8c00"/>
+    <rect y="21.3" width="64" height="10.7" fill="#ffed00"/>
+    <rect y="32"   width="64" height="10.7" fill="#008026"/>
+    <rect y="42.7" width="64" height="10.7" fill="#004dff"/>
+    <rect y="53.3" width="64" height="10.7" fill="#750787"/>
+
+    <!-- Chevron stack at the hoist, as on the Progress flag. -->
+    <polygon points="0,0 26,32 0,64" fill="#000000"/>
+    <polygon points="0,0 21,32 0,64" fill="#613915"/>
+    <polygon points="0,0 16,32 0,64" fill="#5bcefa"/>
+    <polygon points="0,0 11,32 0,64" fill="#f5a9b8"/>
+    <polygon points="0,0 6,32 0,64"  fill="#ffffff"/>
+  </g>
+
+  <path d="M32 3c-11 0-20 8.9-20 19.9 0 14.6 17.6 35.4 18.4 36.3a2.1 2.1 0 0 0 3.2 0C34.4 58.3 52 37.5 52 22.9 52 11.9 43 3 32 3z"
+        fill="none" stroke="#1c1c1e" stroke-width="3.5" stroke-linejoin="round"/>
+</svg>

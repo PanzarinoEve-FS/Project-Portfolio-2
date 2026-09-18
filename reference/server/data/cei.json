@@ -1,0 +1,81 @@
+{
+  "_about": "Human Rights Campaign Corporate Equality Index scores. HRC publishes no API or dataset, so these are transcribed by hand from the per-company pages linked in each entry's `source`. The CEI rates a COMPANY's workplace policies for its own employees -- it is not a rating of how a particular storefront treats customers. An unverified score means the company did not submit a survey that year, so the number is HRC's own assessment rather than a confirmed one.",
+  "index": "Corporate Equality Index",
+  "publisher": "Human Rights Campaign Foundation",
+  "maxScore": 100,
+  "entries": [
+    {
+      "company": "Starbucks Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "brands": ["Starbucks"],
+      "source": "https://www.hrc.org/resources/corporations/starbucks-corp."
+    },
+    {
+      "company": "Chipotle Mexican Grill Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "brands": ["Chipotle"],
+      "source": "https://www.hrc.org/resources/corporations/chipotle-mexican-grill-inc."
+    },
+    {
+      "company": "CVS Health Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "brands": ["CVS"],
+      "source": "https://www.hrc.org/resources/corporations/cvs-health-corp."
+    },
+    {
+      "company": "Marriott International Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": true,
+      "brands": ["Marriott"],
+      "source": "https://www.hrc.org/resources/corporations/marriott-international-inc."
+    },
+    {
+      "company": "Target Corp.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "brands": [],
+      "anchoredBrands": ["Target"],
+      "_anchorNote": "Target is a common English word, so it only matches at the start of a name. Otherwise 'On Target Fitness' would match.",
+      "source": "https://www.hrc.org/resources/corporations/target-corp."
+    },
+    {
+      "company": "Walmart Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "brands": ["Walmart"],
+      "source": "https://www.hrc.org/resources/corporations/walmart-inc."
+    },
+    {
+      "company": "Darden Restaurants Inc.",
+      "score": 100,
+      "year": 2026,
+      "verified": false,
+      "brands": [
+        "Olive Garden",
+        "LongHorn Steakhouse",
+        "Bahama Breeze",
+        "Seasons 52",
+        "The Capital Grille"
+      ],
+      "_brandsNote": "HRC's page also lists Red Lobster, but Darden sold that chain in 2014, so it is deliberately excluded here.",
+      "source": "https://www.hrc.org/resources/corporations/darden-restaurants-inc."
+    },
+    {
+      "company": "Publix Super Markets Inc.",
+      "score": 0,
+      "year": 2026,
+      "verified": false,
+      "brands": ["Publix"],
+      "source": "https://www.hrc.org/resources/corporations/publix-super-markets-inc."
+    }
+  ]
+}

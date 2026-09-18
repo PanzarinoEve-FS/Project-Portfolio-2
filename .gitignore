@@ -1,0 +1,13 @@
+node_modules/
+dist/
+build/
+
+# Local configuration. Copy server/.env.example to server/.env and fill it in.
+.env
+.env.local
+
+.DS_Store
+npm-debug.log*
+
+# Downloaded and generated map data (npm run seed:zctas).
+server/data/cache/
