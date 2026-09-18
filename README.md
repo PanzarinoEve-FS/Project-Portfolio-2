@@ -114,36 +114,47 @@ If you are having trouble, contact your instructor ASAP, you might need to be pa
 <br>
 
 ### Milestone 3
-⚙️ Overview - Write overview here.
+⚙️ Overview - Functional App
+
 <br>
-🌵 Challenges - Write challenges here.
+🌵 Challenges - Time Management - boundaries
+This week I have been bogged down. I have been seeing a New Romantic partner and our schedules have made conflicted with each other. I have someone squatting at my apartment and I'm trying to get them to find a new place and it has been eating up a lot of my time and resources.
 <br>
-🏆 Accomplishments - Write Accomplishments here.
+🏆 Accomplishments - 
+App utilizes two libraries
+I got the map to show a heat map based on LGBTQIA+ Review Data.
+I have been gathering all the Trans masculine Surgery data.
 <br>
-🔮 Next Steps - Write your next steps here.
+🔮 Next Steps - Make it where you can change location of radius by typing in a search.
+Remove electrolysis from services.
+Update About Page
+Refactor CSS
+Implement thorough Jest Tests
+
 
 <br>
 
 Please discuss the following:
-#### API    
+#### GEOJS    
 - Link to the API that is used in your code    
 - Reason you chose the API    
 - Where in your code did you use it?    
 
-#### 1st Library
+#### React Leaflet Maps
 - Link to the library    
 - Link to library tutorial that you made already.    
 - Reason you chose this library.    
 - Where in your code is it used?    
 
-#### 2nd Library    
+#### Recharts
 - Link to the library    
 - Reason you chose this library.    
 - Where in your code is it used?    
 
 #### Persistent Data    
-- Discuss if you have used MongoDB or Local Storage.    
-- How was it used in your code?    
+- MongoDB    
+- How was it used in your code? 
+Mainly to store search results info for surgeons, and review data, and the CEI Score data because I couldn't find an API I collected some data myself.
 - Where in your code is it used?    
 
 
