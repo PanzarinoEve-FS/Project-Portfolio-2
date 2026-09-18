@@ -136,29 +136,31 @@ Implement thorough Jest Tests
 
 Please discuss the following:
 #### GEOJS    
-- Link to the API that is used in your code    
+- [Link to the API that is used in your code ](https://www.geojs.io)   
 - Reason you chose the API    
+I chose GEOJS, because in conjunction with Nominatim API I have a starting point and list of location address for a search.
 - Where in your code did you use it?    
 
 #### React Leaflet Maps
-- Link to the library    
-- Link to library tutorial that you made already.    
-- Reason you chose this library.    
+- [Link to the library](https://react-leaflet.js.org)
+- [Link to library tutorial that you made already made](https://youtu.be/AeiWsDYLjvA)
+- I chose this library because I saw a lot of cool synergies with location data on APIs.
 - Where in your code is it used?    
+There are a set of map components that utilize Leaflet maps to display information from APIs and MongoDB.
 
 #### Recharts
-- Link to the library    
-- Reason you chose this library.    
-- Where in your code is it used?    
+- [Link to the library  ](https://recharts.github.io)  
+- I chose this library because it gives a really cute solution to needing an interactive list of zip codes and the businesses within those zip codes with a safety score.    
+- Where in your code is it used?
+  You can see rechart in the Heatmap Zipcode detail section.  
 
 #### Persistent Data    
 - MongoDB    
 - How was it used in your code? 
 Mainly to store search results info for surgeons, and review data, and the CEI Score data because I couldn't find an API I collected some data myself.
 - Where in your code is it used?    
-
-
-
+All data for the surgeons is in MongoDB.
+All Review data for the zip code heat map search is stored in MongoDB.
 
 <br>
 
