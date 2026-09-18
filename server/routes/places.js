@@ -2,71 +2,7 @@ import express from 'express';
 
 const router = express.Router();
 
-// Nominatim policy: 1 request/sec, identifying User-Agent, no bulk geocoding.
-// https://operations.osmfoundation.org/policies/nominatim/
-
-const cache = new Map();
-const CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24 hours
-const MIN_REQUEST_GAP_MS = 1100;
-
-let lastRequestAt = 0;
-
-let queue = Promise.resolve();
-
-function throttled(task) {
-  const run = queue.then(async () => {
-    const waitFor = lastRequestAt + MIN_REQUEST_GAP_MS - Date.now();
-    if (waitFor > 0) {
-      await new Promise((resolve) => setTimeout(resolve, waitFor));
-    }
-    lastRequestAt = Date.now();
-    return task();
-  });
-
-
-  queue = run.catch(() => {});
-  return run;
-}
-
-function normalise(place) {
-  return {
-    osmId: `${place.osm_type}-${place.osm_id}`,
-    name: place.name || place.display_name.split(',')[0],
-    address: place.display_name,
-    category: place.type,
-    lat: Number(place.lat),
-    lng: Number(place.lon),
-  };
-}
-
-// Runs a throttled, cached Nominatim query and returns normalised places.
-async function queryNominatim(url, cacheKey) {
-  const hit = cache.get(cacheKey);
-
-  if (hit && Date.now() - hit.at < CACHE_TTL_MS) {
-    return { cached: true, results: hit.results };
-  }
-
-  const response = await throttled(() =>
-    fetch(url, {
-      headers: {
-        'User-Agent': process.env.NOMINATIM_USER_AGENT || 'LGBTQIA-Safety-App/1.0',
-        'Accept-Language': 'en',
-      },
-    })
-  );
-
-  if (!response.ok) {
-    const error = new Error('Nominatim request failed');
-    error.status = response.status;
-    throw error;
-  }
-
-  const results = (await response.json()).map(normalise);
-
-  cache.set(cacheKey, { at: Date.now(), results });
-  return { cached: false, results };
-}
+import { queryNominatim } from '../lib/nominatim.js';
 
 // GET /api/places/search?q=coffee&city=Chicago
 router.get('/search', async (req, res) => {

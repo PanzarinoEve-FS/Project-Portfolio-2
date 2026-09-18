@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { getSurgeons, getMyLocation, getSurgeon } from '../api/client.js';
+import { getSurgeons, getMyLocation, getSurgeon, geocodePlace } from '../api/client.js';
 import SurgeonDetail from '../components/Profile/SurgeonDetail.jsx';
 import { useDebouncedValue } from '../hooks/useDebouncedValue.js';
 import { distanceInMetres, toKm } from '../utils/distance.js';
@@ -62,6 +62,10 @@ export default function Surgeries() {
   const [stateName, setStateName] = useState('Florida');
   const [countryName, setCountryName] = useState('Thailand');
   const [location, setLocation] = useState(null);
+  // A ZIP or address typed into the search box. While one is set, "Near me" is
+  // measured from there rather than from wherever the visitor's IP puts them.
+  const [pinned, setPinned] = useState(null);
+  const [pinnedFor, setPinnedFor] = useState('');
   const [unit, setUnit] = useState('mi');
 
   // Must be a value the ladder actually offers. It was 500 while the ladder
@@ -115,10 +119,42 @@ export default function Surgeries() {
 
   const radiusKm = toKm(debouncedRange, unit);
 
+  const origin = pinned ?? location;
+  const searchText =
+    pinnedFor && debouncedQuery.trim() === pinnedFor ? '' : debouncedQuery.trim();
+
+  const namesSomeone = (text) =>
+    data.entries.some((e) =>
+      `${e.name} ${e.city ?? ''} ${e.clinic ?? ''}`.toLowerCase().includes(text.toLowerCase())
+    );
+
+  // A ZIP or a street address matches no surgeon's name, city or clinic, so
+  // text that finds nobody is tried as a place and becomes the point the range
+  // is measured from. A real name still filters the list as before.
+  useEffect(() => {
+    const text = debouncedQuery.trim();
+    if (!text || text === pinnedFor || namesSomeone(text)) return;
+
+    let cancelled = false;
+
+    geocodePlace(text)
+      .then((place) => {
+        if (cancelled) return;
+        setPinned(place);
+        setPinnedFor(text);
+        setScope('near');
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, [debouncedQuery, pinnedFor, data.entries]);
+
   const inScope = (e) => {
     if (scope === 'near') {
-      if (!location || e.lat == null) return false;
-      return distanceInMetres(location, e) / 1000 <= radiusKm;
+      if (!origin || e.lat == null) return false;
+      return distanceInMetres(origin, e) / 1000 <= radiusKm;
     }
     if (scope === 'state') return e.region === 'usa' && (!e.state || e.state === stateName);
     return e.country === countryName;
@@ -128,11 +164,15 @@ export default function Surgeries() {
 
   const visible = data.entries.filter(inScope).filter(
     (e) =>
-      !debouncedQuery.trim() ||
-      `${e.name} ${e.city ?? ''} ${e.clinic ?? ''}`.toLowerCase().includes(debouncedQuery.toLowerCase().trim())
+      !searchText ||
+      `${e.name} ${e.city ?? ''} ${e.clinic ?? ''}`.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const centre = visible[0] ? [visible[0].lat, visible[0].lng] : [20, 0];
+  const centre = pinned
+    ? [pinned.lat, pinned.lng]
+    : visible[0]
+      ? [visible[0].lat, visible[0].lng]
+      : [20, 0];
 
   const markers = visible
     .filter((e) => e.lat != null)
@@ -202,6 +242,31 @@ export default function Surgeries() {
           </select>
         )}
       </div>
+
+      {scope === 'near' && pinned && (
+        <p className="muted" style={{ marginBottom: 8 }}>
+          Measuring from {pinned.label ?? pinned.city}.{' '}
+          <button
+            type="button"
+            onClick={() => {
+              setPinned(null);
+              setPinnedFor('');
+              setQuery('');
+            }}
+            style={{
+              border: 'none',
+              background: 'none',
+              padding: 0,
+              font: 'inherit',
+              color: 'inherit',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+            }}
+          >
+            Use my location
+          </button>
+        </p>
+      )}
 
       {scope === 'near' && (
         <RangeControl

@@ -5,6 +5,7 @@ import PlaceDetail from "../components/Profile/PlaceDetail.jsx";
 import {
   getOsmPlaces,
   getMyLocation,
+  geocodePlace,
   getNearbyPlaces,
   searchPlaces,
   getRestrooms,
@@ -35,10 +36,22 @@ const FILTERS = [...CATEGORIES, "all"];
 // How far the search may widen itself before giving up.
 const MAX_WIDEN_STEPS = 6;
 
+// A ZIP resolves locally and costs nothing. Anything else costs a Nominatim
+// call that shares the same one-per-second budget as the business search, so
+// only text that could plausibly name a place is ever tried.
+const PLACE_SHAPED = /^(\d{5}|[a-z .'-]{2,}(,\s*[a-z .'-]{2,})?)$/i;
+const looksLikePlace = (text) => PLACE_SHAPED.test(text) && text.split(/\s+/).length <= 4;
+
 export default function Home() {
 
   const { osmId } = useParams();
   const [location, setLocation] = useState(null);
+  // A place typed into the search box. While one is set, the range is measured
+  // from there rather than from wherever the visitor's IP puts them.
+  const [pinned, setPinned] = useState(null);
+  // The text that produced the pin, so the same text is not also run as a
+  // business name search.
+  const [pinnedFor, setPinnedFor] = useState("");
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("gas");
   const [unit, setUnit] = useState("mi");
@@ -66,6 +79,10 @@ export default function Home() {
   const debouncedQuery = useDebouncedValue(query, 500);
   const radiusKm = toKm(debouncedRange, unit);
 
+  const anchor = pinned ?? location;
+  const searchText =
+    pinnedFor && debouncedQuery.trim() === pinnedFor ? "" : debouncedQuery.trim();
+
   useEffect(() => {
     getMyLocation()
       .then(setLocation)
@@ -78,22 +95,45 @@ export default function Home() {
       .catch(() => {});
   }, []);
 
+  // Typing a ZIP or a place name moves the search there. Anything that is not a
+  // place answers 404 and falls through to the business search below.
   useEffect(() => {
-    if (!location) return;
+    const text = debouncedQuery.trim();
+    if (!text || text === pinnedFor || !looksLikePlace(text)) return;
+
+    let cancelled = false;
+
+    geocodePlace(text)
+      .then((place) => {
+        if (cancelled) return;
+        widenSteps.current = 0;
+        setAutoJump(null);
+        setPinned(place);
+        setPinnedFor(text);
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, [debouncedQuery, pinnedFor]);
+
+  useEffect(() => {
+    if (!anchor) return;
 
     let cancelled = false;
     searchRan.current = false;
     setLoading(true);
     setError("");
 
-    const { lat, lng, city } = location;
+    const { lat, lng, city } = anchor;
 
     const limit = Math.min(40, Math.max(12, Math.round(radiusKm * 4)));
 
     // "all" wants the nearest businesses whatever their type, which is a tag
     // search rather than a text one, so it goes to OpenStreetMap directly.
-    const lookup = debouncedQuery.trim()
-      ? searchPlaces(debouncedQuery.trim(), city)
+    const lookup = searchText
+      ? searchPlaces(searchText, city)
       : category === "all"
         ? getOsmPlaces({ lat, lng, radius: radiusKm, categories: "all", limit })
         : getNearbyPlaces({ lat, lng, category, radius: radiusKm, limit });
@@ -125,17 +165,17 @@ export default function Home() {
       cancelled = true;
     };
   }, [
-    location,
+    anchor,
     category,
     radiusKm,
-    debouncedQuery,
+    searchText,
     filters.unisex,
     filters.ada,
   ]);
 
   const restroomReachKm =
-    location && restrooms.length
-      ? Math.max(...restrooms.map((r) => distanceInMetres(location, r))) / 1000
+    anchor && restrooms.length
+      ? Math.max(...restrooms.map((r) => distanceInMetres(anchor, r))) / 1000
       : 0;
   const coverageLabel = restroomReachKm
     ? `${Math.round(fromKm(restroomReachKm, unit))} ${unit}`
@@ -149,9 +189,9 @@ export default function Home() {
 
       beyondCoverage:
         !nearestRestroom &&
-        Boolean(location) &&
+        Boolean(anchor) &&
         restroomReachKm > 0 &&
-        distanceInMetres(location, place) / 1000 > restroomReachKm,
+        distanceInMetres(anchor, place) / 1000 > restroomReachKm,
       cei: matchCEI(place.name, cei.entries),
     };
   });
@@ -171,7 +211,7 @@ export default function Home() {
   // miles out. Stepping is a few more requests but lands on the smallest range
   // that actually works.
   useEffect(() => {
-    if (!searchRan.current || loading || error || !location) return;
+    if (!searchRan.current || loading || error || !anchor) return;
     if (visible.length > 0 || range !== debouncedRange) return;
     if (widenSteps.current >= MAX_WIDEN_STEPS) return;
 
@@ -182,9 +222,9 @@ export default function Home() {
     widenSteps.current += 1;
     setAutoJump((prev) => ({ from: prev?.from ?? range, to: next }));
     setRange(next);
-  }, [loading, error, location, visible.length, range, debouncedRange, unit]);
+  }, [loading, error, anchor, visible.length, range, debouncedRange, unit]);
 
-  const center = location ? [location.lat, location.lng] : [28.5978, -81.3024];
+  const center = anchor ? [anchor.lat, anchor.lng] : [28.5978, -81.3024];
 
   // Opening the account panel must not unmount this view -- the results and
   // every filter stay exactly as they were.
@@ -290,7 +330,7 @@ export default function Home() {
                     setCategory(option);
                   }}
                   className={
-                    option === category && !query.trim()
+                    option === category && !searchText
                       ? "chip active"
                       : "chip"
                   }
@@ -308,8 +348,35 @@ export default function Home() {
             )}
 
             <div className="group-label">
-              Search Results{location ? ` - ${location.city}` : ""}
+              Search Results{anchor ? ` - ${anchor.city}` : ""}
             </div>
+
+            {pinned && (
+              <p className="muted">
+                Searching {range} {unit} around {pinned.label ?? pinned.city}.{" "}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPinned(null);
+                    setPinnedFor("");
+                    setQuery("");
+                    widenSteps.current = 0;
+                    setAutoJump(null);
+                  }}
+                  style={{
+                    border: "none",
+                    background: "none",
+                    padding: 0,
+                    font: "inherit",
+                    color: "inherit",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
+                >
+                  Use my location
+                </button>
+              </p>
+            )}
 
             {error && <p className="error">{error}</p>}
             {loading && <p className="muted">Loading...</p>}
