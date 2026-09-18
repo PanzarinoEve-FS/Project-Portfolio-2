@@ -18,6 +18,18 @@ const PROCEDURES = [
   { id: 'vfs', label: 'Voice Feminization (VFS)' },
 ];
 
+// Kept apart from the list above: these are different surgeons, listed by
+// TransHealthcare rather than the TransSurgeriesWiki.
+const PROCEDURES_MASC = [
+  { id: 'phalloplasty', label: 'Bottom Surgery (SRS)' },
+  { id: 'top-masc', label: 'Top Surgery' },
+];
+
+// Every procedure the directory can show, so a row's tags read as labels
+// whichever list they came from. Without this the masculine ones rendered as
+// raw ids: "phalloplasty" instead of "Bottom Surgery (SRS)".
+const ALL_PROCEDURES = [...PROCEDURES, ...PROCEDURES_MASC];
+
 const STATES = [
   'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware',
   'Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky',
@@ -46,6 +58,7 @@ export default function Surgeries() {
   const [scope, setScope] = useState('near');
 
   const [centresOnly, setCentresOnly] = useState(true);
+  const [surgeonsOnly, setSurgeonsOnly] = useState(false);
   const [stateName, setStateName] = useState('Florida');
   const [countryName, setCountryName] = useState('Thailand');
   const [location, setLocation] = useState(null);
@@ -90,7 +103,7 @@ export default function Surgeries() {
     setLoading(true);
     setError('');
 
-    getSurgeons({ procedures: procedureKey, kind: centresOnly ? 'centre' : '' })
+    getSurgeons({ procedures: procedureKey, kind: centresOnly ? 'centre' : surgeonsOnly ? 'surgeon' : '' })
       .then((result) => !cancelled && setData(result))
       .catch((err) => !cancelled && setError(err.message))
       .finally(() => !cancelled && setLoading(false));
@@ -98,7 +111,7 @@ export default function Surgeries() {
     return () => {
       cancelled = true;
     };
-  }, [procedureKey, centresOnly]);
+  }, [procedureKey, centresOnly, surgeonsOnly]);
 
   const radiusKm = toKm(debouncedRange, unit);
 
@@ -209,13 +222,39 @@ export default function Surgeries() {
           id="centres-only"
           label="Surgery centers only"
           checked={centresOnly}
-          onChange={setCentresOnly}
+          onChange={(v) => {
+            setCentresOnly(v);
+            if (v) setSurgeonsOnly(false);
+          }}
+        />
+
+        <Switch
+          id="surgeons-only"
+          label="Surgeons only"
+          checked={surgeonsOnly}
+          onChange={(v) => {
+            setSurgeonsOnly(v);
+            if (v) setCentresOnly(false);
+          }}
         />
       </div>
 
       <div className="group">
-        <div className="group-label">Procedure</div>
+        <div className="group-label">Trans Feminine Surgeries</div>
         {PROCEDURES.map((p) => (
+          <Switch
+            key={p.id}
+            id={p.id}
+            label={p.label}
+            checked={Boolean(selected[p.id])}
+            onChange={(v) => setSelected((s) => ({ ...s, [p.id]: v }))}
+          />
+        ))}
+      </div>
+
+      <div className="group">
+        <div className="group-label">Trans Masculine Surgeries</div>
+        {PROCEDURES_MASC.map((p) => (
           <Switch
             key={p.id}
             id={p.id}
@@ -262,7 +301,7 @@ export default function Surgeries() {
           <div className="popup-tags">
             {entry.procedures.map((id) => (
               <span key={id} className="tag">
-                {PROCEDURES.find((p) => p.id === id)?.label ?? id}
+                {ALL_PROCEDURES.find((p) => p.id === id)?.label ?? id}
               </span>
             ))}
           </div>

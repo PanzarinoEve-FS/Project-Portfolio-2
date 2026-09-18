@@ -974,3 +974,122 @@ body:has(.toolbar) #root { height: auto; }
 .known-account-forget:hover { color: var(--label); }
 .known-account-pick:focus-visible,
 .known-account-forget:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+
+/* ---- Safety heatmap ---------------------------------------------------- */
+
+.zip-notice {
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  border-radius: var(--r-sm);
+  background: var(--fill);
+  font-size: 13px;
+}
+
+.zip-legend { display: flex; flex-direction: column; gap: 6px; }
+.zip-legend-row { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.zip-legend-row .muted { margin-left: auto; font-size: 12px; }
+
+.zip-swatch {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: 0.5px solid var(--separator);
+}
+.zip-swatch.is-grey { opacity: 0.45; }
+
+.zip-band { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--label-secondary); }
+.zip-detail .group-label { margin-top: 10px; }
+.zip-contributors { margin: 4px 0 0; padding-left: 18px; font-size: 14px; }
+.zip-contributors li { margin-bottom: 2px; }
+.zip-method { font-size: 12px; margin: 12px 0; }
+
+.zip-list { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+
+.zip-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--r-md);
+  background: var(--glass-thick);
+  color: var(--label);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.zip-row strong { font-size: 15px; }
+.zip-row .muted { margin-left: auto; font-size: 13px; }
+.zip-row.active,
+.zip-row:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+
+.zip-quote { display: block; margin: 2px 0 6px; font-size: 13px; font-style: italic; color: var(--label-secondary); }
+
+.zip-chart-tooltip {
+  max-width: 240px;
+  padding: 8px 10px;
+  border: 1px solid var(--separator);
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* ---- User location dot -------------------------------------------------- */
+.leaflet-interactive.user-location {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+}
+
+/* A web review in the ZIP panel: a row you can click to put the place on the
+   map, rather than a link straight out to the article. */
+.zip-review {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--label);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.zip-review:hover strong,
+.zip-review:focus-visible strong { text-decoration: underline; }
+.zip-review[disabled] { cursor: default; }
+
+.business-panel .card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.business-reviews {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.business-reviews li {
+  padding: 10px 12px;
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--r-md);
+  background: var(--glass-thick);
+}
+
+.business-review-head { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.business-review-head .muted { margin-left: auto; font-size: 12px; text-align: right; }
+.business-review-summary { margin: 6px 0 0; font-size: 13px; line-height: 1.5; }
+
+.business-review-foot { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.business-review-foot .muted { font-size: 12px; }
+.business-review-foot .chip { margin-left: auto; padding: 5px 11px; font-size: 13px; }
+
+.stance-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; background: #8e8e93; }
+.stance-dot.is-friendly { background: var(--green); }
+.stance-dot.is-mixed { background: var(--orange); }
+.stance-dot.is-unfriendly { background: var(--red); }

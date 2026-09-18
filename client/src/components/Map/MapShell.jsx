@@ -12,6 +12,7 @@ export default function MapShell({
   zoom = 12,
   markers = [],
   cluster = false,
+  mapChildren = null,
   search = null,
   detail = null,
   children,
@@ -24,7 +25,9 @@ export default function MapShell({
   return (
     <div className="app">
       <div className="map-layer">
-        <MapView center={center} zoom={zoom} markers={markers} cluster={cluster} />
+        <MapView center={center} zoom={zoom} markers={markers} cluster={cluster}>
+          {mapChildren}
+        </MapView>
       </div>
 
       <MapNav />

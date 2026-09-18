@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 import CEI from '../models/CEI.js';
 
-// Imports server/data/cei.json. Safe to re-run: upserts on company name.
+// Imports server/data/cei.json. 
 const dataPath = fileURLToPath(new URL('../data/cei.json', import.meta.url));
 const doc = JSON.parse(readFileSync(dataPath, 'utf8'));
 
