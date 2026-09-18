@@ -22,6 +22,11 @@ async function request(path, options = {}) {
 // GeoJS - approximate location from the visitor's IP address.
 export const getMyLocation = () => request('/api/geo/me');
 
+// A typed ZIP or place name turned into a point, so a search can be anchored
+// somewhere other than where the visitor happens to be. 404 means the text was
+// not a place.
+export const geocodePlace = (q) => request(`/api/geo/place?q=${encodeURIComponent(q)}`);
+
 // Nominatim - search for places by name and city.
 export const searchPlaces = (query, city) =>
   request(`/api/places/search?q=${encodeURIComponent(query)}&city=${encodeURIComponent(city || '')}`);

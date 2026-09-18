@@ -14,7 +14,6 @@ import BusinessCard from '../components/Profile/BusinessCard.jsx';
 import SearchField from '../components/Apple Design Elements/SearchField.jsx';
 
 const SERVICES = [
-  { id: 'electrolysis', label: 'Electrolysis', categories: ['beauty'], keywords: ['electrolysis', 'electrolog'] },
   { id: 'laser', label: 'Laser Hair Removal', categories: ['beauty'], keywords: ['laser', 'hair removal'] },
   { id: 'threading', label: 'Eyebrow Threading', categories: ['beauty'], keywords: ['thread', 'brow'] },
   { id: 'nails', label: 'Nail Salon', categories: ['nails', 'beauty'], keywords: [] },
@@ -98,8 +97,8 @@ export default function Services() {
     };
   }, [location, categoryKey, radiusKm]);
 
-  // Electrolysis, laser and threading share shop=beauty, so those are narrowed
-  // by a name keyword; the rest match on the tag alone.
+  // Laser and threading share shop=beauty, so those are narrowed by a name
+  // keyword; the rest match on the tag alone.
   const matchesSelection = (place) => {
     if (chosen.keywords.length === 0) return chosen.categories.includes(place.category);
 
