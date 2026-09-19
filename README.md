@@ -140,6 +140,42 @@ Please discuss the following:
 - Reason you chose the API    
 I chose GEOJS, because in conjunction with Nominatim API I have a starting point and list of location address for a search.
 - Where in your code did you use it?    
+`server/routes/geo.js` calls it for `/api/geo/me`, which is how the map knows where to open before you have typed anything.
+
+#### Overpass API (OpenStreetMap)
+- [Link to the API](https://overpass-api.de/)
+- Reason you chose the API    
+Searching for places by tag, which a text search cannot do. Queries are capped and cached, and fall back to a mirror when the main server is busy.
+- Where in your code did you use it?    
+`server/routes/osm.js` for the business and services searches, and `server/scripts/scoreZips.js` for the sweep the Heatmap scores are built from.
+
+#### Nominatim (OpenStreetMap)
+- [Link to the API](https://nominatim.openstreetmap.org/)
+- Reason you chose the API    
+Addresses, and turning a place name into coordinates. Requests are rate limited and cached on our server to respect its usage policy.
+- Where in your code did you use it?    
+`server/lib/nominatim.js` holds the one-request-a-second queue and cache that every caller shares. `server/routes/geo.js` uses it for the ZIP and address lookup behind the search boxes, and `server/routes/places.js` for business lookups.
+
+#### Refuge Restrooms
+- [Link to the API](https://www.refugerestrooms.org/)
+- Reason you chose the API    
+Community-logged gender-neutral and accessible restrooms, with filters for each.
+- Where in your code did you use it?    
+`server/routes/restrooms.js`, and `server/scripts/scoreZips.js` counts a documented restroom near a business as one of the Business Safety Score signals.
+
+#### US Census Bureau
+- [Link to the source](https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html)
+- Reason you chose the API    
+The 2020 ZIP Code Tabulation Area boundaries the heatmap is drawn on. This one is a published file rather than a live API, downloaded once.
+- Where in your code did you use it?    
+`server/scripts/seedZctas.js` downloads and loads it into the `zctas` collection.
+
+#### HRC Corporate Equality Index
+- [Link to the source](https://www.hrc.org/resources/corporate-equality-index)
+- Reason you chose the API    
+Company workplace-policy scores. HRC publishes no API, so these are transcribed by hand and each entry links back to its source page.
+- Where in your code did you use it?    
+`server/data/cei.json` holds the transcribed scores and `server/routes/cei.js` serves them.
 
 #### React Leaflet Maps
 - [Link to the library](https://react-leaflet.js.org)
