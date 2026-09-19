@@ -7,7 +7,7 @@ import FavoriteButton from '../Assets/FavoriteButton.jsx';
 const LINK = {
   business: (refId) => `/business/${encodeURIComponent(refId)}`,
   surgeon: (refId) => `/surgeries/${refId}`,
-  centre: (refId) => `/surgeries/${refId}`,
+  center: (refId) => `/surgeries/${refId}`,
 };
 
 const GROUPS = [
@@ -144,7 +144,7 @@ export default function ProfileBody() {
 
         {favorites.length === 0 && (
           <p className="empty">
-            Nothing saved yet. Tap the heart on any business, surgeon or surgery centre.
+            Nothing saved yet. Tap the heart on any business, surgeon or surgery center.
           </p>
         )}
 

@@ -6,7 +6,7 @@ import { requireAuth } from '../middleware/auth.js';
 const router = express.Router();
 
 const live = () => mongoose.connection.readyState === 1;
-const KINDS = new Set(['business', 'surgeon', 'centre']);
+const KINDS = new Set(['business', 'surgeon', 'center']);
 
 router.use((req, res, next) =>
   live() ? next() : res.status(503).json({ error: 'Database unavailable. Is mongod running?' })
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
   const { kind, refId, name, subtitle } = req.body ?? {};
 
   if (!KINDS.has(kind)) {
-    return res.status(400).json({ error: 'kind must be business, surgeon or centre' });
+    return res.status(400).json({ error: 'kind must be business, surgeon or center' });
   }
   if (!refId || !name) {
     return res.status(400).json({ error: 'refId and name are required' });

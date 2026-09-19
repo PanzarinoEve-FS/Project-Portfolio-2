@@ -33,12 +33,12 @@ export default function SurgeonProfile() {
     };
   }, [slug]);
 
-  const isCentre = entry && entry.kind !== 'surgeon';
+  const isCenter = entry && entry.kind !== 'surgeon';
 
   const shell = (body) => (
     <MapShell
       title="LGBTQIA+ Safety Index"
-      subtitle={isCentre ? 'Surgery Center' : 'Surgeon'}
+      subtitle={isCenter ? 'Surgery Center' : 'Surgeon'}
       center={entry?.lat != null ? [entry.lat, entry.lng] : [20, 0]}
       zoom={entry?.precise ? 12 : entry ? 6 : 2}
       markers={
@@ -98,11 +98,11 @@ export default function SurgeonProfile() {
         {entry.note && <p className="muted" style={{ marginTop: 8 }}>{entry.note}</p>}
       </div>
 
-      {isCentre ? (
+      {isCenter ? (
         <div className="panel">
           <h2>Doctors listed here</h2>
           {entry.colleagues.length === 0 ? (
-            <p className="empty">The wiki does not record which doctors work at this centre.</p>
+            <p className="empty">The wiki does not record which doctors work at this center.</p>
           ) : (
             entry.colleagues.map((c) => (
               <div key={c.slug} className="review">
@@ -148,7 +148,7 @@ export default function SurgeonProfile() {
               {' '}(NPI {entry.npi}).
             </>
           )}
-          {!entry.precise && ' Pinned at the regional centre; no address is listed.'}
+          {!entry.precise && ' Pinned at the regional center; no address is listed.'}
         </p>
         <p className="muted" style={{ marginTop: 8 }}>
           <strong>A directory, not a recommendation.</strong> Nothing here confirms which

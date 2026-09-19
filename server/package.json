@@ -7,12 +7,15 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "seed": "npm run seed:surgeons && npm run seed:cei && npm run seed:reviews",
+    "seed": "npm run seed:surgeons && npm run seed:cei && npm run seed:reviews && npm run seed:heatmap",
     "seed:surgeons": "node scripts/seedSurgeons.js",
     "seed:cei": "node scripts/seedCEI.js",
     "seed:reviews": "node scripts/seedReviews.js",
+    "seed:heatmap": "node scripts/seedHeatmap.js",
     "seed:zctas": "node scripts/seedZctas.js",
-    "score:zips": "node scripts/scoreZips.js"
+    "score:zips": "node scripts/scoreZips.js",
+    "export:data": "node scripts/exportData.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -23,5 +26,16 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.9.5",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "supertest": "^7.2.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {},
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
   }
 }
