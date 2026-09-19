@@ -200,40 +200,61 @@ If you are having trouble, contact your instructor ASAP, you might need to be pa
 <br>
 
 ### Milestone 3
-⚙️ Overview - Write overview here.
+⚙️ Overview - This week I turned the project into something that runs end to end on
+someone else's machine. I finished researching the surgeon directory, so all 1,596
+entries have been checked by hand and 723 of them now carry the procedures a source
+actually documents them performing. I fixed the surgery center filter, added the
+favorites system to the profile page, committed every collection the app needs into
+the repo with a one-command seed, and wrote a Jest suite covering the search filters.
 <br>
-🌵 Challenges - Write challenges here.
+🌵 Challenges - Three bugs were only findable by digging. Saved surgery centers never
+appeared on the profile page: the grouping code asked for `kind: 'center'` while the
+model, the API and every saved row used `'centre'`, so the filter silently matched
+nothing. I have since renamed the British spelling to American everywhere except a
+French clinic name and the OpenStreetMap tag values, which genuinely use `centre`.
+Filtering centers by top surgery returned almost nothing, because center rows carry
+their own tags from the source wiki and those were never updated as I researched the
+individual surgeons. And `routes/surgeons.js` contained four stray NUL bytes, which
+made `grep` treat it as a binary file and skip it, so it stayed invisible during a
+search until I checked the file byte by byte.
 <br>
-🏆 Accomplishments - Write Accomplishments here.
+🏆 Accomplishments - I leveled up on testing. Rather than writing tests that assert
+today's numbers, each one recomputes what the answer should be from the source data,
+so they test the filtering logic instead of freezing a snapshot. I then checked the
+suite was worth having by deliberately breaking the route three ways and confirming
+it failed each time. I also got the whole database into the repo: the Census boundary
+file is 97 MB, but the heatmap only ever asks for ZIPs that carry a score, so shipping
+those 145 shapes is 0.2 MB and the map still draws exactly the same.
 <br>
-🔮 Next Steps - Write your next steps here.
+🔮 Next Steps - Styling polish for Milestone 4. I want to add a category for
+gender affirming hysterectomy, since 17 surgeons in the directory perform it and the
+schema currently has nowhere to record it. I also want to correct the heatmap caption,
+which credits Google reviews when documented restrooms are most of the score, and
+extend the tests to the client side filters.
 
 <br>
 
 Please discuss the following:
 #### API    
-- Link to the API that is used in your code    
-- Reason you chose the API    
-- Where in your code did you use it?    
+- Link to the API that is used in your code: [Nominatim](https://nominatim.openstreetmap.org/) (OpenStreetMap geocoding). The app also calls [Overpass](https://overpass-api.de/), [Refuge Restrooms](https://www.refugerestrooms.org/api/docs/), [GeoJS](https://get.geojs.io/) and the [Reddit API](https://www.reddit.com/dev/api/).
+- Reason you chose the API: it is free, needs no key, and returns JSON. The project has to turn a typed ZIP code or address into coordinates so a search can measure distance from it, and Nominatim does that over open data rather than a commercial map service. Its usage policy caps callers at one request a second and asks for an identifying User-Agent, which the code respects.
+- Where in your code did you use it? `server/lib/nominatim.js` holds a single shared queue and cache so every caller obeys the one request per second limit. `server/routes/geo.js` uses it for the `/api/geo/place` lookup behind the search boxes on the Find Places and Surgeon Search pages, and `server/routes/places.js` uses it for business lookups.
 
 #### 1st Library
-- Link to the library    
-- Link to library tutorial that you made already.    
-- Reason you chose this library.    
-- Where in your code is it used?    
+- Link to the library: [Leaflet](https://leafletjs.com/) via [React Leaflet](https://react-leaflet.js.org/)
+- Link to library tutorial that you made already: **<!-- paste the link to your 1.4 Exercise 01 tutorial here -->**
+- Reason you chose this library: the whole project is about where things are, so almost every page needed a real map rather than a static image. Leaflet is open source, works with OpenStreetMap tiles without an API key or billing account, and React Leaflet gives it a component API that fits the rest of the app.
+- Where in your code is it used? `client/src/components/Map/MapView.jsx` is the shared map used by the business, services and surgeon pages. `client/src/components/Map/ZipLayer.jsx` draws the ZIP code choropleth on the heatmap from Census boundary shapes. `client/src/components/Map/ReviewMarker.jsx` and `UserLocationMarker.jsx` place the individual pins.
 
 #### 2nd Library    
-- Link to the library    
-- Reason you chose this library.    
-- Where in your code is it used?    
+- Link to the library: [Recharts](https://recharts.org/)
+- Reason you chose this library: a score on its own does not tell you much, so the app needed to show how a place compares with its neighbours. Recharts draws charts as React components, which meant the bars could be made clickable and wired into the same selection state as the map.
+- Where in your code is it used? `client/src/components/Map/ZipChart.jsx` draws one bar per scored ZIP on the heatmap, and clicking a bar selects that ZIP on the map. `client/src/components/Map/BusinessChart.jsx` compares a single business against others in its ZIP, and `client/src/components/Apple Design Elements/RatingsChart.jsx` shows the rating breakdown on a profile.
 
 #### Persistent Data    
-- Discuss if you have used MongoDB or Local Storage.    
-- How was it used in your code?    
-- Where in your code is it used?    
-
-
-
+- Discuss if you have used MongoDB or Local Storage: MongoDB, through Mongoose, with an Express backend in `server/`.
+- How was it used in your code? Eight collections back the app. The directory of surgeons and surgery centers, the HRC Corporate Equality Index scores, the researched and collected reviews, the Census ZIP shapes and their Business Safety Scores are all read from Mongo rather than fetched live, because the public APIs they came from are rate limited. Accounts are stored with a bcrypt password hash and a session kept in an httpOnly cookie, and each user's saved places are an embedded array on their own document. Everything except the user accounts is committed to the repo as JSON and loaded with `npm run seed`, so the app is not empty on a fresh clone.
+- Where in your code is it used? The schemas are in `server/models/` (`Surgeon`, `CEI`, `Review`, `SurgeonReview`, `Zcta`, `ZipScore`, `Business`, `User`). The routes that read and write them are in `server/routes/`, and the loaders are in `server/scripts/`. Saving a place writes to `server/routes/favorites.js`, which pushes onto the `favorites` array on the signed-in user.
 
 <br>
 

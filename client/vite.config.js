@@ -3,6 +3,12 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  build: {
+    // Leaflet and Recharts are most of the bundle and both are needed on first
+    // paint of the map pages, so splitting them out would not save the visitor
+    // anything. The advisory is raised rather than chased.
+    chunkSizeWarningLimit: 1000,
+  },
   server: {
     port: 5173,
     // Anything starting with /api goes to the Express server, so the
