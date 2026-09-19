@@ -47,24 +47,32 @@ Post your link here, so you have easy access to it.
 <br>
 
 ### Milestone 2
-⚙️ Overview - What I worked on this past week
+
+**⚙️ Overview - What I worked on this past week**
+
 I gathered Surgeon data and CEI(Corporate Equality Index) Data into mongodb. I polished the review system and have finished the surgeon search.
 I Fixed some CSS Bugs. I Organized my codebase. I added Navigation. I added Apple Design System reusable components. I created Profiles for businesses, aswell as well as doctors and Surgery Centers.
 
 <br>
-🌵 Challenges - What problems did I have & how I'm addressing them
+
+**🌵 Challenges - What problems did I have & how I'm addressing them**
+
 The biggest issues I've been having is that the apis have limits that ultimately limit the range of the search.
 I am addressing this by looking up the limits of the apis and shortening the range.
 There's a CSS bug in Safari that was causing me problems with my layout. I fixed it but it took me probably like 30 minutes to get it looking right.
 I was accidentally working on main instead of dev and had a problem where I believe I had to rebase my branch. I have a hard time with GitHub branches because I know I can't make mistakes like this in a production environment.
 I have been sloppy with how I have been doing things and need to recenter. I feel rushed for time a lot.
 <br>
-🏆 Accomplishments - What is something I "leveled up" on this week
+
+**🏆 Accomplishments - What is something I "leveled up" on this week**
+
 My biggest accomplishment is in collecting my own data. 
 I wanted to make this project before but never felt properly inspired until now. This even motivates me and makes my old projects seem like smaller tasks than I originally anticipated. 
 I am part of the trans surgeries subreddit and I made a searchable database of surgeons and trans surgery centers.
 <br>
-🔮 Next Steps - What I plan to prioritize and do next
+
+**🔮 Next Steps - What I plan to prioritize and do next**
+
 I received feedback saying my page needs more views. I can add a profile and login system where users can save surgery centers doctors and business to their profile.
 Every Page on my site is a profile of some kind. 
 I have the business profiles, surgeon/surgery center profiles, and I will add the login and user profiles. 
@@ -92,6 +100,9 @@ Please discuss the following:
 - Purpose: Account system mongodb. save surgeons surgery centers and businesses to your profile for easy access.
 
 
+#### Page #5
+- Name: Heatmap
+- Purpose: See if there is anything I can do with Leaflet to show a data driven LGBTQIA+ Acceptance to show safe parts of town versus parts to avoid and parts with no data.
 
 
 #### Remember that creating a project board, issues, and milestones is 50% of your grade!     
@@ -103,40 +114,53 @@ If you are having trouble, contact your instructor ASAP, you might need to be pa
 <br>
 
 ### Milestone 3
-⚙️ Overview - Write overview here.
+⚙️ Overview - Functional App
+
 <br>
-🌵 Challenges - Write challenges here.
+🌵 Challenges - Time Management - boundaries
+This week I have been bogged down. I have been seeing a New Romantic partner and our schedules have made conflicted with each other. I have someone squatting at my apartment and I'm trying to get them to find a new place and it has been eating up a lot of my time and resources.
 <br>
-🏆 Accomplishments - Write Accomplishments here.
+🏆 Accomplishments - 
+App utilizes two libraries
+I got the map to show a heat map based on LGBTQIA+ Review Data.
+I have been gathering all the Trans masculine Surgery data.
 <br>
-🔮 Next Steps - Write your next steps here.
+🔮 Next Steps - Make it where you can change location of radius by typing in a search.
+Remove electrolysis from services.
+Update About Page
+Refactor CSS
+Implement thorough Jest Tests
+
 
 <br>
 
 Please discuss the following:
-#### API    
-- Link to the API that is used in your code    
+#### GEOJS    
+- [Link to the API that is used in your code ](https://www.geojs.io)   
 - Reason you chose the API    
+I chose GEOJS, because in conjunction with Nominatim API I have a starting point and list of location address for a search.
 - Where in your code did you use it?    
 
-#### 1st Library
-- Link to the library    
-- Link to library tutorial that you made already.    
-- Reason you chose this library.    
+#### React Leaflet Maps
+- [Link to the library](https://react-leaflet.js.org)
+- [Link to library tutorial that you made already made](https://youtu.be/AeiWsDYLjvA)
+- I chose this library because I saw a lot of cool synergies with location data on APIs.
 - Where in your code is it used?    
+There are a set of map components that utilize Leaflet maps to display information from APIs and MongoDB.
 
-#### 2nd Library    
-- Link to the library    
-- Reason you chose this library.    
-- Where in your code is it used?    
+#### Recharts
+- [Link to the library  ](https://recharts.github.io)  
+- I chose this library because it gives a really cute solution to needing an interactive list of zip codes and the businesses within those zip codes with a safety score.    
+- Where in your code is it used?
+  You can see rechart in the Heatmap Zipcode detail section.  
 
 #### Persistent Data    
-- Discuss if you have used MongoDB or Local Storage.    
-- How was it used in your code?    
+- MongoDB    
+- How was it used in your code? 
+Mainly to store search results info for surgeons, and review data, and the CEI Score data because I couldn't find an API I collected some data myself.
 - Where in your code is it used?    
-
-
-
+All data for the surgeons is in MongoDB.
+All Review data for the zip code heat map search is stored in MongoDB.
 
 <br>
 
