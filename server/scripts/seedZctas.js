@@ -73,7 +73,7 @@ for (const { properties, geometry } of features) {
 await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/safety-app');
 console.log(`connected to ${mongoose.connection.host}/${mongoose.connection.name}`);
 
-// Replaced wholesale: the Census file is the source of truth.
+
 await Zcta.collection.deleteMany({});
 for (let i = 0; i < docs.length; i += BATCH) {
   await Zcta.collection.insertMany(docs.slice(i, i + BATCH), { ordered: false });

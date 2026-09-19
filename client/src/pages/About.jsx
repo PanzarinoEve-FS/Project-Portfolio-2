@@ -16,6 +16,72 @@ export default function About() {
 
   const body = (
     <div className="prose panel-prose">
+      <h2>Finding places</h2>
+
+      <h3>Business search</h3>
+      <p>
+        The main search looks for gas stations, cafes, restaurants, bars,
+        pharmacies and clinics around a point, or all of them at once, out to a
+        distance you choose. Two filters narrow it to places with a documented
+        gender-neutral or wheelchair-accessible restroom nearby.
+      </p>
+      <p>
+        By default the point is your approximate location from your IP address.
+        Type a ZIP code or a place into the search box and the search moves
+        there, measuring the range from that point instead; a five-digit ZIP is
+        resolved against Census boundaries already stored here, so it costs no
+        outside request. A business name is not a place, so typing one searches
+        for the business and leaves the map where it is.
+      </p>
+      <p>
+        When nothing matches inside the distance you picked, the search widens
+        one step at a time rather than jumping to the widest setting, and says
+        so. That is slower, but it lands on the smallest range that actually
+        works instead of skipping a clinic ten miles away for one three hundred
+        miles out.
+      </p>
+
+      <h3>Services search</h3>
+      <p>
+        A separate search for laser hair removal, eyebrow threading, nail salons
+        and massage. These come from OpenStreetMap tags rather than a text
+        search, because a text search barely finds category places at all.
+      </p>
+      <p>
+        Laser and threading both sit under the same shop tag as every other
+        beauty salon, so those two are narrowed by name afterwards. The whole
+        set has to be fetched for that to work, which is why a wide search here
+        asks for far more results than it shows.
+      </p>
+
+      <h3>Surgeon search</h3>
+      <p>
+        The surgeon directory is searched differently from the other two,
+        because the whole list is already loaded rather than fetched per query.
+        Typing a name, a city or a practice filters the list. Procedures are
+        picked as switches, split into trans feminine and trans masculine so the
+        two lists stay distinct, and the results can be narrowed to surgeons
+        only or surgery centers only.
+      </p>
+      <p>
+        The range runs much wider here than on the other searches, out to 1,500
+        miles. Surgeons are sparse enough that a nationwide search is the point:
+        for many procedures the nearest person is in another state. You can also
+        search by state, or by country for surgeons outside the United States.
+      </p>
+      <p>
+        A ZIP code or an address matches no surgeon's name, so typing one is
+        treated as a place instead: the search switches to Near me and measures
+        the range from there rather than from your IP location. Typing a name
+        still filters the list as before.
+      </p>
+      <p>
+        Entries pinned at a regional center say so. Where the source listed no
+        address, the marker is the middle of a region rather than a real
+        practice, and the card tells you that instead of implying a precision
+        the data does not have.
+      </p>
+
       <h2>Where each rating comes from</h2>
 
       <h3>Business Safety Score</h3>
@@ -36,7 +102,7 @@ export default function About() {
         A first-hand report of somebody being treated badly weighs more than a
         neutral record, because that is the thing this map exists to surface.
         LGBTQIA+ venues are not marked down for criticism from their own
-        patrons: a pride centre is not unsafe because people who went there had
+        patrons: a pride center is not unsafe because people who went there had
         complaints about it.
       </p>
       <p>
@@ -109,7 +175,7 @@ export default function About() {
       <h3>Surgeons and surgery centers</h3>
       <p>
         The directory holds 1,596 entries -- 1,436 surgeons and 160 surgery
-        centres -- transcribed by hand from{" "}
+        centers -- transcribed by hand from{" "}
         <a
           href="https://www.reddit.com/r/TransSurgeriesWiki/wiki/index/"
           target="_blank"
@@ -140,72 +206,6 @@ export default function About() {
         directly before acting on it.
       </p>
 
-      <h2>Finding places</h2>
-
-      <h3>Business search</h3>
-      <p>
-        The main search looks for gas stations, cafes, restaurants, bars,
-        pharmacies and clinics around a point, or all of them at once, out to a
-        distance you choose. Two filters narrow it to places with a documented
-        gender-neutral or wheelchair-accessible restroom nearby.
-      </p>
-      <p>
-        By default the point is your approximate location from your IP address.
-        Type a ZIP code or a place into the search box and the search moves
-        there, measuring the range from that point instead; a five-digit ZIP is
-        resolved against Census boundaries already stored here, so it costs no
-        outside request. A business name is not a place, so typing one searches
-        for the business and leaves the map where it is.
-      </p>
-      <p>
-        When nothing matches inside the distance you picked, the search widens
-        one step at a time rather than jumping to the widest setting, and says
-        so. That is slower, but it lands on the smallest range that actually
-        works instead of skipping a clinic ten miles away for one three hundred
-        miles out.
-      </p>
-
-      <h3>Services search</h3>
-      <p>
-        A separate search for laser hair removal, eyebrow threading, nail salons
-        and massage. These come from OpenStreetMap tags rather than a text
-        search, because a text search barely finds category places at all.
-      </p>
-      <p>
-        Laser and threading both sit under the same shop tag as every other
-        beauty salon, so those two are narrowed by name afterwards. The whole
-        set has to be fetched for that to work, which is why a wide search here
-        asks for far more results than it shows.
-      </p>
-
-      <h3>Surgeon search</h3>
-      <p>
-        The surgeon directory is searched differently from the other two,
-        because the whole list is already loaded rather than fetched per query.
-        Typing a name, a city or a practice filters the list. Procedures are
-        picked as switches, split into trans feminine and trans masculine so the
-        two lists stay distinct, and the results can be narrowed to surgeons
-        only or surgery centres only.
-      </p>
-      <p>
-        The range runs much wider here than on the other searches, out to 1,500
-        miles. Surgeons are sparse enough that a nationwide search is the point:
-        for many procedures the nearest person is in another state. You can also
-        search by state, or by country for surgeons outside the United States.
-      </p>
-      <p>
-        A ZIP code or an address matches no surgeon's name, so typing one is
-        treated as a place instead: the search switches to Near me and measures
-        the range from there rather than from your IP location. Typing a name
-        still filters the list as before.
-      </p>
-      <p>
-        Entries pinned at a regional centre say so. Where the source listed no
-        address, the marker is the middle of a region rather than a real
-        practice, and the card tells you that instead of implying a precision
-        the data does not have.
-      </p>
-
       <h2>Your account</h2>
 
       <h3>Signing in</h3>
@@ -226,7 +226,7 @@ export default function About() {
 
       <h3>Saved places</h3>
       <p>
-        Signed in, the heart on a business, a surgeon or a surgery centre saves
+        Signed in, the heart on a business, a surgeon or a surgery center saves
         it to your profile, grouped by what it is. Saving the same place twice
         does nothing rather than failing, so a double tap is harmless.
       </p>

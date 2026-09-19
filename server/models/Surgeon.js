@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-// The surgeon and surgery-centre directory 
+// The surgeon and surgery-center directory 
 // from r/TransSurgeriesWiki 
 // enriched from the CMS NPI Registry.
 // server/data/surgeons.json is the seed source; 
@@ -10,7 +10,7 @@ const surgeonSchema = new mongoose.Schema(
     slug: { type: String, required: true, unique: true, index: true },
     name: { type: String, required: true, trim: true },
     // "surgeon" is a person; 
-    // "surgery centrers" are places surgeons work
+    // "surgery centerrs" are places surgeons work
     kind: { type: String, enum: ['surgeon', 'institution', 'team'], default: 'surgeon', index: true },
     procedures: { type: [String], index: true },
     region: { type: String, index: true },

@@ -57,7 +57,7 @@ export default function Surgeries() {
   const [selected, setSelected] = useState({ srs: true });
   const [scope, setScope] = useState('near');
 
-  const [centresOnly, setCentresOnly] = useState(true);
+  const [centersOnly, setCentersOnly] = useState(true);
   const [surgeonsOnly, setSurgeonsOnly] = useState(false);
   const [stateName, setStateName] = useState('Florida');
   const [countryName, setCountryName] = useState('Thailand');
@@ -107,7 +107,7 @@ export default function Surgeries() {
     setLoading(true);
     setError('');
 
-    getSurgeons({ procedures: procedureKey, kind: centresOnly ? 'centre' : surgeonsOnly ? 'surgeon' : '' })
+    getSurgeons({ procedures: procedureKey, kind: centersOnly ? 'center' : surgeonsOnly ? 'surgeon' : '' })
       .then((result) => !cancelled && setData(result))
       .catch((err) => !cancelled && setError(err.message))
       .finally(() => !cancelled && setLoading(false));
@@ -115,7 +115,7 @@ export default function Surgeries() {
     return () => {
       cancelled = true;
     };
-  }, [procedureKey, centresOnly, surgeonsOnly]);
+  }, [procedureKey, centersOnly, surgeonsOnly]);
 
   const radiusKm = toKm(debouncedRange, unit);
 
@@ -168,7 +168,7 @@ export default function Surgeries() {
       `${e.name} ${e.city ?? ''} ${e.clinic ?? ''}`.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const centre = pinned
+  const center = pinned
     ? [pinned.lat, pinned.lng]
     : visible[0]
       ? [visible[0].lat, visible[0].lng]
@@ -189,7 +189,7 @@ export default function Surgeries() {
     <MapShell
       title="LGBTQIA+ Safety Index"
       subtitle="Transgender Surgeries"
-      center={openEntry?.lat != null ? [openEntry.lat, openEntry.lng] : centre}
+      center={openEntry?.lat != null ? [openEntry.lat, openEntry.lng] : center}
       zoom={openEntry?.precise ? 11 : openEntry ? 6 : visible.length === 1 ? 9 : visible.length ? 5 : 2}
       markers={markers}
       cluster
@@ -284,11 +284,11 @@ export default function Surgeries() {
 
       <div className="group">
         <Switch
-          id="centres-only"
+          id="centers-only"
           label="Surgery centers only"
-          checked={centresOnly}
+          checked={centersOnly}
           onChange={(v) => {
-            setCentresOnly(v);
+            setCentersOnly(v);
             if (v) setSurgeonsOnly(false);
           }}
         />
@@ -299,7 +299,7 @@ export default function Surgeries() {
           checked={surgeonsOnly}
           onChange={(v) => {
             setSurgeonsOnly(v);
-            if (v) setCentresOnly(false);
+            if (v) setCentersOnly(false);
           }}
         />
       </div>
@@ -343,7 +343,7 @@ export default function Surgeries() {
             <div className="card-head-right">
               <span className={`tag status-${STATUS_TONE[entry.status] ?? 'unknown'}`}>{entry.status}</span>
               <FavoriteButton
-                kind={entry.kind === 'surgeon' ? 'surgeon' : 'centre'}
+                kind={entry.kind === 'surgeon' ? 'surgeon' : 'center'}
                 refId={entry.slug}
                 name={entry.name}
                 subtitle={[entry.clinic, entry.city, entry.state, entry.country]
@@ -359,7 +359,7 @@ export default function Surgeries() {
 
           {!entry.precise && (
             <p className="muted" style={{ fontSize: 12, marginTop: 4 }}>
-              Pinned at the regional centre - the wiki lists no address.
+              Pinned at the regional center - the wiki lists no address.
             </p>
           )}
 
@@ -370,6 +370,15 @@ export default function Surgeries() {
               </span>
             ))}
           </div>
+
+          {entry.viaStaff?.length > 0 && (
+            <p className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+              Offered by surgeons listed here, not on the center's own entry:{' '}
+              {entry.viaStaff
+                .map((id) => ALL_PROCEDURES.find((p) => p.id === id)?.label ?? id)
+                .join(', ')}
+            </p>
+          )}
 
           {entry.note && <p className="muted" style={{ marginTop: 8 }}>{entry.note}</p>}
 

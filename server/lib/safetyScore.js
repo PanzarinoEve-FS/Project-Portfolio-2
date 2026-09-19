@@ -40,10 +40,10 @@ export const SAFETY_METHOD = {
 
 const STANCE_VALUE = { friendly: 100, mixed: 50, unfriendly: 0 };
 
-// Places that exist to serve LGBTQIA+ people: community centres, pride
+// Places that exist to serve LGBTQIA+ people: community centers, pride
 // organisations, queer bars. They collect far more LGBTQIA+ reviews than any
 // other business, and the critical ones are written by the people they serve -
-// a bad night at the gay bar, being misgendered by staff at the centre. Those
+// a bad night at the gay bar, being misgendered by staff at the center. Those
 // experiences are real and stay on the record, but they do not mean the area
 // is unsafe for LGBTQIA+ people, which is what a refusal of service means. So
 // criticism of these places never counts several times over, and their

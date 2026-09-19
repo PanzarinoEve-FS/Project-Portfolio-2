@@ -1003,6 +1003,7 @@ body:has(.toolbar) #root { height: auto; }
 .zip-contributors { margin: 4px 0 0; padding-left: 18px; font-size: 14px; }
 .zip-contributors li { margin-bottom: 2px; }
 .zip-method { font-size: 12px; margin: 12px 0; }
+.zip-basis { font-size: 12px; margin: -2px 0 10px; }
 
 .zip-list { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
 
