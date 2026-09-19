@@ -16,7 +16,7 @@ const TONE = { active: 'good', unclear: 'mixed', retired: 'poor' };
 
 // The profile body
 export default function SurgeonDetail({ entry }) {
-  const isCentre = entry.kind !== 'surgeon';
+  const isCenter = entry.kind !== 'surgeon';
   const [reviews, setReviews] = useState(entry.reviews ?? []);
   const [average, setAverage] = useState(entry.average ?? null);
 
@@ -28,7 +28,7 @@ export default function SurgeonDetail({ entry }) {
 
       <header className="profile-hero">
         <FavoriteButton
-          kind={isCentre ? 'centre' : 'surgeon'}
+          kind={isCenter ? 'center' : 'surgeon'}
           refId={entry.slug}
           name={entry.name}
           subtitle={
@@ -78,11 +78,11 @@ export default function SurgeonDetail({ entry }) {
       </div>
 
       {/* A central lists its doctors; a surgeon lists who else is at their clinic. */}
-      {isCentre ? (
+      {isCenter ? (
         <div className="panel">
           <h2>Doctors listed here</h2>
           {entry.colleagues.length === 0 ? (
-            <p className="empty">The wiki does not record which doctors work at this centre.</p>
+            <p className="empty">The wiki does not record which doctors work at this center.</p>
           ) : (
             entry.colleagues.map((c) => (
               <div key={c.slug} className="review">
@@ -161,7 +161,7 @@ export default function SurgeonDetail({ entry }) {
               {' '}(NPI {entry.npi}).
             </>
           )}
-          {!entry.precise && ' Pinned at the regional centre; no address is listed.'}
+          {!entry.precise && ' Pinned at the regional center; no address is listed.'}
         </p>
         <p className="muted" style={{ marginTop: 8 }}>
           <strong>A directory, not a recommendation.</strong> Nothing here confirms which

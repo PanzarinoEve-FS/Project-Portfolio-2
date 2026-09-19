@@ -55,7 +55,7 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("gas");
   const [unit, setUnit] = useState("mi");
-  const [range, setRange] = useState(5);
+  const [range, setRange] = useState(15);
   const [filters, setFilters] = useState({ unisex: true, ada: false });
   const [places, setPlaces] = useState([]);
   const [restrooms, setRestrooms] = useState([]);

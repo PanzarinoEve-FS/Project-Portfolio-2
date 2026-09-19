@@ -10,27 +10,15 @@ import ZipPanel from '../components/Map/ZipPanel.jsx';
 import SearchField from '../components/Apple Design Elements/SearchField.jsx';
 
 const CENTER = [28.55, -81.33];
-const MIN_ZOOM = 9;
-const PAD = 0.25;
 const LIST_LIMIT = 150;
 
 
-const padded = ([w, s, e, n]) => {
-  const dx = (e - w) * PAD;
-  const dy = (n - s) * PAD;
-  return [Math.max(-180, w - dx), Math.max(-90, s - dy), Math.min(180, e + dx), Math.min(90, n + dy)];
-};
 
-const covers = (outer, inner) =>
-  Boolean(outer) && inner[0] >= outer[0] && inner[1] >= outer[1] && inner[2] <= outer[2] && inner[3] <= outer[3];
-
-const overlaps = (a, b) => a[0] <= b[2] && a[2] >= b[0] && a[1] <= b[3] && a[3] >= b[1];
 
 
 export default function ZipMap() {
-  const [view, setView] = useState(null);
+  const [, setView] = useState(null);
   const [data, setData] = useState(null);
-  const [loadedBox, setLoadedBox] = useState(null);
   const [error, setError] = useState('');
   const [selected, setSelected] = useState(null);
   const [lookedUp, setLookedUp] = useState(null);
@@ -41,16 +29,12 @@ export default function ZipMap() {
   const [panelOpen, setPanelOpen] = useState(false);
 
   useEffect(() => {
-    if (!view || view.zoom < MIN_ZOOM || covers(loadedBox, view.bbox)) return undefined;
-
     let cancelled = false;
-    const box = padded(view.bbox);
 
-    getZipScores(box)
+    getZipScores()
       .then((result) => {
         if (cancelled) return;
         setData(result);
-        setLoadedBox(result.meta?.truncated || result.meta?.tooWide ? null : box);
         setError('');
       })
       .catch((err) => {
@@ -60,29 +44,25 @@ export default function ZipMap() {
     return () => {
       cancelled = true;
     };
-  }, [view, loadedBox]);
+  }, []);
 
   const zips = useMemo(() => (data?.features ?? []).map((feature) => feature.properties), [data]);
-  const inView = useMemo(
-    () => (view ? zips.filter((zip) => zip.bbox && overlaps(zip.bbox, view.bbox)) : zips),
-    [zips, view]
-  );
   const current = zips.find((zip) => zip.zip === selected) ?? (lookedUp?.zip === selected ? lookedUp : null);
   const meta = data?.meta;
   const method = meta?.method;
 
   const counts = useMemo(() => {
     const tally = { good: 0, mixed: 0, poor: 0, insufficient: 0 };
-    for (const zip of inView) tally[zip.band] += 1;
+    for (const zip of zips) tally[zip.band] += 1;
     return tally;
-  }, [inView]);
+  }, [zips]);
 
   const listed = useMemo(() => {
     const typed = query.trim();
-    return inView
+    return zips
       .filter((zip) => !typed || zip.zip.startsWith(typed))
       .sort((a, b) => (b.score ?? -1) - (a.score ?? -1) || a.zip.localeCompare(b.zip));
-  }, [inView, query]);
+  }, [zips, query]);
 
   const pick = (zip) => {
     setSelected(zip.zip);
@@ -173,8 +153,6 @@ export default function ZipMap() {
       {lookupError && <p className="error">{lookupError}</p>}
       {!data && !error && <p className="muted">Loading ZIP codes...</p>}
 
-      {view && view.zoom < MIN_ZOOM && <p className="zip-notice">Zoom in to load the ZIP codes in this area.</p>}
-
       {meta?.shapes === 0 && (
         <p className="zip-notice">
           ZIP code shapes have not been loaded yet. Run <code>npm run seed:zctas</code> in the server folder.
@@ -188,14 +166,8 @@ export default function ZipMap() {
         </p>
       )}
 
-      {meta?.truncated && view?.zoom >= MIN_ZOOM && (
-        <p className="zip-notice">
-          Showing the first {meta.maxZips} ZIP codes around here. Zoom in to see the rest.
-        </p>
-      )}
-
       <div className="group">
-        <div className="group-label">Business Safety Score · in view</div>
+        <div className="group-label">Business Safety Score</div>
         <div className="zip-legend">
           {Object.entries(BANDS).map(([band, style]) => (
             <div key={band} className="zip-legend-row">
@@ -212,10 +184,11 @@ export default function ZipMap() {
         </div>
       </div>
 
-      {inView.some((zip) => zip.score != null) && (
+      {zips.some((zip) => zip.score != null) && (
         <div className="group">
-          <div className="group-label">Score by ZIP · in view</div>
-          <ZipChart zips={inView} selected={selected} onPick={pick} method={method} />
+          <div className="group-label">Zipcode Safety Scores</div>
+          <p className="muted zip-basis">Based on google review data.</p>
+          <ZipChart zips={zips} selected={selected} onPick={pick} method={method} />
         </div>
       )}
 
@@ -232,7 +205,7 @@ export default function ZipMap() {
         been documented, not that a place is unsafe.
       </p>
 
-      <div className="group-label">ZIP codes in view</div>
+      <div className="group-label">ZIP codes</div>
       <div className="zip-list">
         {listed.slice(0, LIST_LIMIT).map((zip) => (
           <button
@@ -253,12 +226,12 @@ export default function ZipMap() {
         ))}
         {listed.length > LIST_LIMIT && (
           <p className="muted">
-            {listed.length - LIST_LIMIT} more in view. Zoom in or type a ZIP code to narrow the list.
+            {listed.length - LIST_LIMIT} more. Type a ZIP code to narrow the list.
           </p>
         )}
         {data && listed.length === 0 && (
           <p className="empty">
-            {query.trim() ? `No ZIP code in view starts with ${query.trim()}.` : 'No ZIP codes in view.'}
+            {query.trim() ? `No ZIP code starts with ${query.trim()}.` : 'No ZIP codes yet.'}
           </p>
         )}
       </div>

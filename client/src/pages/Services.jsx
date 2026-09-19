@@ -26,7 +26,7 @@ export default function Services() {
   const [query, setQuery] = useState('');
   const [service, setService] = useState('nails');
   const [unit, setUnit] = useState('mi');
-  const [range, setRange] = useState(5);
+  const [range, setRange] = useState(15);
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

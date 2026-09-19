@@ -7,8 +7,8 @@ import bcrypt from 'bcryptjs';
 // OpenStreetMap is rate limited, so a favorites list that re-fetched every entry would be slow and could fail.
 const favoriteSchema = new mongoose.Schema(
   {
-    kind: { type: String, enum: ['business', 'surgeon', 'centre'], required: true },
-    // osmId for a business, slug for a surgeon or centre.
+    kind: { type: String, enum: ['business', 'surgeon', 'center'], required: true },
+    // osmId for a business, slug for a surgeon or center.
     refId: { type: String, required: true, trim: true },
     name: { type: String, required: true, trim: true, maxlength: 200 },
     subtitle: { type: String, trim: true, maxlength: 300 },

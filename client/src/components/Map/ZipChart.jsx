@@ -3,7 +3,6 @@ import { Bar, BarChart, Cell, LabelList, ReferenceLine, ResponsiveContainer, Too
 import { BANDS } from './ZipLayer.jsx';
 
 const ROW_HEIGHT = 26;
-const MAX_ROWS = 20;
 // Literal hex, as on the map layer. Bars show Mixed in yellow.
 const BAR_COLORS = { good: BANDS.good.color, mixed: '#ffcc00', poor: BANDS.poor.color };
 
@@ -47,14 +46,14 @@ function ZipTick({ x, y, payload, selected }) {
   );
 }
 
-// One bar per ZIP in view that has a score. Its length is the score and its
-// color the band: green for High, yellow for Mixed, red for Low. Dashed lines
-// mark where Mixed and High begin. Clicking a bar selects that ZIP.
+// One bar per scored ZIP, every one of them -- a ZIP the reader can see on the
+// map has to be findable here too. Its length is the score and its color the
+// band: green for High, yellow for Mixed, red for Low. Dashed lines mark where
+// Mixed and High begin. Clicking a bar selects that ZIP.
 export default function ZipChart({ zips, selected, onPick, method }) {
   const rows = zips
     .filter((zip) => zip.score != null)
     .sort((a, b) => b.score - a.score || a.zip.localeCompare(b.zip))
-    .slice(0, MAX_ROWS)
     .map((zip) => ({ zip: zip.zip, score: zip.score, band: zip.band, properties: zip }));
 
   if (rows.length === 0) return null;

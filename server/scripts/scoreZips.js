@@ -1,3 +1,7 @@
+// Scores ZIP codes in the Central Florida region 
+// LGBTQIA+ safety, based on the businesses and reviews in them. 
+// Writes the results to the zipScores collection.
+
 import 'dotenv/config';
 import mongoose from 'mongoose';
 
@@ -5,47 +9,25 @@ import ZipScore from '../models/ZipScore.js';
 import { matchCEI } from '../lib/cei.js';
 import { SAFETY_METHOD, bandFor, scoreBusiness, scoreZip } from '../lib/safetyScore.js';
 
-// Scores the ZIPs around central Orlando from the businesses inside them and
-// stores the result in the zipscores collection. ZIP shapes come from the
-// zctas collection (`npm run seed:zctas`).
-//
-// The business sweep is one Overpass query a tile, so it is saved to
-// sweepbusinesses and reused. Pass --refresh to sweep again.
-
-// Tags for places a person visits as a customer. Sweeping every amenity would
-// pull in schools, churches and parks, which nobody chooses the way they choose
-// a shop, and would quietly change what a Business Safety Score is measuring.
 const SHOP_FILTER = '["shop"]["name"]';
 const AMENITY_FILTER =
   '["amenity"~"^(restaurant|cafe|bar|pub|fast_food|ice_cream|pharmacy|clinic|doctors|dentist|hospital|bank|fuel|cinema|theatre|nightclub|veterinary|marketplace|car_wash|car_rental|driving_school)$"]["name"]';
 const LEISURE_FILTER = '["leisure"~"^(fitness_centre|sports_centre|bowling_alley|dance)$"]["name"]';
 const OVERPASS_URL = 'https://overpass-api.de/api/interpreter';
-// Overpass answers 429 when pushed harder than this. A skipped tile is not a
-// small loss: it drops every business in that part of the map, which makes the
-// ZIPs under it look emptier than they are.
 const OVERPASS_GAP_MS = 5000;
 const OVERPASS_TRIES = 4;
 const OVERPASS_TIMEOUT_MS = 90000;
 const TILE_CAP = 1000;
-// The area the sweep covers. Every ZIP whose shape touches it is scored.
 const REGION = { w: -81.95, s: 28.05, e: -80.85, n: 29.1 };
-// A tile this size comes back from Overpass in a few seconds with a few hundred
-// to a thousand named places. Larger tiles run into the cap below and sample
-// only part of what is there.
 const GRID = 8;
 const NOMINATIM_GAP_MS = 1100;
 const USER_AGENT = process.env.NOMINATIM_USER_AGENT || 'LGBTQIA-Safety-App/1.0';
 const REFRESH = process.argv.includes('--refresh');
-// How close a swept business has to be to count as the place a review describes.
 const REVIEW_MATCH_M = 100;
 const STANCE_ORDER = { unfriendly: 0, mixed: 1, friendly: 2 };
-// Review links kept per ZIP for the map; the stance counts cover the rest.
 const MAX_REVIEW_REFS = 12;
-// Enough bars to compare a place against its neighbours without a chart that
-// scrolls forever.
 const MAX_BUSINESS_BARS = 40;
 
-// The scored ZIP shapes, filled from Mongo once connected.
 let zctas = [];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -63,7 +45,6 @@ function metres(a, b) {
 const normalise = (value = '') =>
   ` ${value.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim()} `;
 
-// "Hamburger Mary's" and "Hamburger Mary's Orlando" are the same place.
 function sameName(a, b) {
   const x = normalise(a);
   const y = normalise(b);
@@ -80,7 +61,6 @@ function inRing([x, y], ring) {
   return inside;
 }
 
-// Inside the outer ring and not inside any hole.
 const inPolygon = (point, rings) =>
   inRing(point, rings[0]) && !rings.slice(1).some((hole) => inRing(point, hole));
 
@@ -92,8 +72,6 @@ const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0]
 const segmentsCross = (a, b, c, d) =>
   cross(a, b, c) > 0 !== cross(a, b, d) > 0 && cross(c, d, a) > 0 !== cross(c, d, b) > 0;
 
-// True when a shape overlaps the box at all: a vertex inside it, a corner of
-// the box inside the shape, or an edge crossing one of the box's sides.
 function touchesBox(geometry, box) {
   const corners = [[box.w, box.s], [box.e, box.s], [box.e, box.n], [box.w, box.n]];
   const sides = corners.map((corner, i) => [corner, corners[(i + 1) % 4]]);
@@ -116,7 +94,6 @@ function zipAt(lng, lat) {
   return null;
 }
 
-// The shape a point falls in, or its postcode when that is one of the scored ZIPs.
 const placeZip = (business) =>
   zipAt(business.lng, business.lat) ??
   (zctas.some((zcta) => zcta.zip === business.postcode) ? business.postcode : null);
@@ -165,11 +142,6 @@ async function nominatim(params) {
 
 let lastOverpass = 0;
 
-// One query a tile, throttled, with a deadline so a stalled request cannot
-// wedge the whole sweep. Overpass can answer 200 with an HTML error page or a
-// remark instead of results, so both are treated as failures for this tile.
-// Retries a tile that was refused or timed out, backing off each time, rather
-// than dropping it. Only the last failure gives up.
 async function overpass(tile) {
   let last;
   for (let attempt = 1; attempt <= OVERPASS_TRIES; attempt += 1) {
@@ -284,8 +256,6 @@ async function main() {
 
   const businesses = new Map(swept.map((business) => [business.osmId, business]));
 
-  // Community star ratings. A reviewed business counts even when the sweep
-  // did not happen to find it.
   const ratings = new Map();
   for (const doc of await db.collection('businesses').find({}).toArray()) {
     const list = doc.reviews ?? [];
@@ -302,10 +272,8 @@ async function main() {
   }
   console.log(`  community ratings: ${ratings.size} rated business(es)`);
 
-  // Web-researched reviews from the reviews collection (`npm run seed:reviews`).
   const researched = await db.collection('reviews').find({}).toArray();
 
-  // A chain review applies to every storefront trading under its names.
   const chains = new Map();
   for (const review of researched.filter((item) => item.scope === 'brand')) {
     const chain = chains.get(review.business) ?? { brands: [], anchoredBrands: [], reviews: [] };
@@ -316,9 +284,6 @@ async function main() {
   }
   const chainEntries = [...chains.values()];
 
-  // Reviews of one place attach to the swept business they describe, or stand
-  // in as that business when the sweep missed it. Grouped by place first, so a
-  // place with many Google reviews is matched once.
   const groups = new Map();
   for (const review of researched.filter((item) => item.scope === 'location')) {
     const id = review.osmId ?? (review.placeKey ? `google:${review.placeKey}` : `review:${review.key}`);
@@ -345,7 +310,6 @@ async function main() {
     `  web reviews: ${researched.length} (${fromGoogle} from Google Maps; ${chainEntries.length} chains, ${placeReviews.size} single places)`
   );
 
-  // A restroom voted down more than up is treated as disputed and left out.
   const restrooms = new Map();
   for (const tile of grid) {
     try {
@@ -389,7 +353,6 @@ async function main() {
 
   let unplaced = 0;
   for (const business of businesses.values()) {
-    // Placed against the current shapes every run, not the ones saved with the sweep.
     const zip = placeZip(business);
     if (!zip || !zips.has(zip)) {
       unplaced += 1;
@@ -401,7 +364,6 @@ async function main() {
 
     const rating = ratings.get(business.osmId) ?? null;
     const webReviews = placeReviews.get(business.osmId) ?? [];
-    // Chain reviews match storefront names the same way CEI does.
     const brandReviews = matchCEI(business.name, chainEntries)?.reviews ?? [];
     const nearRestroom =
       (rating?.genderNeutral ?? 0) > 0 ||
@@ -418,9 +380,6 @@ async function main() {
     });
     if (!result) continue;
 
-    // Known only through company-wide evidence (a CEI score or a chain review):
-    // says nothing about how this location treats people, so it never counts
-    // toward the ZIP.
     if (!result.local) {
       entry.corporateOnly += 1;
       continue;
@@ -463,7 +422,6 @@ async function main() {
 
   const ops = [...zips.entries()].map(([zip, entry]) => {
     const count = entry.scored.length;
-    // Businesses with a bad review count several times over.
     const average = scoreZip(entry.scored);
     const band = bandFor(average, count);
     tally[band] += 1;
@@ -476,7 +434,6 @@ async function main() {
         update: {
           $set: {
             zip,
-            // A two-business average is not a number worth publishing.
             score: band === 'insufficient' ? null : average,
             band,
             scored: count,
@@ -484,16 +441,11 @@ async function main() {
             corporateOnly: entry.corporateOnly,
             signals: entry.signals,
             highest: ranked.slice(0, 3),
-            // Never repeat a business already listed among the highest.
             lowest: ranked.slice(Math.max(3, count - 3)).reverse(),
-            // Both ends, not just the top. A ZIP is red because of its worst
-            // places, and taking the highest scorers alone hid the very
-            // business that turned it red from its own chart.
             businesses:
               ranked.length <= MAX_BUSINESS_BARS
                 ? ranked
                 : [...ranked.slice(0, MAX_BUSINESS_BARS - 10), ...ranked.slice(-10)],
-            // The most serious first, and only a handful, to keep the map light.
             reviews: [...entry.reviews.values()]
               .sort(
                 (a, b) =>
@@ -518,7 +470,6 @@ async function main() {
   });
 
   await ZipScore.bulkWrite(ops, { ordered: false });
-  // A ZIP that is no longer in the region keeps no stale score.
   const stale = await ZipScore.deleteMany({ zip: { $nin: [...zips.keys()] } });
 
   const localScored = [...zips.values()].reduce((sum, entry) => sum + entry.scored.length, 0);
