@@ -6,9 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 import surgeonsRouter from '../routes/surgeons.js';
 
-// No database is started, so the route takes its seed-file path and every
-// answer is decided by the committed data. That keeps these runnable anywhere,
-// and it is the same filtering the Mongo path performs.
+// No database is started, so the route takes its seed-file path and every answer is decided by the committed data. 
 const app = express();
 app.use('/api/surgeons', surgeonsRouter);
 
@@ -19,9 +17,7 @@ const seed = JSON.parse(
 const isCenter = (entry) => entry.kind !== 'surgeon';
 const offers = (entry, wanted) => (entry.procedures ?? []).some((p) => wanted.includes(p));
 
-// A deliberately slow, obvious re-statement of the rules, used as the oracle the
-// route is checked against. Walking every surgeon for every center would be too
-// slow to ship, which is exactly why it is trustworthy here.
+
 function expected({ procedures = [], kind = '', region = '' } = {}) {
   const centersOnly = kind === 'center';
   const surgeonsOnly = kind === 'surgeon';
@@ -53,8 +49,7 @@ const get = (query = {}) => {
 const zipsOf = (body) => body.entries.map((entry) => entry.name).sort();
 
 beforeAll(() => {
-  // If a connection were open the route would query Mongo instead and these
-  // counts would depend on whatever that database happens to hold.
+ 
   expect(mongoose.connection.readyState).toBe(0);
 });
 
@@ -157,7 +152,7 @@ describe('kind', () => {
   });
 
   test('an unrecognised kind filters nothing out', async () => {
-    // 'centre' was the old spelling. It must not quietly behave like 'center'.
+
     const { body } = await get({ kind: 'centre' });
     expect(body.entries).toHaveLength(seed.entries.length);
   });
