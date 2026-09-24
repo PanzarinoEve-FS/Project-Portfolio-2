@@ -99,14 +99,10 @@ Please discuss the following:
 - Name: Profile Page / Login / Register
 - Purpose: Account system mongodb. save surgeons surgery centers and businesses to your profile for easy access.
 
-#### Page #5
-- Name: Heatmap
-- Purpose: See if there is anything I can do with Leaflet to show a data driven LGBTQIA+ Acceptance to show safe parts of town versus parts to avoid and parts with no data.
 
 #### Page #5
 - Name: Heatmap
 - Purpose: See if there is anything I can do with Leaflet to show a data driven LGBTQIA+ Acceptance to show safe parts of town versus parts to avoid and parts with no data.
-
 
 
 #### Remember that creating a project board, issues, and milestones is 50% of your grade!     
@@ -144,42 +140,6 @@ Please discuss the following:
 - Reason you chose the API    
 I chose GEOJS, because in conjunction with Nominatim API I have a starting point and list of location address for a search.
 - Where in your code did you use it?    
-`server/routes/geo.js` calls it for `/api/geo/me`, which is how the map knows where to open before you have typed anything.
-
-#### Overpass API (OpenStreetMap)
-- [Link to the API](https://overpass-api.de/)
-- Reason you chose the API    
-Searching for places by tag, which a text search cannot do. Queries are capped and cached, and fall back to a mirror when the main server is busy.
-- Where in your code did you use it?    
-`server/routes/osm.js` for the business and services searches, and `server/scripts/scoreZips.js` for the sweep the Heatmap scores are built from.
-
-#### Nominatim (OpenStreetMap)
-- [Link to the API](https://nominatim.openstreetmap.org/)
-- Reason you chose the API    
-Addresses, and turning a place name into coordinates. Requests are rate limited and cached on our server to respect its usage policy.
-- Where in your code did you use it?    
-`server/lib/nominatim.js` holds the one-request-a-second queue and cache that every caller shares. `server/routes/geo.js` uses it for the ZIP and address lookup behind the search boxes, and `server/routes/places.js` for business lookups.
-
-#### Refuge Restrooms
-- [Link to the API](https://www.refugerestrooms.org/)
-- Reason you chose the API    
-Community-logged gender-neutral and accessible restrooms, with filters for each.
-- Where in your code did you use it?    
-`server/routes/restrooms.js`, and `server/scripts/scoreZips.js` counts a documented restroom near a business as one of the Business Safety Score signals.
-
-#### US Census Bureau
-- [Link to the source](https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html)
-- Reason you chose the API    
-The 2020 ZIP Code Tabulation Area boundaries the heatmap is drawn on. This one is a published file rather than a live API, downloaded once.
-- Where in your code did you use it?    
-`server/scripts/seedZctas.js` downloads and loads it into the `zctas` collection.
-
-#### HRC Corporate Equality Index
-- [Link to the source](https://www.hrc.org/resources/corporate-equality-index)
-- Reason you chose the API    
-Company workplace-policy scores. HRC publishes no API, so these are transcribed by hand and each entry links back to its source page.
-- Where in your code did you use it?    
-`server/data/cei.json` holds the transcribed scores and `server/routes/cei.js` serves them.
 
 #### React Leaflet Maps
 - [Link to the library](https://react-leaflet.js.org)
@@ -205,25 +165,27 @@ All Review data for the zip code heat map search is stored in MongoDB.
 <br>
 
 ### Milestone 4
-⚙️ Overview - Write overview here.
+⚙️ Overview - I added in jest test tests for the different search filters. I added a database files with the import script. I am going to add an exit button on the panel on the heat map. I'm going to finish my presentation.
 <br>
-🌵 Challenges - Write challenges here.
+🌵 Challenges - My biggest challenge was in how to get enough data to make it useful in some cases, with the reviews relevant data may be inaccurate as far as assessing it from a safety stand point, but it connects real locations to incidents from review data.
 <br>
-🏆 Accomplishments - Write Accomplishments here.
+🏆 Accomplishments - I accomplished making a useful trans surgeon search and I started on my presentation yesterday. I feel like it's rewarding seeing a tool I could have used in my search for surgery centers.
 <br>
-🔮 Next Steps - Write your next steps here.
+🔮 Next Steps - My next steps with the app would be to add more review data across more geographic regions to give a more full map. I really need to clean up my old GitHub and make it more up to date. 
 
 <br>
 
 Please discuss the following:  
 #### Changes
-- Discuss any changes or updates that you have made to your site since Milestone #3.
+- Database Files /Panzarino_Eve_Milestone3_database
+- Add a way to close zip codes/businesses panel in heat map
+- Do Presentation video
 
 #### Styling
-- Discuss the process you used to style your page.
+- I wanted the interface to look like Apple Maps, I modeled my map menus off of Apple Maps.
 
 #### Link To Overview Video
-- Once it is created, put the link to your overview video of your site here.
+- [Video Presentation](https://fullsailedu-my.sharepoint.com/personal/jnhankins_student_fullsail_edu/_layouts/15/stream.aspx?id=%2Fpersonal%2Fjnhankins%5Fstudent%5Ffullsail%5Fedu%2FDocuments%2FPanzarino%5FEve%5FPresentation%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E2654a4d8%2D9c49%2D4668%2Da7f5%2Db21bc17431b5)
 
 <br>
 <br>
@@ -237,16 +199,21 @@ Please discuss the following:
 -   Readme File that explains your project and tracks your milestones
 -   A React Front End
 -   React Routing with  _at least_  4 different views/pages
-    -   Dashboard/Main
-    -   User/Settings
     -   Search
-    -   Detail Page
+    -   Services
+    -   Surgeons/Surgery Centers
+    -   Heatmap
+    -   About
 -   Node/Express Backend
 -   A Mongo DB Element OR Local Storage for persistent data
 -   Connect to at least 1 free API
 -   The project must use at least 2 different libraries, not including React itself
     -   One of these libraries you will create a tutorial for in Exercise 01
 -   It should look visually appealing and must be easy for the end-user to use and understand. You may use Tailwind or any other front-end library/framework.
+
+Recharts
+
+React Leaflet Maps
 
 **Milestone #1 (Due: Monday of Week 2)**
 
@@ -257,6 +224,18 @@ Please discuss the following:
         -   [Mixed Analytics](https://mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis/)  
             
         -   [I Am Sajan](https://iamsajan.com/free-api-without-an-api-key/)  
+
+
+GEOJS
+
+Notiatium
+
+Overpass
+
+Refuge Restrooms
+
+
+        
             
 -   Functional Spec that explains the scope of the work and the deadlines that must be met.  
     
