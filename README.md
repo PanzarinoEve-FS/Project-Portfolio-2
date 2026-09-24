@@ -199,16 +199,21 @@ Please discuss the following:
 -   Readme File that explains your project and tracks your milestones
 -   A React Front End
 -   React Routing with  _at least_  4 different views/pages
-    -   Dashboard/Main
-    -   User/Settings
     -   Search
-    -   Detail Page
+    -   Services
+    -   Surgeons/Surgery Centers
+    -   Heatmap
+    -   About
 -   Node/Express Backend
 -   A Mongo DB Element OR Local Storage for persistent data
 -   Connect to at least 1 free API
 -   The project must use at least 2 different libraries, not including React itself
     -   One of these libraries you will create a tutorial for in Exercise 01
 -   It should look visually appealing and must be easy for the end-user to use and understand. You may use Tailwind or any other front-end library/framework.
+
+Recharts
+
+React Leaflet Maps
 
 **Milestone #1 (Due: Monday of Week 2)**
 
@@ -219,6 +224,18 @@ Please discuss the following:
         -   [Mixed Analytics](https://mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis/)  
             
         -   [I Am Sajan](https://iamsajan.com/free-api-without-an-api-key/)  
+
+
+GEOJS
+
+Notiatium
+
+Overpass
+
+Refuge Restrooms
+
+
+        
             
 -   Functional Spec that explains the scope of the work and the deadlines that must be met.  
     
