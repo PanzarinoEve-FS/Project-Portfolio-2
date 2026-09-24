@@ -8,3 +8,6 @@ build/
 
 .DS_Store
 npm-debug.log*
+
+# Downloaded and generated map data (npm run seed:zctas).
+server/data/cache/

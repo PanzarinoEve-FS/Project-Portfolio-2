@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import L from 'leaflet';
 
+import UserLocationMarker from './UserLocationMarker.jsx';
+
 import 'leaflet/dist/leaflet.css';
 // Without these the cluster circles render in the DOM but are invisible.
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -32,7 +34,13 @@ function Recenter({ center, zoom }) {
   return null;
 }
 
-export default function MapView({ center = [41.8781, -87.6298], zoom = 13, markers = [], cluster = false }) {
+export default function MapView({
+  center = [41.8781, -87.6298],
+  zoom = 13,
+  markers = [],
+  cluster = false,
+  children = null,
+}) {
 
   const wrap = (children) =>
     cluster ? (
@@ -51,6 +59,11 @@ export default function MapView({ center = [41.8781, -87.6298], zoom = 13, marke
       />
 
       <Recenter center={center} zoom={zoom} />
+
+      {/* Extra layers a view draws inside the map, such as ZIP polygons. */}
+      {children}
+
+      <UserLocationMarker />
 
       {wrap(
         markers.map((marker) => (

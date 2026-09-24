@@ -167,11 +167,15 @@ All Review data for the zip code heat map search is stored in MongoDB.
 ### Milestone 4
 ⚙️ Overview - I added in jest test tests for the different search filters. I added a database files with the import script. I am going to add an exit button on the panel on the heat map. I'm going to finish my presentation.
 <br>
+
 🌵 Challenges - My biggest challenge was in how to get enough data to make it useful in some cases, with the reviews relevant data may be inaccurate as far as assessing it from a safety stand point, but it connects real locations to incidents from review data.
 <br>
+
 🏆 Accomplishments - I accomplished making a useful trans surgeon search and I started on my presentation yesterday. I feel like it's rewarding seeing a tool I could have used in my search for surgery centers.
 <br>
+
 🔮 Next Steps - My next steps with the app would be to add more review data across more geographic regions to give a more full map. I really need to clean up my old GitHub and make it more up to date. 
+
 
 <br>
 

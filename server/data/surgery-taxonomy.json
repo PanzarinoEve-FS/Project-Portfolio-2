@@ -3,22 +3,86 @@
   "subreddit": "TransSurgeriesWiki",
   "index": "https://www.reddit.com/r/TransSurgeriesWiki/wiki/index/",
   "procedures": [
-    { "id": "srs", "label": "Sex Reassignment Surgery (SRS)", "slug": "srs" },
-    { "id": "ffs", "label": "Facial Feminization Surgeons (FFS)", "slug": "ffs" },
-    { "id": "vfs", "label": "Voice Feminization Surgery (VFS)", "slug": "vfs" },
-    { "id": "breasts", "label": "Breasts", "slug": "breasts" },
-    { "id": "hips-butt", "label": "Hips & Butt", "slug": "hips" },
-    { "id": "hair", "label": "Hair Transplant", "slug": "hair" },
-    { "id": "other", "label": "Other Surgeries", "slug": "other" }
+    {
+      "id": "srs",
+      "label": "Sex Reassignment Surgery (SRS)",
+      "slug": "srs"
+    },
+    {
+      "id": "ffs",
+      "label": "Facial Feminization Surgeons (FFS)",
+      "slug": "ffs"
+    },
+    {
+      "id": "vfs",
+      "label": "Voice Feminization Surgery (VFS)",
+      "slug": "vfs"
+    },
+    {
+      "id": "breasts",
+      "label": "Breasts",
+      "slug": "breasts"
+    },
+    {
+      "id": "hips-butt",
+      "label": "Hips & Butt",
+      "slug": "hips"
+    },
+    {
+      "id": "hair",
+      "label": "Hair Transplant",
+      "slug": "hair"
+    },
+    {
+      "id": "other",
+      "label": "Other Surgeries",
+      "slug": "other"
+    },
+    {
+      "id": "phalloplasty",
+      "label": "Bottom Surgery (SRS)",
+      "group": "masculine",
+      "source": "https://www.transhealthcare.org/phalloplasty/"
+    },
+    {
+      "id": "top-masc",
+      "label": "Top Surgery",
+      "group": "masculine",
+      "source": "https://www.transhealthcare.org/top-surgery/"
+    }
   ],
   "regions": [
-    { "id": "australia", "label": "Australia" },
-    { "id": "canada", "label": "Canada" },
-    { "id": "europe", "label": "Europe" },
-    { "id": "uk", "label": "UK" },
-    { "id": "south-america", "label": "South America" },
-    { "id": "thailand", "label": "Thailand" },
-    { "id": "usa", "label": "USA" },
-    { "id": "other", "label": "Other" }
+    {
+      "id": "australia",
+      "label": "Australia"
+    },
+    {
+      "id": "canada",
+      "label": "Canada"
+    },
+    {
+      "id": "europe",
+      "label": "Europe"
+    },
+    {
+      "id": "uk",
+      "label": "UK"
+    },
+    {
+      "id": "south-america",
+      "label": "South America"
+    },
+    {
+      "id": "thailand",
+      "label": "Thailand"
+    },
+    {
+      "id": "usa",
+      "label": "USA"
+    },
+    {
+      "id": "other",
+      "label": "Other"
+    }
   ]
 }

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { getSurgeons, getMyLocation, getSurgeon } from '../api/client.js';
+import { getSurgeons, getMyLocation, getSurgeon, geocodePlace } from '../api/client.js';
 import SurgeonDetail from '../components/Profile/SurgeonDetail.jsx';
 import { useDebouncedValue } from '../hooks/useDebouncedValue.js';
 import { distanceInMetres, toKm } from '../utils/distance.js';
 import MapShell from '../components/Map/MapShell.jsx';
 import RangeControl from '../components/Apple Design Elements/RangeControl.jsx';
+import FavoriteButton from '../components/Assets/FavoriteButton.jsx';
 import Switch from '../components/Apple Design Elements/Switch.jsx';
 import SearchField from '../components/Apple Design Elements/SearchField.jsx';
 
@@ -16,6 +17,18 @@ const PROCEDURES = [
   { id: 'breasts', label: 'Top Surgery' },
   { id: 'vfs', label: 'Voice Feminization (VFS)' },
 ];
+
+// Kept apart from the list above: these are different surgeons, listed by
+// TransHealthcare rather than the TransSurgeriesWiki.
+const PROCEDURES_MASC = [
+  { id: 'phalloplasty', label: 'Bottom Surgery (SRS)' },
+  { id: 'top-masc', label: 'Top Surgery' },
+];
+
+// Every procedure the directory can show, so a row's tags read as labels
+// whichever list they came from. Without this the masculine ones rendered as
+// raw ids: "phalloplasty" instead of "Bottom Surgery (SRS)".
+const ALL_PROCEDURES = [...PROCEDURES, ...PROCEDURES_MASC];
 
 const STATES = [
   'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware',
@@ -44,13 +57,22 @@ export default function Surgeries() {
   const [selected, setSelected] = useState({ srs: true });
   const [scope, setScope] = useState('near');
 
-  const [centresOnly, setCentresOnly] = useState(true);
+  const [centersOnly, setCentersOnly] = useState(true);
+  const [surgeonsOnly, setSurgeonsOnly] = useState(false);
   const [stateName, setStateName] = useState('Florida');
   const [countryName, setCountryName] = useState('Thailand');
   const [location, setLocation] = useState(null);
+  // A ZIP or address typed into the search box. While one is set, "Near me" is
+  // measured from there rather than from wherever the visitor's IP puts them.
+  const [pinned, setPinned] = useState(null);
+  const [pinnedFor, setPinnedFor] = useState('');
   const [unit, setUnit] = useState('mi');
 
-  const [range, setRange] = useState(500);
+  // Must be a value the ladder actually offers. It was 500 while the ladder
+  // still went to 1500; once the cap became 200 the slider sat pinned at its
+  // maximum showing "500", and the filter really did use 500 -- so the first
+  // touch of the slider snapped to 200 and results disappeared.
+  const [range, setRange] = useState(200);
   const [data, setData] = useState({ entries: [], total: 0, checkedOn: null, source: '' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -85,7 +107,7 @@ export default function Surgeries() {
     setLoading(true);
     setError('');
 
-    getSurgeons({ procedures: procedureKey, kind: centresOnly ? 'centre' : '' })
+    getSurgeons({ procedures: procedureKey, kind: centersOnly ? 'center' : surgeonsOnly ? 'surgeon' : '' })
       .then((result) => !cancelled && setData(result))
       .catch((err) => !cancelled && setError(err.message))
       .finally(() => !cancelled && setLoading(false));
@@ -93,14 +115,46 @@ export default function Surgeries() {
     return () => {
       cancelled = true;
     };
-  }, [procedureKey, centresOnly]);
+  }, [procedureKey, centersOnly, surgeonsOnly]);
 
   const radiusKm = toKm(debouncedRange, unit);
 
+  const origin = pinned ?? location;
+  const searchText =
+    pinnedFor && debouncedQuery.trim() === pinnedFor ? '' : debouncedQuery.trim();
+
+  const namesSomeone = (text) =>
+    data.entries.some((e) =>
+      `${e.name} ${e.city ?? ''} ${e.clinic ?? ''}`.toLowerCase().includes(text.toLowerCase())
+    );
+
+  // A ZIP or a street address matches no surgeon's name, city or clinic, so
+  // text that finds nobody is tried as a place and becomes the point the range
+  // is measured from. A real name still filters the list as before.
+  useEffect(() => {
+    const text = debouncedQuery.trim();
+    if (!text || text === pinnedFor || namesSomeone(text)) return;
+
+    let cancelled = false;
+
+    geocodePlace(text)
+      .then((place) => {
+        if (cancelled) return;
+        setPinned(place);
+        setPinnedFor(text);
+        setScope('near');
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, [debouncedQuery, pinnedFor, data.entries]);
+
   const inScope = (e) => {
     if (scope === 'near') {
-      if (!location || e.lat == null) return false;
-      return distanceInMetres(location, e) / 1000 <= radiusKm;
+      if (!origin || e.lat == null) return false;
+      return distanceInMetres(origin, e) / 1000 <= radiusKm;
     }
     if (scope === 'state') return e.region === 'usa' && (!e.state || e.state === stateName);
     return e.country === countryName;
@@ -110,11 +164,15 @@ export default function Surgeries() {
 
   const visible = data.entries.filter(inScope).filter(
     (e) =>
-      !debouncedQuery.trim() ||
-      `${e.name} ${e.city ?? ''} ${e.clinic ?? ''}`.toLowerCase().includes(debouncedQuery.toLowerCase().trim())
+      !searchText ||
+      `${e.name} ${e.city ?? ''} ${e.clinic ?? ''}`.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const centre = visible[0] ? [visible[0].lat, visible[0].lng] : [20, 0];
+  const center = pinned
+    ? [pinned.lat, pinned.lng]
+    : visible[0]
+      ? [visible[0].lat, visible[0].lng]
+      : [20, 0];
 
   const markers = visible
     .filter((e) => e.lat != null)
@@ -131,7 +189,7 @@ export default function Surgeries() {
     <MapShell
       title="LGBTQIA+ Safety Index"
       subtitle="Transgender Surgeries"
-      center={openEntry?.lat != null ? [openEntry.lat, openEntry.lng] : centre}
+      center={openEntry?.lat != null ? [openEntry.lat, openEntry.lng] : center}
       zoom={openEntry?.precise ? 11 : openEntry ? 6 : visible.length === 1 ? 9 : visible.length ? 5 : 2}
       markers={markers}
       cluster
@@ -185,6 +243,31 @@ export default function Surgeries() {
         )}
       </div>
 
+      {scope === 'near' && pinned && (
+        <p className="muted" style={{ marginBottom: 8 }}>
+          Measuring from {pinned.label ?? pinned.city}.{' '}
+          <button
+            type="button"
+            onClick={() => {
+              setPinned(null);
+              setPinnedFor('');
+              setQuery('');
+            }}
+            style={{
+              border: 'none',
+              background: 'none',
+              padding: 0,
+              font: 'inherit',
+              color: 'inherit',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+            }}
+          >
+            Use my location
+          </button>
+        </p>
+      )}
+
       {scope === 'near' && (
         <RangeControl
           range={range}
@@ -193,22 +276,50 @@ export default function Surgeries() {
           onUnitChange={setUnit}
           id="surgery-range"
           min={{ mi: 25, km: 50 }}
+          // Surgeons are sparse enough that a nationwide search is the point,
+          // unlike the local business and service searches.
           max={{ mi: 1500, km: 2400 }}
         />
       )}
 
       <div className="group">
         <Switch
-          id="centres-only"
+          id="centers-only"
           label="Surgery centers only"
-          checked={centresOnly}
-          onChange={setCentresOnly}
+          checked={centersOnly}
+          onChange={(v) => {
+            setCentersOnly(v);
+            if (v) setSurgeonsOnly(false);
+          }}
+        />
+
+        <Switch
+          id="surgeons-only"
+          label="Surgeons only"
+          checked={surgeonsOnly}
+          onChange={(v) => {
+            setSurgeonsOnly(v);
+            if (v) setCentersOnly(false);
+          }}
         />
       </div>
 
       <div className="group">
-        <div className="group-label">Procedure</div>
+        <div className="group-label">Trans Feminine Surgeries</div>
         {PROCEDURES.map((p) => (
+          <Switch
+            key={p.id}
+            id={p.id}
+            label={p.label}
+            checked={Boolean(selected[p.id])}
+            onChange={(v) => setSelected((s) => ({ ...s, [p.id]: v }))}
+          />
+        ))}
+      </div>
+
+      <div className="group">
+        <div className="group-label">Trans Masculine Surgeries</div>
+        {PROCEDURES_MASC.map((p) => (
           <Switch
             key={p.id}
             id={p.id}
@@ -229,7 +340,17 @@ export default function Surgeries() {
         <article className="card" key={entry.name}>
           <div className="card-head">
             <h3>{entry.name}</h3>
-            <span className={`tag status-${STATUS_TONE[entry.status] ?? 'unknown'}`}>{entry.status}</span>
+            <div className="card-head-right">
+              <span className={`tag status-${STATUS_TONE[entry.status] ?? 'unknown'}`}>{entry.status}</span>
+              <FavoriteButton
+                kind={entry.kind === 'surgeon' ? 'surgeon' : 'center'}
+                refId={entry.slug}
+                name={entry.name}
+                subtitle={[entry.clinic, entry.city, entry.state, entry.country]
+                  .filter(Boolean)
+                  .join(' - ')}
+              />
+            </div>
           </div>
 
           <p className="address">
@@ -238,17 +359,26 @@ export default function Surgeries() {
 
           {!entry.precise && (
             <p className="muted" style={{ fontSize: 12, marginTop: 4 }}>
-              Pinned at the regional centre - the wiki lists no address.
+              Pinned at the regional center - the wiki lists no address.
             </p>
           )}
 
           <div className="popup-tags">
             {entry.procedures.map((id) => (
               <span key={id} className="tag">
-                {PROCEDURES.find((p) => p.id === id)?.label ?? id}
+                {ALL_PROCEDURES.find((p) => p.id === id)?.label ?? id}
               </span>
             ))}
           </div>
+
+          {entry.viaStaff?.length > 0 && (
+            <p className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+              Offered by surgeons listed here, not on the center's own entry:{' '}
+              {entry.viaStaff
+                .map((id) => ALL_PROCEDURES.find((p) => p.id === id)?.label ?? id)
+                .join(', ')}
+            </p>
+          )}
 
           {entry.note && <p className="muted" style={{ marginTop: 8 }}>{entry.note}</p>}
 

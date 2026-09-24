@@ -1,6 +1,7 @@
 import MapView from './MapView.jsx';
 import PrideFlag from '../Assets/PrideFlag.jsx';
 import MapNav from '../Navigation/MapNav.jsx';
+import AccountPanel, { useAccountPanel } from '../Account/AccountPanel.jsx';
 
 // The layout every map view shares: a full-bleed map 
 // sidebar floating over it, the way an iPadOS split view works.
@@ -11,14 +12,22 @@ export default function MapShell({
   zoom = 12,
   markers = [],
   cluster = false,
+  mapChildren = null,
   search = null,
   detail = null,
   children,
 }) {
+  // The account panel takes the detail column when it is open, so signing in
+  // never unmounts the view underneath and its results survive.
+  const { view: accountView } = useAccountPanel();
+  const panel = accountView ? <AccountPanel /> : detail;
+
   return (
     <div className="app">
       <div className="map-layer">
-        <MapView center={center} zoom={zoom} markers={markers} cluster={cluster} />
+        <MapView center={center} zoom={zoom} markers={markers} cluster={cluster}>
+          {mapChildren}
+        </MapView>
       </div>
 
       <MapNav />
@@ -48,7 +57,7 @@ export default function MapShell({
       </aside>
 
       {/* Profile column, sitting between the sidebar and the map. */}
-      {detail && <div className="detail">{detail}</div>}
+      {panel && <div className="detail">{panel}</div>}
     </div>
   );
 }

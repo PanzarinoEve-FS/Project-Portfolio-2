@@ -3,6 +3,8 @@
 async function request(path, options = {}) {
   const response = await fetch(path, {
     headers: { 'Content-Type': 'application/json' },
+    // The session lives in an httpOnly cookie, so it has to ride along.
+    credentials: 'include',
     ...options,
   });
 
@@ -19,6 +21,11 @@ async function request(path, options = {}) {
 
 // GeoJS - approximate location from the visitor's IP address.
 export const getMyLocation = () => request('/api/geo/me');
+
+// A typed ZIP or place name turned into a point, so a search can be anchored
+// somewhere other than where the visitor happens to be. 404 means the text was
+// not a place.
+export const geocodePlace = (q) => request(`/api/geo/place?q=${encodeURIComponent(q)}`);
 
 // Nominatim - search for places by name and city.
 export const searchPlaces = (query, city) =>
@@ -88,3 +95,32 @@ export const addReview = (osmId, review) =>
     method: 'POST',
     body: JSON.stringify(review),
   });
+
+// Accounts. The session is an httpOnly cookie, so nothing is stored here.
+const send = (path, body, method = 'POST') =>
+  request(path, { method, body: JSON.stringify(body) });
+
+export const register = (fields) => send('/api/auth/register', fields);
+
+export const login = (loginName, password) =>
+  send('/api/auth/login', { login: loginName, password });
+
+export const logout = () => send('/api/auth/logout', {});
+export const getMe = () => request('/api/auth/me');
+export const updateMe = (changes) => send('/api/auth/me', changes, 'PATCH');
+
+// Saved places.
+export const getFavorites = () => request('/api/favorites');
+
+export const addFavorite = (favorite) => send('/api/favorites', favorite);
+
+export const removeFavorite = (kind, refId) =>
+  request(`/api/favorites/${kind}/${encodeURIComponent(refId)}`, { method: 'DELETE' });
+
+// Business Safety Score for every ZIP on the map.
+// ZIP areas in a [west, south, east, north] box, or every scored ZIP without one.
+export const getZipScores = (bbox) =>
+  request(bbox ? `/api/zipscores?bbox=${bbox.map((value) => value.toFixed(4)).join(',')}` : '/api/zipscores');
+export const getZipScore = (zip) => request(`/api/zipscores/${encodeURIComponent(zip)}`);
+
+export const getWebReviews = () => request('/api/reviews');

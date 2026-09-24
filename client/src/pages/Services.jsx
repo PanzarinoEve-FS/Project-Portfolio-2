@@ -1,18 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PlaceDetail from '../components/Profile/PlaceDetail.jsx';
 
 import { getMyLocation, getOsmPlaces } from '../api/client.js';
-import { toKm, fromKm } from '../utils/distance.js';
+import { toKm, fromKm, distanceInMetres } from '../utils/distance.js';
 import { useDebouncedValue } from '../hooks/useDebouncedValue.js';
 import MapShell from '../components/Map/MapShell.jsx';
-import RangeControl from '../components/Apple Design Elements/RangeControl.jsx';
+import RangeControl, { stopsFor } from '../components/Apple Design Elements/RangeControl.jsx';
+
+// How far the search may widen itself before giving up.
+const MAX_WIDEN_STEPS = 6;
 import BusinessCard from '../components/Profile/BusinessCard.jsx';
-import Switch from '../components/Apple Design Elements/Switch.jsx';
 import SearchField from '../components/Apple Design Elements/SearchField.jsx';
 
 const SERVICES = [
-  { id: 'electrolysis', label: 'Electrolysis', categories: ['beauty'], keywords: ['electrolysis', 'electrolog'] },
   { id: 'laser', label: 'Laser Hair Removal', categories: ['beauty'], keywords: ['laser', 'hair removal'] },
   { id: 'threading', label: 'Eyebrow Threading', categories: ['beauty'], keywords: ['thread', 'brow'] },
   { id: 'nails', label: 'Nail Salon', categories: ['nails', 'beauty'], keywords: [] },
@@ -23,14 +24,25 @@ export default function Services() {
   const { osmId } = useParams();
   const [location, setLocation] = useState(null);
   const [query, setQuery] = useState('');
-  const [active, setActive] = useState({ nails: true, massage: true });
+  const [service, setService] = useState('nails');
   const [unit, setUnit] = useState('mi');
-  const [range, setRange] = useState(5);
+  const [range, setRange] = useState(15);
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const [cappedKm, setCappedKm] = useState(null);
+  // Set when an empty search was widened on the visitor's behalf.
+  const [autoJump, setAutoJump] = useState(null);
+  // A ref, not state: as state it would be a dependency of the probe effect and
+  // would cancel the very request it tracks.
+  // setLoading(true) inside an effect does not apply until the next render, so
+  // the probe could see loading===false and fire before the first search had
+  // even returned. This ref flips synchronously.
+  const searchRan = useRef(false);
+  // Bounds the widening so a category with nothing anywhere cannot walk the
+  // whole ladder.
+  const widenSteps = useRef(0);
 
   const debouncedQuery = useDebouncedValue(query, 400);
 
@@ -43,8 +55,8 @@ export default function Services() {
       .catch((err) => setError(err.message));
   }, []);
 
-  const selected = SERVICES.filter((s) => active[s.id]);
-  const categoryKey = [...new Set(selected.flatMap((s) => s.categories))].sort().join(',');
+  const chosen = SERVICES.find((s) => s.id === service) ?? SERVICES[0];
+  const categoryKey = [...new Set(chosen.categories)].sort().join(',');
 
   useEffect(() => {
     if (!location || !categoryKey) {
@@ -53,35 +65,73 @@ export default function Services() {
     }
 
     let cancelled = false;
+    searchRan.current = false;
     setLoading(true);
     setError('');
 
-    getOsmPlaces({ lat: location.lat, lng: location.lng, radius: radiusKm, categories: categoryKey })
+    getOsmPlaces({
+      lat: location.lat,
+      lng: location.lng,
+      radius: radiusKm,
+      categories: categoryKey,
+      // Electrolysis, laser and threading are matched on the business name
+      // here, so the whole set has to arrive. A default-sized page of a wide
+      // search is nearly all plain beauty salons, and the few real matches get
+      // truncated away -- which is why a result could vanish as the range grew.
+      limit: 3000,
+    })
       .then(({ results, cappedAtKm }) => {
         if (cancelled) return;
         setPlaces(results);
         setCappedKm(cappedAtKm ?? null);
       })
       .catch((err) => !cancelled && setError(err.message))
-      .finally(() => !cancelled && setLoading(false));
+      .finally(() => {
+        if (cancelled) return;
+        searchRan.current = true;
+        setLoading(false);
+      });
 
     return () => {
       cancelled = true;
     };
   }, [location, categoryKey, radiusKm]);
 
+  // Laser and threading share shop=beauty, so those are narrowed by a name
+  // keyword; the rest match on the tag alone.
   const matchesSelection = (place) => {
+    if (chosen.keywords.length === 0) return chosen.categories.includes(place.category);
+
     const name = place.name.toLowerCase();
-    return selected.some((service) => {
-      if (!service.categories.includes(place.category) && !service.categories.includes('beauty')) return false;
-      if (service.keywords.length === 0) return service.categories.includes(place.category);
-      return service.keywords.some((k) => name.includes(k));
-    });
+    return chosen.keywords.some((k) => name.includes(k));
   };
 
   const visible = places
     .filter(matchesSelection)
     .filter((p) => !debouncedQuery.trim() || p.name.toLowerCase().includes(debouncedQuery.toLowerCase().trim()));
+
+  // When nothing matches in range, widen one stop at a time until something
+  // does, up to a handful of steps.
+  //
+  // An earlier version probed once at the widest range and jumped to the
+  // nearest hit it saw. That was wrong: neither Nominatim nor a capped Overpass
+  // query returns nearest-first, so "closest in the sample" was not the closest
+  // that exists -- it once skipped a clinic 10 miles away to land on one 300
+  // miles out. Stepping is a few more requests but lands on the smallest range
+  // that actually works.
+  useEffect(() => {
+    if (!searchRan.current || loading || error || !location) return;
+    if (visible.length > 0 || range !== debouncedRange) return;
+    if (widenSteps.current >= MAX_WIDEN_STEPS) return;
+
+    const stops = stopsFor(unit);
+    const next = stops.find((stop) => stop > range);
+    if (!next) return;
+
+    widenSteps.current += 1;
+    setAutoJump((prev) => ({ from: prev?.from ?? range, to: next }));
+    setRange(next);
+  }, [loading, error, location, visible.length, range, debouncedRange, unit]);
 
   return (
     <MapShell
@@ -101,7 +151,16 @@ export default function Services() {
       search={<SearchField value={query} onChange={setQuery} placeholder="Search Services" />}
       detail={osmId ? <PlaceDetail osmId={osmId} backTo="/services" backLabel="Back to services" /> : null}
     >
-      <RangeControl range={range} unit={unit} onRangeChange={setRange} onUnitChange={setUnit} />
+      <RangeControl
+        range={range}
+        unit={unit}
+        onRangeChange={(next) => {
+          setAutoJump(null);
+          widenSteps.current = 0;
+          setRange(next);
+        }}
+        onUnitChange={setUnit}
+      />
 
       {cappedKm && (
         <p className="muted">
@@ -110,18 +169,30 @@ export default function Services() {
         </p>
       )}
 
-      <div className="group">
-        <div className="group-label">Services</div>
-        {SERVICES.map((service) => (
-          <Switch
-            key={service.id}
-            id={service.id}
-            label={service.label}
-            checked={Boolean(active[service.id])}
-            onChange={(v) => setActive((a) => ({ ...a, [service.id]: v }))}
-          />
+      <div className="group-label">Services</div>
+      <div className="chips" style={{ marginBottom: 14 }}>
+        {SERVICES.map((option) => (
+          <button
+            key={option.id}
+            type="button"
+            onClick={() => {
+              setAutoJump(null);
+              widenSteps.current = 0;
+              setService(option.id);
+            }}
+            className={option.id === service ? 'chip active' : 'chip'}
+          >
+            {option.label}
+          </button>
         ))}
       </div>
+
+      {autoJump && (
+        <p className="muted auto-jump">
+          Nothing within {autoJump.from} {unit}, so the range widened to{' '}
+          {autoJump.to} {unit}.
+        </p>
+      )}
 
       <div className="group-label">
         Search Results{location ? ` - within ${range} ${unit} of ${location.city}` : ''}
@@ -136,9 +207,9 @@ export default function Services() {
 
       {!loading && visible.length === 0 && !error && (
         <p className="empty">
-          {selected.length === 0
-            ? 'Turn on a service to see places nearby.'
-            : `No matching places found within ${range} ${unit}.`}
+          {widenSteps.current >= MAX_WIDEN_STEPS
+            ? `No ${chosen.label.toLowerCase()} found, even out to ${range} ${unit}.`
+            : `No ${chosen.label.toLowerCase()} found within ${range} ${unit}. Widening...`}
         </p>
       )}
 

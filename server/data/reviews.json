@@ -1,0 +1,1025 @@
+{
+  "_about": "LGBTQIA+ friendliness reviews found through web research on the most common businesses in the Heatmap's business sweep. Every review links to its source. scope \"brand\" means the source speaks about a chain as a whole; scope \"location\" means it speaks about one specific place. A search that turned up nothing is listed under researched, not stored as a review: an unreviewed business is unrated, not unfriendly.",
+  "_method": "The 28 business names that appear 3 or more times in the saved sweep were each searched twice, once for Orlando reports and once for the chain in general. Only independent reporting on how LGBTQIA+ customers or the community are treated is recorded: news outlets, LGBTQIA+ media and advocacy groups. Left out: a company's own statements, posts that could not be opened to confirm, and workplace policy, which the CEI already scores. Stance follows what the source documents; mixed means it documents both harm and a corrective or supportive response. Coverage follows media attention, so a chain with no review is not evidence either way.",
+  "region": "Orlando, Florida: the ZIP codes scored on the Heatmap",
+  "checkedOn": "2026-09-15",
+  "researched": [
+    {
+      "business": "Starbucks",
+      "locations": 73,
+      "queries": [
+        "Starbucks Orlando LGBTQ friendly reviews",
+        "is Starbucks LGBTQ friendly customer reviews experiences"
+      ],
+      "reviews": 1,
+      "note": "An LGBTQ newspaper column. Employee Q&A sites and Starbucks' own Pride page were left out."
+    },
+    {
+      "business": "7-Eleven",
+      "locations": 56,
+      "queries": [
+        "7-Eleven Orlando LGBTQ customer",
+        "is 7-Eleven LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Only the company's own Pride Month page."
+    },
+    {
+      "business": "Walgreens",
+      "locations": 40,
+      "queries": [
+        "Walgreens Orlando LGBTQ transgender customer",
+        "is Walgreens LGBTQ friendly transgender customers pharmacist reviews"
+      ],
+      "reviews": 2,
+      "note": "Two news reports. A 2025 lawsuit by pharmacists was left out as an employment case."
+    },
+    {
+      "business": "Wawa",
+      "locations": 30,
+      "queries": [
+        "Wawa Orlando LGBTQ customer",
+        "is Wawa LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Reports that Wawa sponsored Orlando's Come Out With Pride could not be opened to confirm; the rest was workplace policy, which the CEI covers."
+    },
+    {
+      "business": "CVS Pharmacy",
+      "locations": 29,
+      "queries": [
+        "CVS Orlando LGBTQ transgender customer",
+        "is CVS Pharmacy LGBTQ friendly transgender customers reviews"
+      ],
+      "reviews": 1,
+      "note": "One news report; the rest was workplace policy."
+    },
+    {
+      "business": "Chevron",
+      "locations": 24,
+      "queries": [
+        "Chevron Orlando LGBTQ customer",
+        "is Chevron gas station LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Only workplace policy, which the CEI covers."
+    },
+    {
+      "business": "Shell",
+      "locations": 22,
+      "queries": [
+        "Shell gas station Orlando LGBTQ customer",
+        "is Shell gas station LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Nothing about LGBTQIA+ customers."
+    },
+    {
+      "business": "Mobil",
+      "locations": 20,
+      "queries": [
+        "Mobil gas station Orlando LGBTQ customer",
+        "is Mobil Exxon gas station LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Only ExxonMobil workplace policy, which the CEI covers."
+    },
+    {
+      "business": "RaceTrac",
+      "locations": 20,
+      "queries": [
+        "RaceTrac Orlando LGBTQ customer",
+        "is RaceTrac LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Nothing about LGBTQIA+ customers."
+    },
+    {
+      "business": "Citgo",
+      "locations": 13,
+      "queries": [
+        "Citgo gas station Orlando LGBTQ customer",
+        "is Citgo gas station LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Nothing about LGBTQIA+ customers."
+    },
+    {
+      "business": "Speedway",
+      "locations": 12,
+      "queries": [
+        "Speedway gas station Orlando LGBTQ customer",
+        "is Speedway gas station LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Nothing about LGBTQIA+ customers."
+    },
+    {
+      "business": "Publix",
+      "locations": 12,
+      "queries": [
+        "Publix Orlando LGBTQ customers",
+        "is Publix LGBTQ friendly customer reviews"
+      ],
+      "reviews": 1,
+      "note": "One Orlando store incident. Reports of mistreating LGBTQ employees were left out as workplace cases; the CEI already scores Publix 0."
+    },
+    {
+      "business": "BP",
+      "locations": 10,
+      "queries": [
+        "BP gas station Orlando LGBTQ customer",
+        "is BP gas station LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Only workplace policy, which the CEI covers."
+    },
+    {
+      "business": "Miller's Ale House",
+      "locations": 8,
+      "queries": [
+        "Miller's Ale House Orlando LGBTQ customer",
+        "is Miller's Ale House LGBTQ friendly reviews"
+      ],
+      "reviews": 0,
+      "note": "Nothing about LGBTQIA+ customers."
+    },
+    {
+      "business": "Marathon",
+      "locations": 6,
+      "queries": [
+        "Marathon gas station Orlando LGBTQ customer",
+        "is Marathon gas station LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Nothing about LGBTQIA+ customers."
+    },
+    {
+      "business": "Chili's",
+      "locations": 6,
+      "queries": [
+        "Chili's Orlando LGBTQ customer",
+        "is Chili's LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "A 2019 ACLU complaint about a lesbian server is a workplace case, which the CEI covers."
+    },
+    {
+      "business": "Circle K",
+      "locations": 5,
+      "queries": [
+        "Circle K Orlando LGBTQ customer",
+        "is Circle K LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Its \"Orlando Pride\" sponsorship is the women's soccer club, and a viral discrimination story was satire, per Snopes."
+    },
+    {
+      "business": "IHOP",
+      "locations": 5,
+      "queries": [
+        "IHOP Orlando LGBTQ customer",
+        "is IHOP LGBTQ friendly customer reviews"
+      ],
+      "reviews": 1,
+      "note": "One news report. A customer's anti-gay note to a server was left out: it was not the restaurant's conduct."
+    },
+    {
+      "business": "Sunoco",
+      "locations": 4,
+      "queries": [
+        "Sunoco gas station Orlando LGBTQ customer",
+        "is Sunoco gas station LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Nothing about LGBTQIA+ customers."
+    },
+    {
+      "business": "Outback Steakhouse",
+      "locations": 4,
+      "queries": [
+        "Outback Steakhouse Orlando LGBTQ customer",
+        "is Outback Steakhouse LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Only Yelp questions and TikTok posts, which could not be opened to confirm."
+    },
+    {
+      "business": "Foxtail Coffee",
+      "locations": 7,
+      "queries": [
+        "Foxtail Coffee Orlando LGBTQ",
+        "is Foxtail Coffee LGBTQ friendly reviews"
+      ],
+      "reviews": 0,
+      "note": "Only the company's own statements of support. A search summary quoted a review calling Foxtail \"lgbtq friendly\", but Tripadvisor blocked the page, so the review and its location could not be confirmed."
+    },
+    {
+      "business": "Denny's",
+      "locations": 3,
+      "queries": [
+        "Denny's Orlando LGBTQ customer",
+        "is Denny's LGBTQ friendly customer reviews"
+      ],
+      "reviews": 1,
+      "note": "One news report."
+    },
+    {
+      "business": "Waffle House",
+      "locations": 3,
+      "queries": [
+        "Waffle House Orlando LGBTQ customer",
+        "is Waffle House LGBTQ friendly customer reviews"
+      ],
+      "reviews": 1,
+      "note": "One advocacy advisory; nothing Orlando-specific."
+    },
+    {
+      "business": "Cracker Barrel",
+      "locations": 3,
+      "queries": [
+        "Cracker Barrel Orlando LGBTQ customer",
+        "is Cracker Barrel LGBTQ friendly customer reviews"
+      ],
+      "reviews": 1,
+      "note": "One news report. Its 1991 policy of firing gay employees was left out as a workplace case."
+    },
+    {
+      "business": "Murphy USA",
+      "locations": 3,
+      "queries": [
+        "Murphy USA gas station Orlando LGBTQ customer",
+        "is Murphy USA LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Nothing about LGBTQIA+ customers."
+    },
+    {
+      "business": "Dutch Bros Coffee",
+      "locations": 3,
+      "queries": [
+        "Dutch Bros Orlando LGBTQ",
+        "is Dutch Bros LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Only the company's own statements and TikTok posts."
+    },
+    {
+      "business": "Pizza Hut",
+      "locations": 3,
+      "queries": [
+        "Pizza Hut Orlando LGBTQ customer",
+        "is Pizza Hut LGBTQ friendly customer reviews"
+      ],
+      "reviews": 0,
+      "note": "Only the company's own Pride posts."
+    },
+    {
+      "business": "Walmart",
+      "locations": 3,
+      "queries": [
+        "Walmart Orlando LGBTQ transgender customer",
+        "is Walmart LGBTQ friendly transgender customers reviews"
+      ],
+      "reviews": 1,
+      "note": "One news report."
+    }
+  ],
+  "reviews": [
+    {
+      "key": "publix-colonialtown-2023-trans-cake",
+      "business": "Publix",
+      "scope": "location",
+      "address": "1500 E Colonial Dr, Orlando, FL 32803 (Publix at Colonialtown)",
+      "lat": 28.5526921,
+      "lng": -81.3615819,
+      "osmId": "node-11535657108",
+      "stance": "unfriendly",
+      "summary": "Bakery staff at the Colonialtown Publix, known locally as \"the gay Publix\", refused to write \"Trans people deserve joy\" on a cake, calling it political. Publix later apologized and offered to remake it.",
+      "quote": "Last month, Yasmin Flasterstein and Dandelion Hill of Central Florida visited a Publix in the Colonialtown neighborhood of Orlando — known to locals as “the gay Publix” because of the large population of LGBTQ+ people who shop there — to buy flowers and a cake for their event.",
+      "_note": "The article names the neighborhood, not the street. Publix at Colonialtown (store #662, 1500 E Colonial Dr) is the only Publix there.",
+      "source": {
+        "title": "Florida bakery refuses to write ‘Trans’ on cake, cites Publix policy",
+        "publisher": "Los Angeles Blade",
+        "url": "https://www.losangelesblade.com/2023/05/12/florida-bakery-refuses-to-write-trans-on-cake-cites-publix-policy/",
+        "published": "2023-05-12"
+      }
+    },
+    {
+      "key": "starbucks-2023-not-a-monolith",
+      "business": "Starbucks",
+      "scope": "brand",
+      "brands": [
+        "Starbucks"
+      ],
+      "stance": "mixed",
+      "summary": "A column in which a trans employee calls Starbucks extremely LGBT-friendly, while the writer notes union allegations that Pride decorations were removed from some stores.",
+      "quote": "Those claims and the allegations of the union can both be true, in the same way that Starbucks can receive a perfect score from the HRC and remove Pride decorations from certain stores.",
+      "source": {
+        "title": "Starbucks is not a monolith",
+        "publisher": "Seattle Gay News",
+        "url": "https://www.sgn.org/story/71046",
+        "published": "2023-07-21"
+      }
+    },
+    {
+      "key": "walgreens-2018-restroom-policy",
+      "business": "Walgreens",
+      "scope": "brand",
+      "brands": [
+        "Walgreens"
+      ],
+      "stance": "friendly",
+      "summary": "After a Hollywood, California store refused a trans woman the women's restroom, Walgreens adopted a policy across its 8,000 stores letting customers use the restroom that matches their gender identity.",
+      "quote": "Drugstore chain Walgreens has adopted a new companywide policy that permits customers to use store bathrooms that align with their gender identity.",
+      "source": {
+        "title": "Walgreens adopts transgender-inclusive bathroom policy",
+        "publisher": "NBC News",
+        "url": "https://www.nbcnews.com/feature/nbc-out/walgreens-adopts-transgender-inclusive-bathroom-policy-n845601",
+        "published": "2018-02-07"
+      }
+    },
+    {
+      "key": "walgreens-2023-oakland-hormone-refusal",
+      "business": "Walgreens",
+      "scope": "brand",
+      "brands": [
+        "Walgreens"
+      ],
+      "stance": "mixed",
+      "summary": "A pharmacist at an Oakland, California Walgreens refused a trans man's hormone refill on religious grounds. The store manager apologized and he got his medication.",
+      "quote": "A transgender man in Oakland, California, claims a pharmacist at his local Walgreens refused to refill his prescribed hormone medication due to a religious objection.",
+      "source": {
+        "title": "Trans Man Says Walgreens Pharmacist Refused to Fill Prescription",
+        "publisher": "Metro Weekly",
+        "url": "https://www.metroweekly.com/2023/06/trans-man-says-walgreens-pharmacist-refused-to-fill-prescription/",
+        "published": "2023-06-23"
+      }
+    },
+    {
+      "key": "cvs-2018-fountain-hills-hormone-refusal",
+      "business": "CVS",
+      "scope": "brand",
+      "brands": [
+        "CVS"
+      ],
+      "stance": "mixed",
+      "summary": "A pharmacist at a Fountain Hills, Arizona CVS refused a trans woman's hormone prescription and questioned her in front of customers. CVS apologized and said he no longer worked there.",
+      "quote": "She said that he \"refused to fill one of the prescriptions needed to affirm my identity\" and \"kept asking, loudly and in front of other CVS staff and customers, why I was given the prescriptions.\"",
+      "source": {
+        "title": "CVS apologizes for pharmacist who refused to fill transgender woman's prescription",
+        "publisher": "NBC News",
+        "url": "https://www.nbcnews.com/news/us-news/cvs-apologizes-pharmacist-who-refused-fill-transgender-woman-s-prescription-n893426",
+        "published": "2018-07-22"
+      }
+    },
+    {
+      "key": "ihop-2018-nashville-service-refusal",
+      "business": "IHOP",
+      "scope": "brand",
+      "brands": [
+        "IHOP"
+      ],
+      "stance": "mixed",
+      "summary": "Trans activists said a Nashville IHOP refused to serve them, citing their service dog, which they called a cover for discrimination. IHOP said discrimination does not reflect its brand.",
+      "quote": "A group of transgender activists accompanied by a service dog said they were denied breakfast at an IHOP (International House of Pancakes) on Monday in Tennessee.",
+      "source": {
+        "title": "IHOP Denied Food to Transgender Activists with Service Dog, Group Says",
+        "publisher": "Newsweek",
+        "url": "https://www.newsweek.com/ihop-lgbt-nashville-tennessee-939581",
+        "published": "2018-05-22"
+      }
+    },
+    {
+      "key": "dennys-2018-koreatown-restroom",
+      "business": "Denny's",
+      "scope": "brand",
+      "brands": [
+        "Denny's"
+      ],
+      "stance": "mixed",
+      "summary": "A manager at a Los Angeles Denny's walked a trans woman out after another customer harassed her in the restroom. Denny's then said trans guests may use the restroom that matches their gender identity.",
+      "quote": "The unidentified trans woman was walked out of the restaurant by a manager, calling into question the restaurant's policy on trans customers and what bathrooms they can access.",
+      "source": {
+        "title": "After Woman Chased Out Bathroom, Denny's Says Supports Trans Customers",
+        "publisher": "The Advocate",
+        "url": "https://www.advocate.com/transgender/2018/5/18/after-woman-chased-bathroom-dennys-says-it-supports-trans-customers",
+        "published": "2018-05-18"
+      }
+    },
+    {
+      "key": "waffle-house-2018-nbjc-advisory",
+      "business": "Waffle House",
+      "scope": "brand",
+      "brands": [
+        "Waffle House"
+      ],
+      "stance": "unfriendly",
+      "summary": "Women's March, the National Black Justice Coalition and others advised Black and LGBTQIA+ people to avoid Waffle House after incidents including an employee's homophobic slur at a customer in Warsaw, North Carolina.",
+      "quote": "A number of organizations, including Women’s March, National Black Justice Coalition (NBJC), 100 Black Men, and Civil Rights leaders are advising black people and LGBTQIA+/same gender loving (SGL) people to avoid Waffle House restaurants following a string of incidents of racial and homophobic bias and discrimination.",
+      "source": {
+        "title": "Civil Rights Activists and Organizations Issue a National Advisory to Exercise Caution After High Profile Incidents Of Discriminatory Treatment at Waffle Houses",
+        "publisher": "National Black Justice Coalition",
+        "url": "https://nbjc.org/media-center-releases-civil-rights-activists-and-organizations-issue-national-advisory-exercise-caut/",
+        "published": "2018-06-12"
+      }
+    },
+    {
+      "key": "cracker-barrel-2025-pride-page-removed",
+      "business": "Cracker Barrel",
+      "scope": "brand",
+      "brands": [
+        "Cracker Barrel"
+      ],
+      "stance": "mixed",
+      "summary": "After sponsoring the 2024 Nashville Pride Parade, Cracker Barrel removed its Pride web page and ended its LGBTQ employee group in 2025 following anti-\"woke\" backlash.",
+      "quote": "The restaurant chain, already under fire for a failed rebrand, has removed its Pride page and ended an LGBTQ employee resource group.",
+      "source": {
+        "title": "Cracker Barrel Removes Pride Page After Anti-'Woke' Backlash",
+        "publisher": "Metro Weekly",
+        "url": "https://www.metroweekly.com/2025/09/cracker-barrel-removes-pride-page/",
+        "published": "2025-09-01"
+      }
+    },
+    {
+      "key": "walmart-2024-pride-rollback",
+      "business": "Walmart",
+      "scope": "brand",
+      "brands": [
+        "Walmart"
+      ],
+      "stance": "unfriendly",
+      "summary": "Under pressure from an anti-DEI activist, Walmart left HRC's Corporate Equality Index, began reviewing its Pride funding, and said it would keep \"transgender products\" from being marketed to children.",
+      "quote": "Walmart says it will no longer participate in the Human Rights Campaign’s Corporate Equality Index, will make changes to its diversity, equity, and inclusion (DEI) policies, and will monitor its marketplace to ensure “inappropriate sexual and/or transgender products” are not marketed to children",
+      "source": {
+        "title": "Walmart rolls back DEI & Pride funding after direct pressure from far-right extremist",
+        "publisher": "The Advocate",
+        "url": "https://www.advocate.com/business/walmart-dei-robby-starbuck",
+        "published": "2024-11-26"
+      }
+    },
+    {
+      "key": "plaza-live-2023-drag-show-license",
+      "business": "The Plaza Live",
+      "scope": "location",
+      "address": "425 N Bumby Ave, Orlando, FL 32803",
+      "lat": 28.5487617,
+      "lng": -81.3512089,
+      "osmId": "way-424490016",
+      "stance": "friendly",
+      "summary": "The venue hosted a touring drag show and the state moved to strip its liquor license for it. Its board said the Plaza Live has always been welcoming and inclusive.",
+      "quote": "The Plaza Live has always been a welcoming and inclusive establishment that operates in good faith and compliance with all applicable laws.",
+      "source": {
+        "title": "Orlando venue Plaza Live threatened with loss of liquor license over hosting drag show last year",
+        "publisher": "Orlando Weekly",
+        "url": "https://www.orlandoweekly.com/news/orlando-venue-plaza-live-threatened-with-loss-of-liquor-license-over-hosting-drag-show-last-year-33480616/",
+        "published": "2023-02-04"
+      }
+    },
+    {
+      "key": "solorzanos-pizzeria-2024-review-reply",
+      "business": "Solorzano's Pizzeria & Poolside Bistro",
+      "scope": "location",
+      "address": "5145 City St, Orlando, FL 32839",
+      "lat": 28.4925813,
+      "lng": -81.4147146,
+      "stance": "unfriendly",
+      "summary": "After a gay customer left a low review, the owner replied publicly taunting him about his partner, calling him \"lover boy\", and messaged him saying he knew where he worked. The owner denies being homophobic and says he employs gay staff.",
+      "quote": "He responded to my review basically taunting me for being gay and having a partner, calling him lover boy, and I just told him those remarks were not appreciated and they were, in my opinion, homophobic,",
+      "_note": "Coordinates are the street address; the pizzeria itself is not in OpenStreetMap, so no osmId is recorded.",
+      "source": {
+        "title": "Orlando resident alleges homophobia after reviewing local pizzeria",
+        "publisher": "Watermark Out News",
+        "url": "http://watermarkoutnews.com/2024/08/16/orlando-resident-alleges-homophobia-after-reviewing-local-pizzeria/",
+        "published": "2024-08-16"
+      }
+    },
+    {
+      "key": "bookburn-cafe-queer-owned",
+      "business": "BookBurn Cafe and Social",
+      "scope": "location",
+      "address": "2425 E South St, Orlando, FL 32803",
+      "lat": 28.5389013,
+      "lng": -81.3508006,
+      "stance": "friendly",
+      "summary": "A queer and Filipino owned bookstore cafe in the Milk District, built around banned books, LGBTQ+ writing and drag-led open mic nights.",
+      "quote": "Proudly, BookBurn Cafe and Social is the first Filipino LGBTQ+ owned business in Orlando, rooted in community, representation, and a deep love for culture, connection, and storytelling.",
+      "source": {
+        "title": "Queer Community Cafe Orlando",
+        "publisher": "BookBurn Cafe and Social",
+        "url": "https://bookburnofficial.com/"
+      }
+    },
+    {
+      "key": "savoy-orlando-gay-owned",
+      "business": "Savoy Orlando",
+      "scope": "location",
+      "address": "1913 N Orange Ave, Orlando, FL 32804",
+      "lat": 28.5692423,
+      "lng": -81.3725965,
+      "stance": "friendly",
+      "summary": "An LGBTQ+ nightclub in Ivanhoe Village with drag shows most nights and dedicated lesbian, Latin and bear nights.",
+      "source": {
+        "title": "Savoy Orlando: Gay Bar, Drag Shows & Drag Brunch",
+        "publisher": "Savoy Orlando",
+        "url": "https://www.savoyorlando.com/"
+      }
+    },
+    {
+      "key": "tako-cheena-safe-place",
+      "business": "Tako Cheena",
+      "scope": "location",
+      "address": "938 N Mills Ave, Orlando, FL 32803",
+      "lat": 28.5583071,
+      "lng": -81.3646149,
+      "stance": "friendly",
+      "summary": "Named among the first businesses in Orlando's LGBTQ Safe Place initiative, a police-backed scheme marking shops where LGBTQ people can report harassment and wait safely.",
+      "quote": "Tako Cheena, located near The Center, is one of the first safe places in the city.",
+      "source": {
+        "title": "Orlando unveils LGBTQ safe place initiative",
+        "publisher": "Spectrum News 13",
+        "url": "https://mynews13.com/fl/orlando/news/2016/12/12/orlando_safe_place_initiative"
+      }
+    },
+    {
+      "key": "barcodes-orlando-gay-bar",
+      "business": "BarCodes",
+      "scope": "location",
+      "address": "4453 Edgewater Dr, Orlando, FL 32804",
+      "lat": 28.5985259,
+      "lng": -81.4006746,
+      "stance": "friendly",
+      "summary": "A neighbourhood gay bar on Edgewater Drive with themed nights for the bear and leather crowds.",
+      "quote": "Barcodes Just north of College Park Main Street , and close to Winter Park , Barcodes is a gay nightclub owned by a local gay couple who has been serving the community since 2009.",
+      "source": {
+        "title": "Orlando's Top Gay-Friendly Nightspots",
+        "publisher": "Visit Orlando",
+        "url": "https://www.visitorlando.com/blog/post/orlando-lgbtq-nightspots-restaurants/"
+      }
+    },
+    {
+      "key": "bites-and-bubbles-gay-owned",
+      "business": "Bites & Bubbles",
+      "scope": "location",
+      "address": "1218 N Mills Ave, Orlando, FL 32803",
+      "lat": 28.8109681,
+      "lng": -81.2729591,
+      "stance": "friendly",
+      "summary": "A gay-owned restaurant and wine bar in Mills 50.",
+      "quote": "More LGBTQ+ Owned Restaurants Bites & Bubbles Bites & Bubbles Renowned Chef Eddie Nickell and his partner Nicholas Olivieri are practiced Orlando restaurateurs who have a history of bringing distinctive experiences to Orlando’s culinary scene, such as The Funky Monkey and the fondly remembered Bananas Diner.",
+      "source": {
+        "title": "Made With Pride: LGBTQ+ Owned Orlando Restaurants",
+        "publisher": "Visit Orlando",
+        "url": "https://www.visitorlando.com/blog/post/lgbtq-restaurants-orlando/"
+      }
+    },
+    {
+      "key": "papilio-mount-dora-gay-owned",
+      "business": "Papilio",
+      "scope": "location",
+      "address": "439 N Donnelly St, Mount Dora, FL 32757",
+      "lat": 28.8002128,
+      "lng": -81.6448951,
+      "stance": "friendly",
+      "summary": "A gay-owned gift shop in downtown Mount Dora whose owner backs the city's Safe Place Initiative, the first in Lake County.",
+      "quote": "\"I definitely feel Mount Dora is a welcoming community,\" said Ollendick, who owns the nature-inspired gift shop Papilo.",
+      "source": {
+        "title": "Mount Dora becomes 1st city in Lake County to pass Safe Space Initiative",
+        "publisher": "Spectrum News 13",
+        "url": "https://mynews13.com/fl/orlando/news/2023/08/17/mount-dora-becomes-1st-city-in-lake-county-to-pass-safe-space-initiative"
+      }
+    },
+    {
+      "key": "glass-knife-winter-park",
+      "business": "The Glass Knife",
+      "scope": "location",
+      "address": "320 S Park Ave, Winter Park, FL 32789",
+      "lat": 28.5956287,
+      "lng": -81.3509186,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned or LGBTQ+ friendly business in Orlando, serving cakes, pastries, coffee and light fare.",
+      "source": {
+        "title": "LGBTQ+ Businesses in Orlando",
+        "publisher": "The Nickley Group",
+        "url": "https://thenickleygroup.com/lgbtq-businesses-in-orlando/"
+      }
+    },
+    {
+      "key": "ancient-olive-winter-park",
+      "business": "The Ancient Olive Gourmet",
+      "scope": "location",
+      "address": "301 S Park Ave, Winter Park, FL 32789",
+      "lat": 28.595819,
+      "lng": -81.351108,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned or LGBTQ+ friendly business in Orlando, serving premium olive oils, balsamic vinegars and a global pantry.",
+      "source": {
+        "title": "LGBTQ+ Businesses in Orlando",
+        "publisher": "The Nickley Group",
+        "url": "https://thenickleygroup.com/lgbtq-businesses-in-orlando/"
+      }
+    },
+    {
+      "key": "se7en-bites-milk-district",
+      "business": "Se7en Bites",
+      "scope": "location",
+      "address": "617 N Primrose Dr, Orlando, FL 32803",
+      "lat": 28.5514067,
+      "lng": -81.3478821,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned or LGBTQ+ friendly business in Orlando, serving breakfast, lunch and a full menu of baked goods.",
+      "source": {
+        "title": "LGBTQ+ Businesses in Orlando",
+        "publisher": "The Nickley Group",
+        "url": "https://thenickleygroup.com/lgbtq-businesses-in-orlando/"
+      }
+    },
+    {
+      "key": "wafu-audubon-park",
+      "business": "Wafu",
+      "scope": "location",
+      "address": "3122 Corrine Dr, Orlando, FL 32803",
+      "lat": 28.5682433,
+      "lng": -81.343771,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned or LGBTQ+ friendly business in Orlando, serving Japanese-style soft serve and taiyaki.",
+      "source": {
+        "title": "LGBTQ+ Businesses in Orlando",
+        "publisher": "The Nickley Group",
+        "url": "https://thenickleygroup.com/lgbtq-businesses-in-orlando/"
+      }
+    },
+    {
+      "key": "homecomin-disney-springs",
+      "business": "Chef Art Smith's Homecomin'",
+      "scope": "location",
+      "address": "Disney Springs, Lake Buena Vista, FL 32830",
+      "lat": 28.3711613,
+      "lng": -81.5183686,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned or LGBTQ+ friendly business in Orlando, serving Southern comfort food made with local ingredients.",
+      "source": {
+        "title": "LGBTQ+ Businesses in Orlando",
+        "publisher": "The Nickley Group",
+        "url": "https://thenickleygroup.com/lgbtq-businesses-in-orlando/"
+      }
+    },
+    {
+      "key": "renaissance-theatre-ivanhoe",
+      "business": "Renaissance Theatre Company",
+      "scope": "location",
+      "address": "415 E Princeton St, Orlando, FL 32803",
+      "lat": 28.5716603,
+      "lng": -81.3720026,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned or LGBTQ+ friendly business in Orlando, serving original shows and immersive experiences.",
+      "source": {
+        "title": "LGBTQ+ Businesses in Orlando",
+        "publisher": "The Nickley Group",
+        "url": "https://thenickleygroup.com/lgbtq-businesses-in-orlando/"
+      }
+    },
+    {
+      "key": "bernies-gourmet-oviedo",
+      "business": "Bernie's Gourmet To Go",
+      "scope": "location",
+      "address": "1875 W CR-419, Oviedo, FL 32765",
+      "lat": 28.6575436,
+      "lng": -81.1765988,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned business around Orlando, serving specialty subs, deli sandwiches and a chicken salad bar.",
+      "source": {
+        "title": "The most fabulous LGBTQ+ owned restaurants around Orlando",
+        "publisher": "Orlando Weekly",
+        "url": "https://www.orlandoweekly.com/food-drink/the-most-fabulous-lgbtq-owned-restaurants-around-orlando-30943481/"
+      }
+    },
+    {
+      "key": "island-time-orlando",
+      "business": "Island Time",
+      "scope": "location",
+      "address": "712 E Washington St, Orlando, FL 32801",
+      "lat": 28.5435663,
+      "lng": -81.3682586,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned business around Orlando, serving a kitchen run by two Le Cordon Bleu trained owners.",
+      "source": {
+        "title": "The most fabulous LGBTQ+ owned restaurants around Orlando",
+        "publisher": "Orlando Weekly",
+        "url": "https://www.orlandoweekly.com/food-drink/the-most-fabulous-lgbtq-owned-restaurants-around-orlando-30943481/"
+      }
+    },
+    {
+      "key": "hammered-lamb-orlando",
+      "business": "The Hammered Lamb",
+      "scope": "location",
+      "address": "1235 N Orange Ave, Orlando, FL 32804",
+      "lat": 28.5626391,
+      "lng": -81.3728371,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned business around Orlando, serving an open-air bar and brunch spot running since 2013.",
+      "source": {
+        "title": "The most fabulous LGBTQ+ owned restaurants around Orlando",
+        "publisher": "Orlando Weekly",
+        "url": "https://www.orlandoweekly.com/food-drink/the-most-fabulous-lgbtq-owned-restaurants-around-orlando-30943481/"
+      }
+    },
+    {
+      "key": "la-tavola-orlando",
+      "business": "La Tavola",
+      "scope": "location",
+      "address": "26 E King St, Orlando, FL 32804",
+      "lat": 28.5765936,
+      "lng": -81.3803497,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned business around Orlando, serving fundraising pop-up dinners for the Kevin Fonzo Foundation.",
+      "source": {
+        "title": "The most fabulous LGBTQ+ owned restaurants around Orlando",
+        "publisher": "Orlando Weekly",
+        "url": "https://www.orlandoweekly.com/food-drink/the-most-fabulous-lgbtq-owned-restaurants-around-orlando-30943481/"
+      }
+    },
+    {
+      "key": "hungry-pants-orlando",
+      "business": "Hungry Pants",
+      "scope": "location",
+      "address": "3421 S Orange Ave, Orlando, FL 32806",
+      "lat": 28.505786,
+      "lng": -81.3760142,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned business around Orlando, serving a menu that is 100% plant-based, 80% of the time.",
+      "source": {
+        "title": "The most fabulous LGBTQ+ owned restaurants around Orlando",
+        "publisher": "Orlando Weekly",
+        "url": "https://www.orlandoweekly.com/food-drink/the-most-fabulous-lgbtq-owned-restaurants-around-orlando-30943481/"
+      }
+    },
+    {
+      "key": "quantum-leap-winery",
+      "business": "Quantum Leap Winery",
+      "scope": "location",
+      "address": "1312 Wilfred Dr, Orlando, FL 32803",
+      "lat": 28.5630374,
+      "lng": -81.3654483,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned business around Orlando, serving wines on tap from a half LGBTQ+ owned winery.",
+      "source": {
+        "title": "The most fabulous LGBTQ+ owned restaurants around Orlando",
+        "publisher": "Orlando Weekly",
+        "url": "https://www.orlandoweekly.com/food-drink/the-most-fabulous-lgbtq-owned-restaurants-around-orlando-30943481/"
+      }
+    },
+    {
+      "key": "garp-and-fuss-winter-park",
+      "business": "Garp & Fuss",
+      "scope": "location",
+      "address": "348 N Park Ave, Winter Park, FL 32789",
+      "lat": 28.6000292,
+      "lng": -81.3509629,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned business around Orlando, serving American fusion cooking from chef Liz Zucco and Nikki Nielsen.",
+      "source": {
+        "title": "The most fabulous LGBTQ+ owned restaurants around Orlando",
+        "publisher": "Orlando Weekly",
+        "url": "https://www.orlandoweekly.com/food-drink/the-most-fabulous-lgbtq-owned-restaurants-around-orlando-30943481/"
+      }
+    },
+    {
+      "key": "hamburger-marys-kissimmee",
+      "business": "Hamburger Mary's",
+      "scope": "location",
+      "address": "Old Town, Kissimmee, FL 34746",
+      "lat": 28.3306168,
+      "lng": -81.5159657,
+      "stance": "friendly",
+      "summary": "Listed as an LGBTQ+ owned business around Orlando, serving drag shows and diner classics, after its owners sued Florida over the drag law and won.",
+      "source": {
+        "title": "Hamburger Mary's Orlando announces new Kissimmee location",
+        "publisher": "Watermark Out News",
+        "url": "https://watermarkoutnews.com/2026/03/13/hamburger-marys-orlando-announces-new-kissimmee-location/"
+      }
+    },
+    {
+      "key": "509-lounge-daytona",
+      "business": "509 Lounge",
+      "scope": "location",
+      "address": "Daytona Beach, FL",
+      "lat": 29.2352063,
+      "lng": -81.0142387,
+      "stance": "friendly",
+      "summary": "Listed as a gay bar serving the Daytona Beach LGBTQ+ community.",
+      "source": {
+        "title": "Gay Bars in Daytona Beach, FL",
+        "publisher": "GayThrive",
+        "url": "https://gaythrive.com/2025/gay-bars-in-daytona-beach-fl/"
+      }
+    },
+    {
+      "key": "stiffys-orlando",
+      "business": "Stiffy's Orlando",
+      "scope": "location",
+      "address": "2405 E South St, Orlando, FL 32803",
+      "lat": 28.538761,
+      "lng": -81.3516658,
+      "stance": "friendly",
+      "summary": "An LGBTQ+ bar in the Milk District, next to Southern Nights and District Dive.",
+      "quote": "Pro Tip Orlando's gay bars fall into a few clusters: the Milk District (Southern Nights, District Dive, and Stiffy's sit in one venue complex at Bumby and South Street), College Park (Barcodes and Hank's on Edgewater Drive), Ivanhoe Village (Savoy), and Downtown (Anthem).",
+      "source": {
+        "title": "Best Gay Bars in Orlando",
+        "publisher": "Out x Out",
+        "url": "https://outxout.com/blog/best-gay-bars-orlando"
+      }
+    },
+    {
+      "key": "anthem-orlando-pulse",
+      "business": "Anthem Orlando",
+      "scope": "location",
+      "address": "100 N Orange Ave, Orlando, FL 32801",
+      "lat": 28.5437437,
+      "lng": -81.3792958,
+      "stance": "friendly",
+      "summary": "An LGBTQ+ bar and restaurant in downtown Orlando, opened to honour the legacy of Pulse.",
+      "source": {
+        "title": "Anthem Orlando: LGBTQ+ Gay Bar & Nightclub",
+        "publisher": "Anthem Orlando",
+        "url": "https://anthemorlando.com/"
+      }
+    },
+    {
+      "key": "outpost-tavern-orlando",
+      "business": "The Outpost Neighborhood Tavern",
+      "scope": "location",
+      "address": "Orlando, FL",
+      "lat": 28.5421218,
+      "lng": -81.379045,
+      "stance": "friendly",
+      "summary": "A gay-owned neighbourhood tavern near Lake Eola, known for all-inclusive drag brunches.",
+      "quote": "The Outpost’s 18+ drag brunch provides food, drinks and fabulous entertainment for a flat fee.",
+      "source": {
+        "title": "Made With Pride: LGBTQ+ Owned Orlando Restaurants",
+        "publisher": "Visit Orlando",
+        "url": "https://www.visitorlando.com/blog/post/lgbtq-restaurants-orlando/"
+      }
+    },
+    {
+      "key": "gnarly-cuban-orlando",
+      "business": "The Gnarly Cuban",
+      "scope": "location",
+      "address": "Orlando, FL",
+      "lat": 28.5421218,
+      "lng": -81.379045,
+      "stance": "friendly",
+      "summary": "A queer-owned Cuban eatery serving Latin food at Orlando markets since 2020.",
+      "quote": "The Gnarly Cuban is a queer-owned Cuban eatery that has been serving up delicious Latin bites at all your favorite local Orlando markets since 2020.",
+      "source": {
+        "title": "Made With Pride: LGBTQ+ Owned Orlando Restaurants",
+        "publisher": "Visit Orlando",
+        "url": "https://www.visitorlando.com/blog/post/lgbtq-restaurants-orlando/"
+      }
+    },
+    {
+      "key": "osm-lgbtq-node-11227915157",
+      "business": "Cypress Cove Nudist Resort",
+      "scope": "location",
+      "address": "4425 Pleasant Hill Road, Orlando, FL",
+      "lat": 28.1584493,
+      "lng": -81.4397357,
+      "osmId": "node-11227915157",
+      "stance": "friendly",
+      "summary": "Mapped on OpenStreetMap as explicitly welcoming to LGBTQIA+ people (lgbtq=welcome).",
+      "source": {
+        "title": "OpenStreetMap: lgbtq=welcome",
+        "publisher": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/node/11227915157"
+      }
+    },
+    {
+      "key": "osm-lgbtq-node-12408450958",
+      "business": "The Woodshed Orlando",
+      "scope": "location",
+      "address": "6431 Milner Boulevard, Orlando, FL",
+      "lat": 28.4638327,
+      "lng": -81.3681169,
+      "osmId": "node-12408450958",
+      "stance": "friendly",
+      "summary": "Mapped on OpenStreetMap as explicitly welcoming to LGBTQIA+ people (lgbtq=welcome).",
+      "source": {
+        "title": "OpenStreetMap: lgbtq=welcome",
+        "publisher": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/node/12408450958"
+      }
+    },
+    {
+      "key": "osm-lgbtq-node-12924943080",
+      "business": "Savoy",
+      "scope": "location",
+      "address": "1913 North Orange Avenue, Orlando, FL",
+      "lat": 28.5692423,
+      "lng": -81.3725965,
+      "osmId": "node-12924943080",
+      "stance": "friendly",
+      "summary": "Mapped on OpenStreetMap as an LGBTQIA+ venue (lgbtq=primary).",
+      "source": {
+        "title": "OpenStreetMap: lgbtq=primary",
+        "publisher": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/node/12924943080"
+      }
+    },
+    {
+      "key": "osm-lgbtq-node-13019989671",
+      "business": "The Center",
+      "scope": "location",
+      "address": "Central Florida",
+      "lat": 28.5580423,
+      "lng": -81.3646059,
+      "osmId": "node-13019989671",
+      "stance": "friendly",
+      "summary": "Mapped on OpenStreetMap as an LGBTQIA+ venue (lgbtq=primary).",
+      "source": {
+        "title": "OpenStreetMap: lgbtq=primary",
+        "publisher": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/node/13019989671"
+      }
+    },
+    {
+      "key": "osm-lgbtq-node-13822302589",
+      "business": "Anthem Orlando",
+      "scope": "location",
+      "address": "100 North Orange Avenue, Orlando, FL",
+      "lat": 28.5437437,
+      "lng": -81.3792958,
+      "osmId": "node-13822302589",
+      "stance": "friendly",
+      "summary": "Mapped on OpenStreetMap as an LGBTQIA+ venue (lgbtq=primary).",
+      "source": {
+        "title": "OpenStreetMap: lgbtq=primary",
+        "publisher": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/node/13822302589"
+      }
+    },
+    {
+      "key": "osm-lgbtq-way-140619619",
+      "business": "Mango's Tropical Cafe Orlando",
+      "scope": "location",
+      "address": "8126 International Drive, Orlando, FL",
+      "lat": 28.448123,
+      "lng": -81.4717409,
+      "osmId": "way-140619619",
+      "stance": "friendly",
+      "summary": "Mapped on OpenStreetMap as explicitly welcoming to LGBTQIA+ people (lgbtq=welcome).",
+      "source": {
+        "title": "OpenStreetMap: lgbtq=welcome",
+        "publisher": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/way/140619619"
+      }
+    },
+    {
+      "key": "osm-lgbtq-way-832780758",
+      "business": "Barcodes",
+      "scope": "location",
+      "address": "4453 Edgewater Drive, Orlando, FL",
+      "lat": 28.5985387,
+      "lng": -81.4006866,
+      "osmId": "way-832780758",
+      "stance": "friendly",
+      "summary": "Mapped on OpenStreetMap as an LGBTQIA+ venue (lgbtq=primary).",
+      "source": {
+        "title": "OpenStreetMap: lgbtq=primary",
+        "publisher": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/way/832780758"
+      }
+    },
+    {
+      "key": "osm-lgbtq-way-1380127503",
+      "business": "Southern Nights",
+      "scope": "location",
+      "address": "375 South Bumby Avenue, Orlando, FL",
+      "lat": 28.5390683,
+      "lng": -81.3515093,
+      "osmId": "way-1380127503",
+      "stance": "friendly",
+      "summary": "Mapped on OpenStreetMap as an LGBTQIA+ venue (lgbtq=primary).",
+      "source": {
+        "title": "OpenStreetMap: lgbtq=primary",
+        "publisher": "OpenStreetMap",
+        "url": "https://www.openstreetmap.org/way/1380127503"
+      }
+    },
+    {
+      "key": "revival-baptist-make-america-straight-again",
+      "business": "Revival Baptist Church",
+      "scope": "location",
+      "address": "320 US Highway 27, Clermont, FL 34711",
+      "lat": 28.5769664,
+      "lng": -81.7496433,
+      "stance": "unfriendly",
+      "summary": "Hosted a three-day \"Make America Straight Again\" conference days after the Pulse anniversary, and its pastor is on record saying the church hates homosexuals. This is a church rather than a business a customer visits.",
+      "quote": "Patrick Boyle of the Revival Baptist Church, which is located in a rundown storefront at a Clermont strip mall, says the event will kick off Friday, June 14, just days after the three-year anniversary of 49 people getting gunned down at the gay nightclub Pulse.",
+      "source": {
+        "title": "Florida church plans a three-day 'Make America Straight Again' conference",
+        "publisher": "Orlando Weekly",
+        "url": "https://www.orlandoweekly.com/news/florida-church-plans-a-three-day-make-america-straight-again-conference-25482253/"
+      }
+    }
+  ]
+}

@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import PlaceDetail from "../components/Profile/PlaceDetail.jsx";
 
 import {
+  getOsmPlaces,
   getMyLocation,
+  geocodePlace,
   getNearbyPlaces,
   searchPlaces,
   getRestrooms,
@@ -21,20 +23,39 @@ import MapView from "../components/Map/MapView.jsx";
 import BusinessCard from "../components/Profile/BusinessCard.jsx";
 import Switch from "../components/Apple Design Elements/Switch.jsx";
 import SearchField from "../components/Apple Design Elements/SearchField.jsx";
-import RangeControl from "../components/Apple Design Elements/RangeControl.jsx";
+import RangeControl, { stopsFor } from "../components/Apple Design Elements/RangeControl.jsx";
 import PrideFlag from "../components/Assets/PrideFlag.jsx";
 import MapNav from "../components/Navigation/MapNav.jsx";
+import AccountPanel, { useAccountPanel } from "../components/Account/AccountPanel.jsx";
 
 const CATEGORIES = ["gas", "cafe", "restaurant", "bar", "pharmacy", "clinic"];
+
+// "all" searches every category above at once.
+const FILTERS = [...CATEGORIES, "all"];
+
+// How far the search may widen itself before giving up.
+const MAX_WIDEN_STEPS = 6;
+
+// A ZIP resolves locally and costs nothing. Anything else costs a Nominatim
+// call that shares the same one-per-second budget as the business search, so
+// only text that could plausibly name a place is ever tried.
+const PLACE_SHAPED = /^(\d{5}|[a-z .'-]{2,}(,\s*[a-z .'-]{2,})?)$/i;
+const looksLikePlace = (text) => PLACE_SHAPED.test(text) && text.split(/\s+/).length <= 4;
 
 export default function Home() {
 
   const { osmId } = useParams();
   const [location, setLocation] = useState(null);
+  // A place typed into the search box. While one is set, the range is measured
+  // from there rather than from wherever the visitor's IP puts them.
+  const [pinned, setPinned] = useState(null);
+  // The text that produced the pin, so the same text is not also run as a
+  // business name search.
+  const [pinnedFor, setPinnedFor] = useState("");
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("gas");
   const [unit, setUnit] = useState("mi");
-  const [range, setRange] = useState(5);
+  const [range, setRange] = useState(15);
   const [filters, setFilters] = useState({ unisex: true, ada: false });
   const [places, setPlaces] = useState([]);
   const [restrooms, setRestrooms] = useState([]);
@@ -43,10 +64,24 @@ export default function Home() {
   const [error, setError] = useState("");
 
   const [cappedKm, setCappedKm] = useState(null);
+  // Set when an empty search was widened on the visitor's behalf.
+  const [autoJump, setAutoJump] = useState(null);
+  // One probe per category/filter combination, so this can never loop.
+  // setLoading(true) inside an effect does not apply until the next render, so
+  // the probe could see loading===false and fire before the first search had
+  // even returned. This ref flips synchronously.
+  const searchRan = useRef(false);
+  // Bounds the widening so a category with nothing anywhere cannot walk the
+  // whole ladder.
+  const widenSteps = useRef(0);
 
   const debouncedRange = useDebouncedValue(range, 500);
   const debouncedQuery = useDebouncedValue(query, 500);
   const radiusKm = toKm(debouncedRange, unit);
+
+  const anchor = pinned ?? location;
+  const searchText =
+    pinnedFor && debouncedQuery.trim() === pinnedFor ? "" : debouncedQuery.trim();
 
   useEffect(() => {
     getMyLocation()
@@ -60,24 +95,48 @@ export default function Home() {
       .catch(() => {});
   }, []);
 
+  // Typing a ZIP or a place name moves the search there. Anything that is not a
+  // place answers 404 and falls through to the business search below.
   useEffect(() => {
-    if (!location) return;
+    const text = debouncedQuery.trim();
+    if (!text || text === pinnedFor || !looksLikePlace(text)) return;
 
     let cancelled = false;
+
+    geocodePlace(text)
+      .then((place) => {
+        if (cancelled) return;
+        widenSteps.current = 0;
+        setAutoJump(null);
+        setPinned(place);
+        setPinnedFor(text);
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, [debouncedQuery, pinnedFor]);
+
+  useEffect(() => {
+    if (!anchor) return;
+
+    let cancelled = false;
+    searchRan.current = false;
     setLoading(true);
     setError("");
 
-    const { lat, lng, city } = location;
+    const { lat, lng, city } = anchor;
 
-    const lookup = debouncedQuery.trim()
-      ? searchPlaces(debouncedQuery.trim(), city)
-      : getNearbyPlaces({
-          lat,
-          lng,
-          category,
-          radius: radiusKm,
-          limit: Math.min(40, Math.max(12, Math.round(radiusKm * 4))),
-        });
+    const limit = Math.min(40, Math.max(12, Math.round(radiusKm * 4)));
+
+    // "all" wants the nearest businesses whatever their type, which is a tag
+    // search rather than a text one, so it goes to OpenStreetMap directly.
+    const lookup = searchText
+      ? searchPlaces(searchText, city)
+      : category === "all"
+        ? getOsmPlaces({ lat, lng, radius: radiusKm, categories: "all", limit })
+        : getNearbyPlaces({ lat, lng, category, radius: radiusKm, limit });
 
     Promise.all([
       lookup,
@@ -96,23 +155,27 @@ export default function Home() {
         setCappedKm(found.cappedAtKm ?? null);
       })
       .catch((err) => !cancelled && setError(err.message))
-      .finally(() => !cancelled && setLoading(false));
+      .finally(() => {
+        if (cancelled) return;
+        searchRan.current = true;
+        setLoading(false);
+      });
 
     return () => {
       cancelled = true;
     };
   }, [
-    location,
+    anchor,
     category,
     radiusKm,
-    debouncedQuery,
+    searchText,
     filters.unisex,
     filters.ada,
   ]);
 
   const restroomReachKm =
-    location && restrooms.length
-      ? Math.max(...restrooms.map((r) => distanceInMetres(location, r))) / 1000
+    anchor && restrooms.length
+      ? Math.max(...restrooms.map((r) => distanceInMetres(anchor, r))) / 1000
       : 0;
   const coverageLabel = restroomReachKm
     ? `${Math.round(fromKm(restroomReachKm, unit))} ${unit}`
@@ -126,9 +189,9 @@ export default function Home() {
 
       beyondCoverage:
         !nearestRestroom &&
-        Boolean(location) &&
+        Boolean(anchor) &&
         restroomReachKm > 0 &&
-        distanceInMetres(location, place) / 1000 > restroomReachKm,
+        distanceInMetres(anchor, place) / 1000 > restroomReachKm,
       cei: matchCEI(place.name, cei.entries),
     };
   });
@@ -138,7 +201,34 @@ export default function Home() {
     ? enriched.filter((e) => e.nearestRestroom || e.beyondCoverage)
     : enriched;
 
-  const center = location ? [location.lat, location.lng] : [28.5978, -81.3024];
+  // When nothing matches in range, widen one stop at a time until something
+  // does, up to a handful of steps.
+  //
+  // An earlier version probed once at the widest range and jumped to the
+  // nearest hit it saw. That was wrong: neither Nominatim nor a capped Overpass
+  // query returns nearest-first, so "closest in the sample" was not the closest
+  // that exists -- it once skipped a clinic 10 miles away to land on one 300
+  // miles out. Stepping is a few more requests but lands on the smallest range
+  // that actually works.
+  useEffect(() => {
+    if (!searchRan.current || loading || error || !anchor) return;
+    if (visible.length > 0 || range !== debouncedRange) return;
+    if (widenSteps.current >= MAX_WIDEN_STEPS) return;
+
+    const stops = stopsFor(unit);
+    const next = stops.find((stop) => stop > range);
+    if (!next) return;
+
+    widenSteps.current += 1;
+    setAutoJump((prev) => ({ from: prev?.from ?? range, to: next }));
+    setRange(next);
+  }, [loading, error, anchor, visible.length, range, debouncedRange, unit]);
+
+  const center = anchor ? [anchor.lat, anchor.lng] : [28.5978, -81.3024];
+
+  // Opening the account panel must not unmount this view -- the results and
+  // every filter stay exactly as they were.
+  const { view: accountView } = useAccountPanel();
 
   return (
     <div className="app">
@@ -162,9 +252,13 @@ export default function Home() {
 
       <MapNav />
 
-      {osmId && (
+      {(accountView || osmId) && (
         <div className="detail">
-          <PlaceDetail osmId={osmId} backTo="/" backLabel="Back to search" />
+          {accountView ? (
+            <AccountPanel />
+          ) : (
+            <PlaceDetail osmId={osmId} backTo="/" backLabel="Back to search" />
+          )}
         </div>
       )}
 
@@ -194,7 +288,11 @@ export default function Home() {
             <RangeControl
               range={range}
               unit={unit}
-              onRangeChange={setRange}
+              onRangeChange={(next) => {
+                setAutoJump(null);
+                widenSteps.current = 0;
+                setRange(next);
+              }}
               onUnitChange={setUnit}
             />
 
@@ -222,13 +320,17 @@ export default function Home() {
             </div>
 
             <div className="chips" style={{ marginBottom: 14 }}>
-              {CATEGORIES.map((option) => (
+              {FILTERS.map((option) => (
                 <button
                   key={option}
                   type="button"
-                  onClick={() => setCategory(option)}
+                  onClick={() => {
+                    setAutoJump(null);
+                    widenSteps.current = 0;
+                    setCategory(option);
+                  }}
                   className={
-                    option === category && !query.trim()
+                    option === category && !searchText
                       ? "chip active"
                       : "chip"
                   }
@@ -238,9 +340,43 @@ export default function Home() {
               ))}
             </div>
 
+            {autoJump && (
+              <p className="muted auto-jump">
+                Nothing within {autoJump.from} {unit}, so the range widened to{' '}
+                {autoJump.to} {unit}.
+              </p>
+            )}
+
             <div className="group-label">
-              Search Results{location ? ` - ${location.city}` : ""}
+              Search Results{anchor ? ` - ${anchor.city}` : ""}
             </div>
+
+            {pinned && (
+              <p className="muted">
+                Searching {range} {unit} around {pinned.label ?? pinned.city}.{" "}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPinned(null);
+                    setPinnedFor("");
+                    setQuery("");
+                    widenSteps.current = 0;
+                    setAutoJump(null);
+                  }}
+                  style={{
+                    border: "none",
+                    background: "none",
+                    padding: 0,
+                    font: "inherit",
+                    color: "inherit",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
+                >
+                  Use my location
+                </button>
+              </p>
+            )}
 
             {error && <p className="error">{error}</p>}
             {loading && <p className="muted">Loading...</p>}
@@ -261,7 +397,9 @@ export default function Home() {
               <p className="empty">
                 {filtersActive && places.length > 0
                   ? `None of the ${places.length} results have a documented matching restroom.`
-                  : "No results. Try a wider range or another category."}
+                  : widenSteps.current >= MAX_WIDEN_STEPS
+                    ? `Nothing found, even out to ${range} ${unit}.`
+                    : `Nothing within ${range} ${unit}. Widening...`}
               </p>
             )}
 
