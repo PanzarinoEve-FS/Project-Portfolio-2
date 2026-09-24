@@ -46,6 +46,21 @@ export default function ZipMap() {
     };
   }, []);
 
+  // Escape closes the panels the same way the buttons do, one layer at a
+  // time: the business profile first, then the ZIP underneath it.
+  useEffect(() => {
+    if (!place && !selected) return undefined;
+
+    const onKey = (event) => {
+      if (event.key !== 'Escape') return;
+      if (panelOpen && place) setPanelOpen(false);
+      else setSelected(null);
+    };
+
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [panelOpen, place, selected]);
+
   const zips = useMemo(() => (data?.features ?? []).map((feature) => feature.properties), [data]);
   const current = zips.find((zip) => zip.zip === selected) ?? (lookedUp?.zip === selected ? lookedUp : null);
   const meta = data?.meta;

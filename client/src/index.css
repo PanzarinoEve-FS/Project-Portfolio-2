@@ -821,6 +821,45 @@ body:has(.toolbar) #root { height: auto; }
   .detail-back::before { content: "\2039"; font-size: 19px; line-height: 1; }
 }
 
+/* On a wide screen the panel sits beside the list rather than over it, so the
+   control above is hidden -- which left no way to put a panel away. Give the
+   panels that can actually be dismissed a close button of their own, pinned to
+   the corner so it stays reachable while a long profile scrolls. Plain back
+   links keep the mobile-only rule: the list they return to is already beside
+   them here. */
+@media (min-width: 821px) {
+  button.detail-back {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin: 0 0 -30px auto; /* -30 = its own height, so it costs no row */
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--fill);
+    color: var(--label-secondary);
+    font-size: 0; /* the word "Close" stays as the button's accessible name */
+    cursor: pointer;
+  }
+
+  button.detail-back::before { content: "\00d7"; font-size: 20px; line-height: 1; }
+
+  button.detail-back:hover { color: var(--label); }
+
+  /* The title already leaves room for a corner control, so the close button
+     sits in that gap rather than pushing the header down. A business profile
+     keeps its heart in the same corner -- slide the heart clear of the close
+     button and widen the gap so a long name still clears both. */
+  button.detail-back ~ .profile-hero .favorite-corner { right: 38px; }
+
+  button.detail-back ~ .profile-hero h1 { padding-right: 82px; }
+}
+
 /* ---- Favorites -------------------------------------------------------- */
 
 .favorite {
