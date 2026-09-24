@@ -78,6 +78,7 @@ export default function BusinessChart({ businesses = [], selected, method }) {
     .map((business) => ({
       name: shorten(business.name),
       fullName: business.name,
+      osmId: business.osmId,
       score: business.score,
       band: bandFor(business.score, method),
       sources: business.sources,
@@ -107,7 +108,7 @@ export default function BusinessChart({ businesses = [], selected, method }) {
         <Bar dataKey="score" radius={[0, 5, 5, 0]} isAnimationActive={false}>
           {rows.map((row) => (
             <Cell
-              key={row.fullName}
+              key={row.osmId ?? row.fullName}
               fill={BAR_COLORS[row.band]}
               fillOpacity={selectedShort && row.name !== selectedShort ? 0.55 : 1}
             />
