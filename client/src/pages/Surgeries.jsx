@@ -337,7 +337,7 @@ export default function Surgeries() {
       {error && <p className="error">{error}</p>}
 
       {visible.map((entry) => (
-        <article className="card" key={entry.name}>
+        <article className="card" key={entry.slug ?? entry.name}>
           <div className="card-head">
             <h3>{entry.name}</h3>
             <div className="card-head-right">
